@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 void main() {
   runApp(MaterialApp(
     home: Scaffold(
@@ -36,6 +37,14 @@ class MapWidget extends StatefulWidget {
 }
 
 class _MapWidgetState extends State<MapWidget> {
+  final Location _locationController = Location();
+  LatLng? currentPosition;
+
+  @override
+  void initState() {
+    super.initState();
+    getLocationUpdates();
+  }
   static const LatLng initPos = LatLng(39.816139251599274, 32.7219522517209); // Must get the users current position
   static const LatLng targetDestination = LatLng(39.824684484754435, 32.72376542456045); 
   @override
@@ -61,5 +70,40 @@ class _MapWidgetState extends State<MapWidget> {
         },
       ),
     );
+  }
+  
+  
+  
+  
+  
+  
+  Future<void> getLocationUpdates() async{
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+
+    serviceEnabled = await _locationController.serviceEnabled();
+
+    if(serviceEnabled){
+      serviceEnabled = await _locationController.requestService();
+    }else{
+      return;
+    }
+    permissionGranted = await _locationController.hasPermission();
+    if(permissionGranted == PermissionStatus.denied){
+      permissionGranted = await _locationController.requestPermission();
+      if(permissionGranted != PermissionStatus.granted){
+        return;
+      }
+    }
+    _locationController.onLocationChanged.listen((LocationData currentLocation) {
+      if(currentLocation.latitude  !=null &&
+         currentLocation.longitude !=null){
+          setState(() {
+            currentPosition = LatLng(currentLocation.latitude!, currentLocation.longitude!);
+            print(currentLocation);
+          });
+          
+         }
+    });
   }
 }
