@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 void main() {
   runApp(MaterialApp(
     home: Scaffold(
@@ -10,6 +11,7 @@ void main() {
         centerTitle: true,
       ),
       body: const Home(),
+      
     )
   ));
 }
@@ -21,29 +23,28 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.amber,
-      //padding: const EdgeInsets.all(50),
       margin: const EdgeInsets.all(50),
-      child: const MapWidget(),
+      child: const MapWidget(), 
     );
   }
 }
 
-
+// GOOGLE MAPS WIDGET
 class MapWidget extends StatefulWidget {
   const MapWidget({super.key});
   
   @override
   State<MapWidget> createState() => _MapWidgetState();
 }
-
-class _MapWidgetState extends State<MapWidget> {
-  final Location _locationController = Location();
+class _MapWidgetState extends State<MapWidget> { // Google Maps view Widget
+  //final Location _locationController = Location();
   LatLng? currentPosition;
 
   @override
   void initState() {
     super.initState();
-    getLocationUpdates();
+    Permission.location.request();
+    //getLocationUpdates();
   }
   static const LatLng initPos = LatLng(39.816139251599274, 32.7219522517209); // Must get the users current position
   static const LatLng targetDestination = LatLng(39.824684484754435, 32.72376542456045); 
@@ -70,40 +71,5 @@ class _MapWidgetState extends State<MapWidget> {
         },
       ),
     );
-  }
-  
-  
-  
-  
-  
-  
-  Future<void> getLocationUpdates() async{
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-
-    serviceEnabled = await _locationController.serviceEnabled();
-
-    if(serviceEnabled){
-      serviceEnabled = await _locationController.requestService();
-    }else{
-      return;
-    }
-    permissionGranted = await _locationController.hasPermission();
-    if(permissionGranted == PermissionStatus.denied){
-      permissionGranted = await _locationController.requestPermission();
-      if(permissionGranted != PermissionStatus.granted){
-        return;
-      }
-    }
-    _locationController.onLocationChanged.listen((LocationData currentLocation) {
-      if(currentLocation.latitude  !=null &&
-         currentLocation.longitude !=null){
-          setState(() {
-            currentPosition = LatLng(currentLocation.latitude!, currentLocation.longitude!);
-            print(currentLocation);
-          });
-          
-         }
-    });
   }
 }

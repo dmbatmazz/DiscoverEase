@@ -46,11 +46,9 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 
-	<string>NSLocationWhenInUseUsageDescription</string>
-	<key>When In use location Permission</key>
-	<string>NSLocationAlwaysUsageDescription</string>
-	<key>Always in use location permission</key>
-	<string>NSLocationAlwaysAndWhenInUseUsageDescription</string>
-	<key>Always AND when in use location permission</key>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in the background.</string>
 </dict>
 </plist>
