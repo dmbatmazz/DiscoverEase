@@ -37,14 +37,28 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   static const LatLng initPos = LatLng(39.816139251599274, 32.7219522517209); // Must get the users current position
+  static const LatLng targetDestination = LatLng(39.824684484754435, 32.72376542456045); 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: GoogleMap(
-        initialCameraPosition: CameraPosition(
+        initialCameraPosition: const CameraPosition(
           target: initPos,
           zoom: 15
         ),
+        markers: {
+          const Marker(
+            markerId: MarkerId("current"),
+            icon: BitmapDescriptor.defaultMarker,
+            position: initPos
+            ),
+            
+            const Marker(
+            markerId: MarkerId("destination"),
+            icon: BitmapDescriptor.defaultMarker,
+            position: targetDestination
+            )
+        },
       ),
     );
   }
