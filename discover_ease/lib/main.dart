@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async{
   runApp(MaterialApp(
     home: Scaffold(
       appBar: AppBar(
@@ -14,6 +16,8 @@ void main() {
       
     )
   ));
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,);
 }
 
 class Home extends StatelessWidget {

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "967166826493",
+    "project_id": "discoverease-418713",
+    "storage_bucket": "discoverease-418713.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:967166826493:android:ba41991034f67ec15b6b94",
+        "android_client_info": {
+          "package_name": "com.example.discover_ease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHYgyuMcegjQ3NlmhIF-N0lhjof4y4JCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
