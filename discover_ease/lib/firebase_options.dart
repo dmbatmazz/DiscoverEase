@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
-
-
+// init instance
+// import 'package:firebase_core/firebase_core.dart';
+// import 'firebase_options.dart';
+// await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
 
 class DefaultFirebaseOptions {
   
@@ -36,7 +38,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: '', // NEED TO PUT API KEYS
+    apiKey: 'AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE', // NEED TO PUT API KEYS
     appId: '1:967166826493:web:430cb2ef8ab37d645b6b94',
     messagingSenderId: '967166826493',
     projectId: 'discoverease-418713',
@@ -46,7 +48,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: '',
+    apiKey: 'AIzaSyAHYgyuMcegjQ3NlmhIF-N0lhjof4y4JCk',
     appId: '1:967166826493:android:ba41991034f67ec15b6b94',
     messagingSenderId: '967166826493',
     projectId: 'discoverease-418713',
@@ -54,7 +56,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: '',
+    apiKey: 'AIzaSyB5J_WM4xsP6g9wtaymvPGXF0iuz305Whc',
     appId: '1:967166826493:ios:f6625f90a9a44bf95b6b94',
     messagingSenderId: '967166826493',
     projectId: 'discoverease-418713',
@@ -63,7 +65,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: '',
+    apiKey: 'AIzaSyB5J_WM4xsP6g9wtaymvPGXF0iuz305Whc',
     appId: '1:967166826493:ios:25cd01004afddc0f5b6b94',
     messagingSenderId: '967166826493',
     projectId: 'discoverease-418713',
