@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import "package:firebase_auth/firebase_auth.dart";
 
 
-void main() {
+/*void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
@@ -12,19 +12,19 @@ void main() {
       theme: ThemeData(
         primarySwatch: Colors.deepOrange
       ),
-      home: const HomePage(),
+      home: const RegisterPage(),
     )
   );
 }
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+*/
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<RegisterPage> createState() => RegisterPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class RegisterPageState extends State<RegisterPage> {
   late final TextEditingController _email; // Late = "There's no value yet but there will be before I use it."
   late final TextEditingController _password;
 
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () async{
                 final email = _email.text; // Grabbing the inputs from the textfields
                 final password = _password.text;
-                final userCred =  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                /*final userCred =  */await FirebaseAuth.instance.createUserWithEmailAndPassword(
                   email: email, 
                   password: password);
                   //print(userCred);

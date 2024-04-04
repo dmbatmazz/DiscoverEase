@@ -1,5 +1,17 @@
 import 'package:flutter/material.dart';
 
+
+
+void main() async{
+  runApp(const MaterialApp(
+    home: Scaffold(
+      body: OnboardingPage1(),
+      
+    )
+  ));
+}
+
+
 class OnboardingPage1 extends StatelessWidget {
   const OnboardingPage1({super.key});
 
@@ -8,28 +20,28 @@ class OnboardingPage1 extends StatelessWidget {
     return Scaffold(
       body: OnboardingPagePresenter(pages: [
         OnboardingPageModel(
-          title: 'Fast, Fluid and Secure',
-          description: 'Enjoy the best of the world in the palm of your hands.',
-          imageUrl: 'https://i.ibb.co/cJqsPSB/scooter.png',
-          bgColor: Colors.indigo,
+          title: 'Title 1',
+          description: 'Desc 1',
+          imageUrl: 'https://fakeimg.pl/600x800?text=600x800-PH',
+          bgColor: Colors.indigo, // All bg colors to UI colorscheme
         ),
         OnboardingPageModel(
-          title: 'Connect with your friends.',
-          description: 'Connect with your friends anytime anywhere.',
-          imageUrl: 'https://i.ibb.co/LvmZypG/storefront-illustration-2.png',
+          title: 'Title 2',
+          description: 'Desc 2',
+          imageUrl: 'https://fakeimg.pl/600x400?text=600x400-PH',
           bgColor: const Color(0xff1eb090),
         ),
         OnboardingPageModel(
-          title: 'Bookmark your favourites',
+          title: 'Title 3',
           description:
-              'Bookmark your favourite quotes to read at a leisure time.',
-          imageUrl: 'https://i.ibb.co/420D7VP/building.png',
+              'Desc 3',
+          imageUrl: 'https://fakeimg.pl/600x400?text=600x400-PH',
           bgColor: const Color(0xfffeae4f),
         ),
         OnboardingPageModel(
-          title: 'Follow creators',
-          description: 'Follow your favourite creators to stay in the loop.',
-          imageUrl: 'https://i.ibb.co/cJqsPSB/scooter.png',
+          title: 'Title 4',
+          description: 'Desc 4',
+          imageUrl: 'https://fakeimg.pl/600x400?text=600x400-PH',
           bgColor: Colors.purple,
         ),
       ]),
@@ -154,7 +166,7 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
                             textStyle: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                         onPressed: () {
-                          widget.onSkip?.call();
+                          // To registrationPage
                         },
                         child: const Text("Skip")),
                     TextButton(
@@ -164,13 +176,8 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
                           textStyle: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold)),
                       onPressed: () {
-                        if (_currentPage == widget.pages.length - 1) {
-                          widget.onFinish?.call();
-                        } else {
-                          _pageController.animateToPage(_currentPage + 1,
-                              curve: Curves.easeInOutCubic,
-                              duration: const Duration(milliseconds: 250));
-                        }
+                        // When the text is on "Next" to the "Next page"
+                        // When on "Finish" to registrationPage
                       },
                       child: Row(
                         children: [
