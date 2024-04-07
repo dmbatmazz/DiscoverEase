@@ -1,27 +1,198 @@
-import 'package:discover_ease/main.dart';
 import 'package:flutter/material.dart';
+/*
+ON BOARDING PAGE
 
-class IntroPage extends StatelessWidget {
-  const IntroPage({super.key});
+IF YOU WANNA CREATE A NEW PAGE OR CHANGE WHAT IS INSIDE IT GO TO LINE - #
+
+IF YOU WANNA CHANGE THE BUTTON OR ANIMATION OR ANYTHING RELATED TO STRUCTURE GO TO LINE - #
+
+IF YOU ARE GOING TO ADD A NEW VALUE AND WTF ELSE NOT, DO NOT FORGET TO ADD THAT VALUE TO EVERYWHERE AND PROPERLY ASSIGN IT ON LINES - #
+*/
+
+// UNLESS YOU KNOW EXACTLY WHAT YOU ARE DOING DO NOT TOUCH THIS
+// ================================================================
+class OnboardingPage extends StatefulWidget {
+  const OnboardingPage({super.key});
+
+  @override
+  State<OnboardingPage> createState() => _OnboardingPageState();
+}
+
+int pageIndex = 0;
+// STRUCTURE OF THE ONBOARDING PAGES
+// ================================================================
+class _OnboardingPageState extends State<OnboardingPage> {
+  late PageController _pageController;
+  
+  @override
+  void initState() { // If you init something dont forget to dispose it. Otherwise Memory Loss
+    _pageController = PageController(initialPage: 0);
+    super.initState();
+  }
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    
+    return  Scaffold(
+      backgroundColor: Colors.black, // TOP OF THE SCREEN WHERE TIME AND BATTERY ETC IS
+      body: SafeArea( // Safe Area = the space of the top of the screen, for the backgroundColor above have to use something opace so that user can still see them
+        child:
+          Column(
+            children: [
+              Expanded(
+                child: PageView.builder( // Makes a slidable page view you don't really need to touch this at all. 
+                itemCount: onBoardPage.length,
+                controller: _pageController,
+                onPageChanged: (index){
+                  setState(() {
+                    pageIndex = index;
+                  });
+                },
+                itemBuilder:(context, index) => 
+                  OnboardContent( // Skeleton of the page initilized into the structure, Takes the page fron the list and puts it into PageView.build List
+                image: onBoardPage[index].image,
+                title: onBoardPage[index].title,
+                description: onBoardPage[index].description, 
+                color: onBoardPage[index].color, // NEEDS A FIX WITH HEX CODES AND WHAT NOT
+                ),
+                ),
+              ),
+              Row(
+                children: [
+                  
+                  const Spacer(),
+                  SizedBox(
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _pageController.nextPage(duration: const Duration(milliseconds: 200), // How long will the animation
+                      curve: Curves.ease // ANIMATION OF THE PAGE
+                      );
+                    },
+                    style:ElevatedButton.styleFrom( // Style of the Button, we can change that once we setup proper UI materials
+                      shape: const CircleBorder()
+                    ),
+                     child: const Text("Next")
+                     ),
+                     ),
+                ],
+              )
+            ],
+          )
+        )
+    );
+  }
+}
+
+// SKELETON OF A ONBOARDING PAGE
+// ================================================================ 
+class OnboardContent extends StatelessWidget { 
+   const OnboardContent({
+    super.key, 
+    required this.image, 
+    required this.title, 
+    required this.description, 
+    required this.color,
+  });
+  final String image, title, description;
+  final int color;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("INTRO PAGE"),
-        ),
-        body: Center(
-          child: ElevatedButton(
-            child: const Text(("go to home")),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Home(),)
-                  );
-            },
-          ),
-          ),
+      backgroundColor: const Color.fromARGB(255, 255, 121, 121), /* Colors (color) */
+      body: Column(
+              children: [
+      //const Spacer(),
+      Image.asset(image),
+      //const Spacer(),
+      Text(title,
+       style: Theme.of(context).textTheme.headlineMedium, textAlign: TextAlign.center,),
+      const SizedBox(height: 30,), // Space between title text and description text
+      Text(description,
+       style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center,),
+      const Spacer(),
+      Row(
+        children: [ 
+        const Spacer(),
+        ...List.generate(onBoardPage.length, (index) => Padding( // GENERATES A LIST OF DOT. # OF DOTS= # OF PAGES
+        padding: const EdgeInsets.all(10.0), // CAN ADJUST THIS TO PLACE IT PROPERLY
+        child: DotIndigator(isActive: index == pageIndex,),
+      )
+      ),  
+      const Spacer(),],
+      ),
+      const Spacer(),
+              ],
+              ),
     );
   }
 }
+
+class DotIndigator extends StatelessWidget {
+  const DotIndigator({
+    super.key,
+    this.isActive = false
+  });
+
+final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container( // THE LITTLE SHIT THAT TRACKS THE PAGE
+              height: isActive? 12 : 4, // IF ACTIVE 12 ELSE 4 
+              width: 4, // HEIGHT AND WIDTH COULD BE CHANGE TO A BETTER EFFECT
+              decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 207, 255, 32), 
+              borderRadius: BorderRadius.all(Radius.circular(12))
+                    ),
+                );
+  }
+}
+
+// PAGES LIST
+// ================================================================
+class Onboard{
+  final String image, title, description;
+  final int  color;
+
+  Onboard({required this.image, required this.title, required this.description, required this.color});
+}
+final List<Onboard> onBoardPage = [ // PAGE LIST -- YOU CAN CREATE PAGES FROM HERE
+  Onboard(
+    image: "assets/asset_images/placeholder_600x800.png",
+    title: "1",
+    description: "Description", 
+    color: 2,
+  ),
+  Onboard(
+    image: "assets/asset_images/placeholder_600x800.png",
+    title: "2",
+    description: "Description1", 
+    color: 2,
+  ),
+  Onboard(
+    image: "assets/asset_images/placeholder_600x800.png",
+    title: "3",
+    description: "Description", 
+    color: 2,
+  ),
+  Onboard(
+    image: "assets/asset_images/placeholder_600x800.png",
+    title: "4",
+    description: "Description", 
+    color: 2,
+  ),
+  Onboard(
+    image: "assets/asset_images/placeholder_600x800.png",
+    title: "5",
+    description: "Description", 
+    color: 2,
+  ),
+
+];

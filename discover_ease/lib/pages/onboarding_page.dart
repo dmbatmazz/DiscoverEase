@@ -94,7 +94,7 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
                         Expanded(
                           flex: 3,
                           child: Padding(
-                            padding: const EdgeInsets.all(32.0),
+                            padding: const EdgeInsets.all(0),
                             child: Image.network(
                               item.imageUrl,
                             ),

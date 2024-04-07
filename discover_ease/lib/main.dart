@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:discover_ease/pages/register_page.dart';
+import 'package:discover_ease/testpage.dart';
 
 // DEFINING routes: {[PAGE NAME]} ON MaterialApp => routes: {'/homepage': (context) => const PAGENAME()}
 // 
@@ -26,7 +27,7 @@ class Home extends StatelessWidget {
       child: const Text("register page"),
       onPressed: () {
         Navigator.push(context, 
-        MaterialPageRoute(builder: (context) => const RegisterPage())
+        MaterialPageRoute(builder: (context) => const OnboardingPage())
         );
       },
     );
