@@ -37,7 +37,7 @@ class Home extends StatelessWidget {
           child: const Text("Register page"),
           onPressed: () {
             Navigator.push(context, 
-            MaterialPageRoute(builder: (context) => const RegisterPage())
+            MaterialPageRoute(builder: (context) => const EnteryPage())
             );
           },
         ),

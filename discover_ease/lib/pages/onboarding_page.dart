@@ -93,7 +93,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     style:ElevatedButton.styleFrom( // Style of the Button, we can change that once we setup proper UI materials
                       shape: const CircleBorder()
                     ),
-                     child: const Text("Next")
+                    //TODO IF THE USER IS ON THE FINAL PAGE THEN TURN THE TEXT INTO "FINISH" INSTEAD OF "NEXT"
+                     child: pageIndex == onBoardPage.length? const Text("Next") : const Text("Finish")
+                     //const Text("Next")
                      ),
                 ],
               )

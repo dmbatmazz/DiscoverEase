@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:discover_ease/firebase_options.dart';
+import 'package:discover_ease/functionality/firebase_options.dart';
 import 'package:flutter/material.dart';
 import "package:firebase_auth/firebase_auth.dart";
 
@@ -12,19 +12,19 @@ import "package:firebase_auth/firebase_auth.dart";
       theme: ThemeData(
         primarySwatch: Colors.deepOrange
       ),
-      home: const RegisterPage(),
+      home: const EnteryPage(),
     )
   );
 }
 */
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class EnteryPage extends StatefulWidget {
+  const EnteryPage({super.key});
 
   @override
-  State<RegisterPage> createState() => RegisterPageState();
+  State<EnteryPage> createState() => EnteryPageState();
 }
 
-class RegisterPageState extends State<RegisterPage> {
+class EnteryPageState extends State<EnteryPage> {
   late final TextEditingController _email; // Late = "There's no value yet but there will be before I use it."
   late final TextEditingController _password;
 
