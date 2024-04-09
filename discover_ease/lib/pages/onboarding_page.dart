@@ -1,220 +1,199 @@
 import 'package:flutter/material.dart';
+/*
+ON BOARDING PAGE
 
+IF YOU WANNA CREATE A NEW PAGE OR CHANGE WHAT IS INSIDE IT GO TO LINE - #
 
+IF YOU WANNA CHANGE THE BUTTON OR ANIMATION OR ANYTHING RELATED TO STRUCTURE GO TO LINE - #
 
-void main() async{
-  runApp(const MaterialApp(
-    home: Scaffold(
-      body: OnboardingPage1(),
-      
-    )
-  ));
+IF YOU ARE GOING TO ADD A NEW VALUE AND WTF ELSE NOT, DO NOT FORGET TO ADD THAT VALUE TO EVERYWHERE AND PROPERLY ASSIGN IT ON LINES - #
+*/
+
+// UNLESS YOU KNOW EXACTLY WHAT YOU ARE DOING DO NOT TOUCH THIS
+// ================================================================
+class OnboardingPage extends StatefulWidget {
+  const OnboardingPage({super.key});
+
+  @override
+  State<OnboardingPage> createState() => _OnboardingPageState();
 }
 
 
-class OnboardingPage1 extends StatelessWidget {
-  const OnboardingPage1({super.key});
-
+// STRUCTURE OF THE ONBOARDING PAGES
+// ================================================================
+class _OnboardingPageState extends State<OnboardingPage> {
+  late PageController _pageController;
+  int pageIndex = 0;
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: OnboardingPagePresenter(pages: [
-        OnboardingPageModel(
-          title: 'Title 1',
-          description: 'Desc 1',
-          imageUrl: 'https://fakeimg.pl/600x800?text=600x800-PH',
-          bgColor: Colors.indigo, // All bg colors to UI colorscheme
-        ),
-        OnboardingPageModel(
-          title: 'Title 2',
-          description: 'Desc 2',
-          imageUrl: 'https://fakeimg.pl/600x400?text=600x400-PH',
-          bgColor: const Color(0xff1eb090),
-        ),
-        OnboardingPageModel(
-          title: 'Title 3',
-          description:
-              'Desc 3',
-          imageUrl: 'https://fakeimg.pl/600x400?text=600x400-PH',
-          bgColor: const Color(0xfffeae4f),
-        ),
-        OnboardingPageModel(
-          title: 'Title 4',
-          description: 'Desc 4',
-          imageUrl: 'https://fakeimg.pl/600x400?text=600x400-PH',
-          bgColor: Colors.purple,
-        ),
-      ]),
-    );
+  void initState() { // If you init something dont forget to dispose it. Otherwise Memory Loss
+    _pageController = PageController(initialPage: 0);
+    super.initState();
   }
-}
-
-class OnboardingPagePresenter extends StatefulWidget {
-  final List<OnboardingPageModel> pages;
-  final VoidCallback? onSkip;
-  final VoidCallback? onFinish;
-
-  const OnboardingPagePresenter(
-      {super.key, required this.pages, this.onSkip, this.onFinish});
-
   @override
-  State<OnboardingPagePresenter> createState() => _OnboardingPageState();
-}
-
-class _OnboardingPageState extends State<OnboardingPagePresenter> {
-  // Store the currently visible page
-  int _currentPage = 0;
-  // Define a controller for the pageview
-  final PageController _pageController = PageController(initialPage: 0);
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        color: widget.pages[_currentPage].bgColor,
-        child: SafeArea(
-          child: Column(
+    
+    return  Scaffold(
+      backgroundColor: const Color.fromARGB(255, 241, 138, 173), // TOP OF THE SCREEN WHERE TIME AND BATTERY ETC IS
+      body: SafeArea( // Safe Area = the space of the top of the screen, for the backgroundColor above have to use something opace so that user can still see them
+        child:
+          Column(
             children: [
               Expanded(
-                // Pageview to render each page
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: widget.pages.length,
-                  onPageChanged: (idx) {
-                    // Change current page when pageview changes
-                    setState(() {
-                      _currentPage = idx;
-                    });
-                  },
-                  itemBuilder: (context, idx) {
-                    final item = widget.pages[idx];
-                    return Column(
-                      children: [
-                        Expanded(
-                          flex: 3,
-                          child: Padding(
-                            padding: const EdgeInsets.all(0),
-                            child: Image.network(
-                              item.imageUrl,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: Column(children: [
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Text(item.title,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: item.textColor,
-                                        )),
-                              ),
-                              Container(
-                                constraints:
-                                    const BoxConstraints(maxWidth: 280),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 24.0, vertical: 8.0),
-                                child: Text(item.description,
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: item.textColor,
-                                        )),
-                              )
-                            ]))
-                      ],
-                    );
-                  },
+                child: PageView.builder( // Makes a slidable page view you don't really need to touch this at all. 
+                itemCount: onBoardPage.length,
+                controller: _pageController,
+                onPageChanged: (index){
+                  setState(() {
+                    pageIndex = index;
+                  });
+                },
+                itemBuilder:(context, index) => 
+                  OnboardContent( // Skeleton of the page initilized into the structure, Takes the page fron the list and puts it into PageView.build List
+                image: onBoardPage[index].image,
+                title: onBoardPage[index].title,
+                description: onBoardPage[index].description, 
+                color: onBoardPage[index].color, // NEEDS A FIX WITH HEX CODES AND WHAT NOT
+                ),
                 ),
               ),
-
-              // Current page indicator
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: widget.pages
-                    .map((item) => AnimatedContainer(
-                          duration: const Duration(milliseconds: 250),
-                          width: _currentPage == widget.pages.indexOf(item)
-                              ? 30
-                              : 8,
-                          height: 8,
-                          margin: const EdgeInsets.all(2.0),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10.0)),
-                        ))
-                    .toList(),
-              ),
-
-              // Bottom buttons
-              SizedBox(
-                height: 100,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                        style: TextButton.styleFrom(
-                            visualDensity: VisualDensity.comfortable,
-                            foregroundColor: Colors.white,
-                            textStyle: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)),
-                        onPressed: () {
-                          // To registrationPage
-                        },
-                        child: const Text("Skip")),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                          visualDensity: VisualDensity.comfortable,
-                          foregroundColor: Colors.white,
-                          textStyle: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      onPressed: () {
-                        // When the text is on "Next" to the "Next page"
-                        // When on "Finish" to registrationPage
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            _currentPage == widget.pages.length - 1
-                                ? "Finish"
-                                : "Next",
-                          ),
-                          const SizedBox(width: 8),
-                          Icon(_currentPage == widget.pages.length - 1
-                              ? Icons.done
-                              : Icons.arrow_forward),
-                        ],
-                      ),
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // SKIPS THE ON BOARDING PAGE
+                    },
+                    style:ElevatedButton.styleFrom( // Style of the Button, we can change that once we setup proper UI materials
+                      shape: const CircleBorder()
                     ),
-                  ],
-                ),
+                     child: const Text("Skip")
+                     ),
+
+                  const Spacer(),
+
+                  ...List.generate(onBoardPage.length, (index) => Padding( // GENERATES A LIST OF DOT. # OF DOTS= # OF PAGES
+                  padding: const EdgeInsets.all(3.0), // CAN ADJUST THIS TO PLACE IT PROPERLY
+                  child: DotIndigator(isActive: index == pageIndex,),
+                  )
+                  ),
+
+                  const Spacer(),
+                  
+                  ElevatedButton(
+                    onPressed: () {
+                      _pageController.nextPage(duration: const Duration(milliseconds: 200), // How long will the animation
+                      curve: Curves.ease // ANIMATION OF THE PAGE
+                      );
+                    },
+                    style:ElevatedButton.styleFrom( // Style of the Button, we can change that once we setup proper UI materials
+                      shape: const CircleBorder()
+                    ),
+                     child: const Text("Next")
+                     ),
+                ],
               )
             ],
-          ),
-        ),
-      ),
+          )
+        )
     );
   }
 }
 
-class OnboardingPageModel {
-  final String title;
-  final String description;
-  final String imageUrl;
-  final Color bgColor;
-  final Color textColor;
+// SKELETON OF A ONBOARDING PAGE
+// ================================================================ 
+class OnboardContent extends StatelessWidget { 
+   const OnboardContent({
+    super.key, 
+    required this.image, 
+    required this.title, 
+    required this.description, 
+    required this.color,
+  });
+  final String image, title, description;
+  final Color color;
 
-  OnboardingPageModel(
-      {required this.title,
-      required this.description,
-      required this.imageUrl,
-      this.bgColor = Colors.blue,
-      this.textColor = Colors.white});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 121, 121), /* Colors (color) */
+      body: Column(
+              children: [
+      //const Spacer(),
+      Image.asset(image),
+      //const Spacer(),
+      Text(title,
+       style: Theme.of(context).textTheme.headlineMedium, textAlign: TextAlign.center,),
+      const SizedBox(height: 30,), // Space between title text and description text
+      Text(description,
+       style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center,),
+              ],
+              ),
+    );
+  }
 }
+
+class DotIndigator extends StatelessWidget {
+  const DotIndigator({
+    super.key,
+    this.isActive = false
+  });
+final bool isActive;
+  @override
+  Widget build(BuildContext context) {
+    return Container( // THE LITTLE SHIT THAT TRACKS THE PAGE
+              height: isActive? 12 : 4, // IF ACTIVE 12 ELSE 4 
+              width: 4, // HEIGHT AND WIDTH COULD BE CHANGE TO A BETTER EFFECT
+              decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 144, 255, 255), 
+              borderRadius: BorderRadius.all(Radius.circular(12))
+                    ),
+                );
+  }
+}
+
+// PAGES LIST
+// ================================================================
+class Onboard{
+  final String image, title, description;
+  final Color  color;
+
+  Onboard({required this.image, required this.title, required this.description, required this.color});
+}
+final List<Onboard> onBoardPage = [ // PAGE LIST -- YOU CAN CREATE PAGES FROM HERE
+  Onboard(
+    image: "assets/asset_images/placeholder_600x800.png",
+    title: "1",
+    description: "Description", 
+    color: const Color.fromARGB(255, 231, 147, 141),
+  ),
+  Onboard(
+    image: "assets/asset_images/placeholder_600x800.png",
+    title: "2",
+    description: "Description1", 
+    color: const Color.fromARGB(255, 231, 147, 141),
+  ),
+  Onboard(
+    image: "assets/asset_images/placeholder_600x800.png",
+    title: "3",
+    description: "Description", 
+    color: const Color.fromARGB(255, 231, 147, 141),
+  ),
+  Onboard(
+    image: "assets/asset_images/placeholder_600x800.png",
+    title: "4",
+    description: "Description", 
+    color: const Color.fromARGB(255, 231, 147, 141),
+  ),
+  Onboard(
+    image: "assets/asset_images/placeholder_600x800.png",
+    title: "5",
+    description: "Description", 
+    color: const Color.fromARGB(255, 231, 147, 141),
+  ),
+
+];
