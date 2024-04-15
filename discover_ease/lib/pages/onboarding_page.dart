@@ -39,6 +39,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Widget build(BuildContext context) {
     
     return  Scaffold(
+      appBar: AppBar(), // TODO DELETE LATER JUST FOR DEUBGGING
       backgroundColor: const Color.fromARGB(255, 241, 138, 173), // TOP OF THE SCREEN WHERE TIME AND BATTERY ETC IS
       body: SafeArea( // Safe Area = the space of the top of the screen, for the backgroundColor above have to use something opace so that user can still see them
         child:

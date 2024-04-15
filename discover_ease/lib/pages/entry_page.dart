@@ -45,6 +45,7 @@ class EnteryPageState extends State<EnteryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(), // TODO DELETE LATER JUST FOR DEUBGGING
         body: SafeArea(
           child: Column(
             children: [
