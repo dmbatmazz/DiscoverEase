@@ -47,6 +47,7 @@ Widget _buildIcon(int index){
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(), // DEBUGGING REMOVE LATER
       bottomNavigationBar: const GNav(
         backgroundColor: Color(0xFFfebd97),
         color: Color(0xFFf7ddd0),

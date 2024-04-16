@@ -1,9 +1,9 @@
+import 'package:discover_ease/pages/google_mapspage.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_ease/pages/entry_page.dart';
 import 'package:discover_ease/pages/onboarding_page.dart';
 import 'package:discover_ease/testpage.dart';
 import 'package:flutter/services.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:discover_ease/pages/profile_page.dart';
 import 'package:discover_ease/pages/main_page.dart';
 // DEFINING routes: {[PAGE NAME]} ON MaterialApp => routes: {'/homepage': (context) => const PAGENAME()}
@@ -92,7 +92,24 @@ class Home extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const MainPage())
                 );
               },
-            ),]
+            ),
+            ElevatedButton(
+              child: const Text("Google Maps"),
+              onPressed: () {
+                Navigator.push(context, 
+                MaterialPageRoute(builder: (context) => const MapWidget())
+                );
+              },
+            ),
+            ElevatedButton(
+              child: const Text("Places-Test"),
+              onPressed: () {
+                Navigator.push(context, 
+                MaterialPageRoute(builder: (context) => const NearByPlaces())
+                );
+              },
+            ),
+            ]
           
         )
       ],

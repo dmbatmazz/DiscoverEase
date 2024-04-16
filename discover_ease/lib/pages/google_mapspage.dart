@@ -23,6 +23,7 @@ class _MapWidgetState extends State<MapWidget> { // Google Maps view Widget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(), // FOR DEBUGGING REMOVE LATER
       body: GoogleMap(
         initialCameraPosition: const CameraPosition(
           target: initPos,
