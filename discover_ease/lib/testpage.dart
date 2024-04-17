@@ -1,10 +1,10 @@
 // ignore_for_file: avoid_print
 
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+
 
 class NearByPlaces extends StatefulWidget {
   const NearByPlaces({super.key});
@@ -18,8 +18,12 @@ class _NearByPlacesState extends State<NearByPlaces> {
   String apikey = "AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE";
   late String _latitude;
   late String _longitude;
-  late String _userlocation;
-  bool? isChecked = false;
+  late String? _userlocation;
+  late final String _type = "restaurant";
+  bool? isChecked1 = false;
+  bool? isChecked2 = false;
+  bool? isChecked3 = false;
+
 
 
   String radius = "30";       // Testing values can delete later when im done here
@@ -28,6 +32,7 @@ class _NearByPlacesState extends State<NearByPlaces> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text("Places"),
@@ -40,7 +45,7 @@ class _NearByPlacesState extends State<NearByPlaces> {
               children: [
                 ElevatedButton(
                 onPressed: (){
-                  getnearplaces();
+                  getnearplaces(_userlocation,_type);
                 }, 
                 child: const Text("Get near places")
                 ),
@@ -62,7 +67,7 @@ class _NearByPlacesState extends State<NearByPlaces> {
                 )
               ],
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text("Rad"),
@@ -73,34 +78,39 @@ class _NearByPlacesState extends State<NearByPlaces> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [ 
-                Checkbox(value: isChecked, onChanged: (value) {
-                  setState(() {
-                    isChecked = value;
-                    radius = "30";
-                    print(radius);
-                  }
-                  );
-                },
-                ),
-                Checkbox(value: isChecked, onChanged: (value) {
-                  setState(() {
-                    isChecked = value;
-                    radius = "60";
-                    print(radius);
-                  }
-                  );
-                },
-                ),
-                Checkbox(value: isChecked, onChanged: (value) {
-                  setState(() {
-                    isChecked = value;
-                    radius = "90";
-                    print(radius);
-                  }
-                  );
-                },
-                )
-                
+                Checkbox(
+  value: isChecked1,
+  onChanged: (value) {
+    setState(() {
+      isChecked1 = value;
+      radius = "30"; // Update radius based on selection
+      isChecked2 = false; // Reset other checkboxes
+      isChecked3 = false;
+    });
+  },
+),
+Checkbox(
+  value: isChecked2,
+  onChanged: (value) {
+    setState(() {
+      isChecked2 = value;
+      radius =  "60"; // Update radius based on selection
+      isChecked1 = false; // Reset other checkboxes
+      isChecked3 = false;
+    });
+  },
+),
+Checkbox(
+  value: isChecked3,
+  onChanged: (value) {
+    setState(() {
+      isChecked3 = value;
+      radius = "90"; // Update radius based on selection
+      isChecked1 = false; // Reset other checkboxes
+      isChecked2 = false;
+    });
+  },
+),
               ],
             )
           ],
@@ -109,16 +119,19 @@ class _NearByPlacesState extends State<NearByPlaces> {
     );
   }
 
-void getnearplaces() async{
-  
+void getnearplaces(userlocation, type) async{
+    userlocation = _userlocation;
+    String tempLocation = "39.920688,32.854044";
+    type = _type;
+    radius = "1500";
     var request = http.Request('GET', Uri.parse(
-      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=39.816139251599274,32.7219522517209&radius=1500&type=hotel|library&key=AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE'));
-      /*'https://maps.googleapis.com/maps/api/place/nearbysearch/json'+
-      '?location=' + userLocation + 
-      '&radius=' + radius +
-      '&type=' + _type +
-      '&key=' + apikey)
-      );*/
+      ( 
+      //'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$tempLocation&radius=$radius&type=$type&key=$apikey'
+      //"https://maps.googleapis.com/maps/api/place/textsearch/json?query=123%20main%20street&key=AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE"
+        "https://maps.googleapis.com/maps/api/place/textsearch/json?query=hospital%20in%20Ankara&place_id&key=AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE"
+      ) 
+      
+      ));
 http.StreamedResponse response = await request.send();
 
 if (response.statusCode == 200) {
@@ -163,3 +176,11 @@ Future<Position> getcurrentlocation() async{
   }
 
 }
+
+List<String> types = [
+"amusement_park",
+"aquarium",
+"art_gallery",
+"bakery",
+"lodging",
+];
