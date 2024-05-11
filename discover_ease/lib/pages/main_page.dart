@@ -1,3 +1,4 @@
+import 'package:discover_ease/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -48,26 +49,7 @@ Widget _buildIcon(int index){
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(), // DEBUGGING REMOVE LATER
-      bottomNavigationBar: const GNav(
-        backgroundColor: Color(0xFFfebd97),
-        color: Color(0xFFf7ddd0),
-        activeColor:  Color(0xFFfeece2),
-        tabBackgroundColor: Color.fromARGB(255, 63, 60, 60),
-        padding: EdgeInsets.all(16),
-        gap: 5,
-        curve: Easing.standardAccelerate,
-      tabs:[
-        GButton(icon: Icons.home,
-        text: "Home",
-        ),
-        GButton(icon: Icons.favorite,
-        text: "Likes",),
-        GButton(icon: Icons.search,
-        text: "Search",),
-        GButton(icon: Icons.settings,
-        text: "Settings",),
-      ]
-      ),
+      bottomNavigationBar: const BottomNavBar(),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 30.0),

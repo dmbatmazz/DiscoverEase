@@ -29,6 +29,7 @@ dependencies:
   http: ^0.13.6
   line_icons: ^2.0.3
   google_fonts: ^4.0.4
+  floating_bottom_bar: ^0.0.3
 
 dev_dependencies:
   flutter_test:

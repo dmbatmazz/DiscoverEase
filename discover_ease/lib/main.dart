@@ -112,7 +112,7 @@ class Home extends StatelessWidget {
         ),
         Row(children: [
           ElevatedButton(
-              child: const Text("Places-Test"),
+              child: const Text("New Home page"),
               onPressed: () {
                 Navigator.push(context, 
                 MaterialPageRoute(builder: (context) => const WelcomeScreen())
