@@ -17,6 +17,7 @@ Color midBot = const Color(0xFFf7ddd0);
 Color bot = const Color(0xFFe1bfb3);
 
 void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
     title: "Senior Project",
     debugShowCheckedModeBanner: false,
