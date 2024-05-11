@@ -1,4 +1,5 @@
 import 'package:discover_ease/pages/google_mapspage.dart';
+import 'package:discover_ease/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_ease/pages/entry_page.dart';
 import 'package:discover_ease/pages/onboarding_page.dart';
@@ -33,10 +34,6 @@ void main() async{
         scaffoldBackgroundColor: Colors.blue[200],
         useMaterial3: true
     ),
-
-
-
-
     home: Scaffold(
       appBar: AppBar(
         title: const Text("Testing text"),
@@ -111,6 +108,18 @@ class Home extends StatelessWidget {
               },
             ),
             ]
+          
+        ),
+        Row(children: [
+          ElevatedButton(
+              child: const Text("Places-Test"),
+              onPressed: () {
+                Navigator.push(context, 
+                MaterialPageRoute(builder: (context) => const WelcomeScreen())
+                );
+              },
+            ),
+        ]
           
         )
       ],
