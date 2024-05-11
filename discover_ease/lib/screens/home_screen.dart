@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(15),
                     //city1.jpg
-                    image: DecorationImage(image: AssetImage("assets/city/city${index+1}.jps"))
+                    image: DecorationImage(image: AssetImage("assets/city/city${index+1}.jpg"))
                   ),
                 ),
               );
