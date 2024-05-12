@@ -6,7 +6,7 @@ class PostAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -15,18 +15,23 @@ class PostAppBar extends StatelessWidget {
               Navigator.pop(context);
             },
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.white54,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Icon(Icons.arrow_back, size: 20, color: Colors.black,),
+              child: const Icon(Icons.arrow_back, size: 20, color: Colors.black,),
             ),
           ),
           InkWell(
             onTap: () {},
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white54,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Icon(Icons.bookmark_add_outlined, size: 20, color: Colors.black,),
             ),
           )
         ],
