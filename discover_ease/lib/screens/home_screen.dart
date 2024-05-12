@@ -1,7 +1,9 @@
 import 'package:discover_ease/screens/post_screen.dart';
 import 'package:discover_ease/widgets/bottom_navbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_ease/widgets/home_app_bar.dart';
+import 'package:flutter/widgets.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -41,7 +43,7 @@ class HomePage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(context, 
                         MaterialPageRoute(
-                          builder: (context)=>PostScreen(),
+                          builder: (context)=>const PostScreen(),
                           )
                           );
                       },
@@ -52,7 +54,7 @@ class HomePage extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(15),
-                          image: DecorationImage(image: AssetImage("assets/city/city${index+1}.jpg"),
+                          image: DecorationImage(image: AssetImage("assets/city/city${index+3}.jpg"),
                           fit: BoxFit.cover,
                           opacity: 0.7,
                           )
@@ -61,7 +63,7 @@ class HomePage extends StatelessWidget {
                           children: [
                             Container(
                               alignment: Alignment.topRight,
-                              child: const Icon(Icons.bookmark_border_outlined, 
+                              child: const Icon(Icons.bookmark, 
                               color: Colors.white, 
                               size: 30,),
                             ),
@@ -116,7 +118,7 @@ class HomePage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(context, 
                         MaterialPageRoute(
-                          builder: (context)=>PostScreen(),
+                          builder: (context)=>const PostScreen(),
                           )
                           );
                       },
@@ -126,22 +128,33 @@ class HomePage extends StatelessWidget {
                           color: Colors.black,
                           image: DecorationImage(image: AssetImage("assets/city/city${index+1}.jpg"), fit: BoxFit.cover, opacity: 0.8),
                         ),
+                        child: const Row(
+                          children: [
+                            Column(
+                                children: [
+                                  Spacer(),
+                                  Icon(Icons.star, color: Colors.amber,),
+                                  Text("4.5", style: TextStyle(fontWeight: FontWeight.w500),)// TODO SHIFT THE ICON TO BOTTOM
+                                ],
+                            ),
+                            Spacer(),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(Icons.bookmark_add_outlined,color: Colors.white,), // TODO SHIFT THE ICON TO LEFT
+                                  ],
+                                ),
+                                Spacer(),
+                                Text("City name here", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white,)),
+                              ],
+                            )
+                            ],
+                        ),
                       ),
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("City name here", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
-                        Icon(Icons.more_vert, size: 30)
-                      ],
+                    const Padding(padding: EdgeInsets.only(top: 5),
                     ),
-                    ),
-                    const SizedBox(height: 5,),
-                    const Row(children: [ // TODO PUT THE STAR ON TOP OF THE IMAGE
-                      Icon(Icons.star, color: Colors.amber,),
-                      Text("4.5", style: TextStyle(fontWeight: FontWeight.w500),)
-                    ],)
                   ],
                 ),
                 );
