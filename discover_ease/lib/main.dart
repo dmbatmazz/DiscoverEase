@@ -20,7 +20,7 @@ Color bot = const Color(0xFFe1bfb3);
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
-    title: "Senior Project",
+    title: "DiscoverEase",
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       colorScheme: ColorScheme.fromSeed(
@@ -31,14 +31,10 @@ void main() async{
         primary: Colors.red[200],
         secondary: Colors.green[200],
         ),
-        scaffoldBackgroundColor: Colors.blue[200],
+        scaffoldBackgroundColor: Colors.blueGrey,
         useMaterial3: true
     ),
     home: Scaffold(
-      appBar: AppBar(
-        title: const Text("Testing text"),
-        centerTitle: true,
-      ),
       body: const Home(),
     )
   )
@@ -51,9 +47,10 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky, overlays: []);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky, overlays: [SystemUiOverlay.top]);
     return Column(
       children: [
+        const SizedBox(height: 50,),
         Row(
           children: [
             ElevatedButton(

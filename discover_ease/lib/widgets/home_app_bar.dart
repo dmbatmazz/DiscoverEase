@@ -5,18 +5,18 @@ class HomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(onTap: () {},
           child: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(5),
             decoration:  BoxDecoration(
-              color: Colors.white,
-              boxShadow: const [BoxShadow(color: Colors.black, blurRadius: 6,)],
-              borderRadius: BorderRadius.circular(15)),
-            child: const Icon(Icons.sort_rounded, size: 28,),
+              color: Colors.white24,
+              //boxShadow: const [BoxShadow(color: Colors.black, blurRadius: 6,)],
+              borderRadius: BorderRadius.circular(20)),
+            child: const Icon(Icons.sort_rounded, size: 20,),
           ),
           ),
            const Row(children: [
@@ -25,13 +25,13 @@ class HomeAppBar extends StatelessWidget {
             ],
             ),
         InkWell(onTap: () {},
-        child: Container(padding: const EdgeInsets.all(10),
+        child: Container(padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: const [BoxShadow(color: Colors.black26,blurRadius: 6)],
-          borderRadius: BorderRadius.circular(15),
+          color: Colors.white24,
+          //boxShadow: const [BoxShadow(color: Colors.black26,blurRadius: 6)],
+          borderRadius: BorderRadius.circular(20),
         ),
-        child: const Icon(Icons.search, size: 28),
+        child: const Icon(Icons.search, size: 20),
         ),
         )
         ],

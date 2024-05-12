@@ -1,4 +1,5 @@
-import 'package:floating_bottom_bar/animated_bottom_navigation_bar.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -6,71 +7,26 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return AnimatedBottomNavigationBar(
-      barColor: Colors.white,
-      controller: FloatingBottomBarController(initialIndex: 1),
-      bottomBar: [
-        BottomBarItem(
-          icon: const Icon(Icons.home, size: 10),
-          iconSelected: const Icon(Icons.home, color: Colors.amber, size: 10),
-          title: "Home",
-          dotColor: Colors.pink,
-          onTap: (value) {},
-        ),
-        BottomBarItem(
-          icon: const Icon(Icons.home, size: 10),
-          iconSelected: const Icon(Icons.home, color: Colors.blueAccent, size: 10),
-          title: "Home",
-          dotColor: Colors.cyan,
-          onTap: (value) {},
-        ),
-        BottomBarItem(
-          icon: const Icon(Icons.home, size: 10),
-          iconSelected: const Icon(Icons.home, color: Colors.deepOrangeAccent, size: 10),
-          title: "Home",
-          dotColor: Colors.black,
-          onTap: (value) {},
-        ),
-        BottomBarItem(
-          icon: const Icon(Icons.home, size: 10),
-          iconSelected: const Icon(Icons.home, color: Colors.purple, size: 10),
-          title: "Home",
-          dotColor: Colors.black,
-          onTap: (value) {},
-        ),
-      ],
-      bottomBarCenterModel: BottomBarCenterModel(
-        centerBackgroundColor: Colors.green,
-        centerIcon: const FloatingCenterButton(
-          child: Icon(
-            Icons.add,
-            color: AppColors.white,
-          ),
-        ),
-        centerIconChild: [
-          FloatingCenterButtonChild(
-            child: const Icon(
-              Icons.home,
-              color: AppColors.white,
-            ),
-            onTap: () {},
-          ),
-          FloatingCenterButtonChild(
-            child: const Icon(
-              Icons.access_alarm,
-              color: AppColors.white,
-            ),
-            onTap: () {},
-          ),
-          FloatingCenterButtonChild(
-            child: const Icon(
-              Icons.ac_unit_outlined,
-              color: AppColors.white,
-            ),
-            onTap: () {},
-          ),
+      return CurvedNavigationBar(
+        backgroundColor: Colors.transparent,
+        buttonBackgroundColor: Colors.pink,
+        items: const [
+          CurvedNavigationBarItem(
+            child: Icon(Icons.home_outlined),
+            label: 'Main',),
+            CurvedNavigationBarItem(
+            child: Icon(Icons.search, color:  Colors.amber),
+            label: 'Search',),
+            CurvedNavigationBarItem(
+            child: Icon(Icons.sticky_note_2_rounded),
+            label: 'Organize?',),
+            CurvedNavigationBarItem(
+            child: Icon(Icons.person),
+            label: 'Profile',),
+            CurvedNavigationBarItem(
+            child: Icon(Icons.person),
+            label: 'Profile',),
         ],
-      ),
-    );
+      );
   }
 }

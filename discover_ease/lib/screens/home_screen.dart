@@ -1,7 +1,6 @@
+import 'package:discover_ease/screens/post_screen.dart';
 import 'package:discover_ease/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:discover_ease/widgets/home_app_bar.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,6 +20,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: const PreferredSize( preferredSize: Size.fromHeight(90.0), child: HomeAppBar(),),
       body: SafeArea(
+        top: true,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 30),
           child: SingleChildScrollView(
@@ -38,7 +38,13 @@ class HomePage extends StatelessWidget {
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, 
+                        MaterialPageRoute(
+                          builder: (context)=>PostScreen(),
+                          )
+                          );
+                      },
                       child: Container(
                         width: 160,
                         padding: const EdgeInsets.all(20),
@@ -107,7 +113,13 @@ class HomePage extends StatelessWidget {
                 child:  Column(
                   children: [
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, 
+                        MaterialPageRoute(
+                          builder: (context)=>PostScreen(),
+                          )
+                          );
+                      },
                       child: Container(
                         height: 200,
                         decoration: BoxDecoration(
@@ -132,7 +144,6 @@ class HomePage extends StatelessWidget {
                     ],)
                   ],
                 ),
-                
                 );
               })
             ],
