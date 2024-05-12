@@ -15,11 +15,11 @@ class BottomNavBar extends StatelessWidget {
             child: Icon(Icons.home_outlined),
             label: 'Main',),
             CurvedNavigationBarItem(
+            child: Icon(Icons.card_travel),
+            label: 'Trip',),
+            CurvedNavigationBarItem(
             child: Icon(Icons.search, color:  Colors.amber),
             label: 'Search',),
-            CurvedNavigationBarItem(
-            child: Icon(Icons.sticky_note_2_rounded),
-            label: 'Organize?',),
             CurvedNavigationBarItem(
             child: Icon(Icons.person),
             label: 'Profile',),
