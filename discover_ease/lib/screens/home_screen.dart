@@ -1,9 +1,7 @@
 import 'package:discover_ease/screens/post_screen.dart';
 import 'package:discover_ease/widgets/bottom_navbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_ease/widgets/home_app_bar.dart';
-import 'package:flutter/widgets.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

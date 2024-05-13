@@ -23,20 +23,21 @@ dependencies:
   geolocator: ^11.0.0
   geocoding: ^3.0.0
   latlng: ^2.0.7
-  flutterfire_cli: ^0.2.7
+  flutterfire_cli: ^1.0.1-dev.0
   google_nav_bar: ^5.0.6
   font_awesome_flutter: ^10.7.0
-  http: ^0.13.6
+  http: ^1.2.1
   line_icons: ^2.0.3
-  google_fonts: ^4.0.4
+  google_fonts: ^6.2.1
   curved_labeled_navigation_bar: ^2.0.2
   floating_bottom_bar: ^0.0.3
+  introduction_screen: ^3.1.14
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
 

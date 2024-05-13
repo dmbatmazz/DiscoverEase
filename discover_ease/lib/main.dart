@@ -1,8 +1,8 @@
 import 'package:discover_ease/pages/google_mapspage.dart';
-import 'package:discover_ease/screens/welcome_screen.dart';
+import 'package:discover_ease/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_ease/pages/entry_page.dart';
-import 'package:discover_ease/pages/onboarding_page.dart';
+import 'package:discover_ease/screens/onboarding_screen.dart';
 import 'package:discover_ease/testpage.dart';
 import 'package:flutter/services.dart';
 import 'package:discover_ease/screens/profile_screen.dart';
@@ -34,8 +34,8 @@ void main() async{
         scaffoldBackgroundColor: Colors.blueGrey,
         useMaterial3: true
     ),
-    home: Scaffold(
-      body: const Home(),
+    home: const Scaffold(
+      body: Home(),
     )
   )
   );
@@ -57,7 +57,7 @@ class Home extends StatelessWidget {
               child: const Text("Onboarding Page"),
               onPressed: () {
                 Navigator.push(context, 
-                MaterialPageRoute(builder: (context) => const OnboardingPage())
+                MaterialPageRoute(builder: (context) => const OnboardingScreen())
                 );
               },
             ),
@@ -112,7 +112,7 @@ class Home extends StatelessWidget {
               child: const Text("New Home page"),
               onPressed: () {
                 Navigator.push(context, 
-                MaterialPageRoute(builder: (context) => const WelcomeScreen())
+                MaterialPageRoute(builder: (context) => const HomePage())
                 );
               },
             ),
