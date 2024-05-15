@@ -6,7 +6,6 @@ import 'package:discover_ease/screens/onboarding_screen.dart';
 import 'package:discover_ease/testpage.dart';
 import 'package:flutter/services.dart';
 import 'package:discover_ease/screens/profile_screen.dart';
-import 'package:discover_ease/pages/main_page.dart';
 // DEFINING routes: {[PAGE NAME]} ON MaterialApp => routes: {'/homepage': (context) => const PAGENAME()}
 
 
@@ -80,14 +79,6 @@ class Home extends StatelessWidget {
           ],
         ),
         Row(children: [
-          ElevatedButton(
-              child: const Text("Main page"),
-              onPressed: () {
-                Navigator.push(context, 
-                MaterialPageRoute(builder: (context) => const MainPage())
-                );
-              },
-            ),
             ElevatedButton(
               child: const Text("Google Maps"),
               onPressed: () {
