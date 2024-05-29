@@ -1,13 +1,16 @@
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:discover_ease/pages/google_mapspage.dart';
 import 'package:discover_ease/screens/home_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:discover_ease/pages/entry_page.dart';
 import 'package:discover_ease/screens/onboarding_screen.dart';
 import 'package:discover_ease/testpage.dart';
 import 'package:flutter/services.dart';
 import 'package:discover_ease/screens/profile_screen.dart';
-// DEFINING routes: {[PAGE NAME]} ON MaterialApp => routes: {'/homepage': (context) => const PAGENAME()}
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:discover_ease/functionality/firebase_options.dart';
 
+// DEFINING routes: {[PAGE NAME]} ON MaterialApp => routes: {'/homepage': (context) => const PAGENAME()}
 
 // TO GET THE HEX LIKE THIS -> https://imagecolorpicker.com/en
 // #febd97 == 0xFFfebd97 ---- SO ALWAYS ADD 0xFF and then the value after #
@@ -16,8 +19,9 @@ Color midTop = const Color(0xFFfeece2);
 Color midBot = const Color(0xFFf7ddd0);
 Color bot = const Color(0xFFe1bfb3);
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MaterialApp(
     title: "DiscoverEase",
     debugShowCheckedModeBanner: false,
@@ -25,24 +29,21 @@ void main() async{
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color(0xFFfebd97),
         brightness: Brightness.light,
-
         //Override
         primary: Colors.red[200],
         secondary: Colors.green[200],
-        ),
-        scaffoldBackgroundColor: Colors.blueGrey,
-        useMaterial3: true
+      ),
+      scaffoldBackgroundColor: Color.fromARGB(255, 151, 155, 156),
+      useMaterial3: true,
     ),
     home: const Scaffold(
       body: Home(),
-    )
-  )
-  );
+    ),
+  ));
 }
 
-
 class Home extends StatelessWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,7 @@ class Home extends StatelessWidget {
               child: const Text("Onboarding Page"),
               onPressed: () {
                 Navigator.push(context, 
-                MaterialPageRoute(builder: (context) => const OnboardingScreen())
+                  MaterialPageRoute(builder: (context) => const OnboardingScreen())
                 );
               },
             ),
@@ -64,7 +65,7 @@ class Home extends StatelessWidget {
               child: const Text("Register page"),
               onPressed: () {
                 Navigator.push(context, 
-                MaterialPageRoute(builder: (context) => const EnteryPage())
+                  MaterialPageRoute(builder: (context) => const EntryPage())
                 );
               },
             ),
@@ -72,18 +73,19 @@ class Home extends StatelessWidget {
               child: const Text("Profile"),
               onPressed: () {
                 Navigator.push(context, 
-                MaterialPageRoute(builder: (context) => const Profile())
+                  MaterialPageRoute(builder: (context) => const Profile())
                 );
               },
             ),
           ],
         ),
-        Row(children: [
+        Row(
+          children: [
             ElevatedButton(
               child: const Text("Google Maps"),
               onPressed: () {
                 Navigator.push(context, 
-                MaterialPageRoute(builder: (context) => const MapWidget())
+                  MaterialPageRoute(builder: (context) => const MapWidget())
                 );
               },
             ),
@@ -91,24 +93,23 @@ class Home extends StatelessWidget {
               child: const Text("Places-Test"),
               onPressed: () {
                 Navigator.push(context, 
-                MaterialPageRoute(builder: (context) => const NearByPlaces())
+                  MaterialPageRoute(builder: (context) => const NearByPlaces())
                 );
               },
             ),
-            ]
-          
+          ]
         ),
-        Row(children: [
-          ElevatedButton(
+        Row(
+          children: [
+            ElevatedButton(
               child: const Text("New Home page"),
               onPressed: () {
                 Navigator.push(context, 
-                MaterialPageRoute(builder: (context) => const HomePage())
+                  MaterialPageRoute(builder: (context) => const HomePage())
                 );
               },
             ),
-        ]
-          
+          ]
         )
       ],
     );
