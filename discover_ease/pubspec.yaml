@@ -45,6 +45,7 @@ flutter:
   assets:
     - assets/
     - assets/city/
+    - assets/city/entry_page.png
     - assets/city/city15.jpg
     - assets/profile_images/im1.png  
     - assets/profile_images/im2.png  

@@ -12,6 +12,7 @@ class DiscoverEaseApp extends StatelessWidget {
       title: 'DiscoverEase',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: TripPlanPage(),
     );
@@ -25,16 +26,16 @@ class TripPlanPage extends StatefulWidget {
 
 class _TripPlanPageState extends State<TripPlanPage> {
   List<Trip> trips = [];
-
   TextEditingController tripNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Trip Planner',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-         ),
+        title: Text(
+          'Trip Planner',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -44,6 +45,7 @@ class _TripPlanPageState extends State<TripPlanPage> {
               controller: tripNameController,
               decoration: InputDecoration(
                 labelText: 'Trip Name',
+                border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 16),
@@ -57,25 +59,38 @@ class _TripPlanPageState extends State<TripPlanPage> {
                 }
               },
               child: Text('Add Trip'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
             ),
             Expanded(
               child: ListView.builder(
                 itemCount: trips.length,
                 itemBuilder: (context, index) {
                   return Card(
+                    elevation: 4,
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     child: ListTile(
-                      title: Text(trips[index].name),
+                      title: Text(trips[index].name, style: TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: Text(DateFormat('yMMMd').format(trips[index].date)),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.edit),
+                            icon: Icon(Icons.edit, color: Colors.blueAccent),
                             onPressed: () {
                               _editTripName(context, trips[index]);
                             },
                           ),
                           IconButton(
-                            icon: Icon(Icons.delete),
+                            icon: Icon(Icons.delete, color: Colors.redAccent),
                             onPressed: () {
                               setState(() {
                                 trips.removeAt(index);
@@ -115,6 +130,7 @@ class _TripPlanPageState extends State<TripPlanPage> {
             controller: editController,
             decoration: InputDecoration(
               labelText: 'Trip Name',
+              border: OutlineInputBorder(),
             ),
           ),
           actions: <Widget>[
@@ -124,7 +140,7 @@ class _TripPlanPageState extends State<TripPlanPage> {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(
+            ElevatedButton(
               child: Text('Save'),
               onPressed: () {
                 setState(() {
@@ -132,6 +148,10 @@ class _TripPlanPageState extends State<TripPlanPage> {
                 });
                 Navigator.of(context).pop();
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                foregroundColor: Colors.white,
+              ),
             ),
           ],
         );
@@ -226,156 +246,185 @@ class _TripDetailPageState extends State<TripDetailPage> {
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => _selectDate(context),
-                      child: Text(selectedDate == null
-                          ? 'Select Date'
-                          : DateFormat('yMd').format(selectedDate!)),
-                    ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => _selectDate(context),
+                child: Text(selectedDate == null
+                    ? 'Select Date'
+                    : DateFormat('yMMMd').format(selectedDate!)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                ],
+                ),
               ),
               SizedBox(height: 16),
+              _buildSectionTitle('Participants'),
               TextField(
                 controller: participantController,
                 decoration: InputDecoration(
                   labelText: 'Add Participant',
+                  border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    widget.trip.addParticipant(participantController.text);
-                    participantController.clear();
-                  });
+                  if (participantController.text.isNotEmpty) {
+                    setState(() {
+                      widget.trip.addParticipant(participantController.text);
+                      participantController.clear();
+                    });
+                  }
                 },
                 child: Text('Add Participant'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: widget.trip.participants.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(widget.trip.participants[index], style: TextStyle(fontWeight: FontWeight.normal)),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            _editParticipant(context, widget.trip.participants[index]);
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () {
-                            setState(() {
-                              widget.trip.removeParticipant(widget.trip.participants[index]);
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+              _buildList(widget.trip.participants, (participant) {
+                return _buildListItem(
+                  participant,
+                  onEdit: () => _editParticipant(context, participant),
+                  onDelete: () => setState(() {
+                    widget.trip.removeParticipant(participant);
+                  }),
+                );
+              }),
               SizedBox(height: 16),
+              _buildSectionTitle('Places'),
               TextField(
                 controller: placeController,
                 decoration: InputDecoration(
                   labelText: 'Add Place',
+                  border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    widget.trip.addPlace(placeController.text);
-                    placeController.clear();
-                  });
+                  if (placeController.text.isNotEmpty) {
+                    setState(() {
+                      widget.trip.addPlace(placeController.text);
+                      placeController.clear();
+                    });
+                  }
                 },
                 child: Text('Add Place'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: widget.trip.places.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(widget.trip.places[index], style: TextStyle(fontWeight: FontWeight.normal)),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            _editPlace(context, widget.trip.places[index]);
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () {
-                            setState(() {
-                              widget.trip.removePlace(widget.trip.places[index]);
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+              _buildList(widget.trip.places, (place) {
+                return _buildListItem(
+                  place,
+                  onEdit: () => _editPlace(context, place),
+                  onDelete: () => setState(() {
+                    widget.trip.removePlace(place);
+                  }),
+                );
+              }),
               SizedBox(height: 16),
+              _buildSectionTitle('Events'),
               TextField(
                 controller: eventController,
                 decoration: InputDecoration(
                   labelText: 'Add Event',
+                  border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    widget.trip.addEvent(eventController.text);
-                    eventController.clear();
-                  });
+                  if (eventController.text.isNotEmpty) {
+                    setState(() {
+                      widget.trip.addEvent(eventController.text);
+                      eventController.clear();
+                    });
+                  }
                 },
                 child: Text('Add Event'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: widget.trip.events.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(widget.trip.events[index], style: TextStyle(fontWeight: FontWeight.normal)),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            _editEvent(context, widget.trip.events[index]);
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () {
-                            setState(() {
-                              widget.trip.removeEvent(widget.trip.events[index]);
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+              _buildList(widget.trip.events, (event) {
+                return _buildListItem(
+                  event,
+                  onEdit: () => _editEvent(context, event),
+                  onDelete: () => setState(() {
+                    widget.trip.removeEvent(event);
+                  }),
+                );
+              }),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.blueAccent,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildList(List<String> items, Widget Function(String) itemBuilder) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return itemBuilder(items[index]);
+      },
+    );
+  }
+
+  Widget _buildListItem(String item, {required VoidCallback onEdit, required VoidCallback onDelete}) {
+    return Card(
+      elevation: 4,
+      margin: EdgeInsets.symmetric(vertical: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: ListTile(
+        title: Text(item, style: TextStyle(fontWeight: FontWeight.normal)),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: Icon(Icons.edit, color: Colors.blueAccent),
+              onPressed: onEdit,
+            ),
+            IconButton(
+              icon: Icon(Icons.delete, color: Colors.redAccent),
+              onPressed: onDelete,
+            ),
+          ],
         ),
       ),
     );
@@ -393,6 +442,7 @@ class _TripDetailPageState extends State<TripDetailPage> {
             controller: editController,
             decoration: InputDecoration(
               labelText: 'Participant Name',
+              border: OutlineInputBorder(),
             ),
           ),
           actions: <Widget>[
@@ -402,7 +452,7 @@ class _TripDetailPageState extends State<TripDetailPage> {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(
+            ElevatedButton(
               child: Text('Save'),
               onPressed: () {
                 setState(() {
@@ -410,6 +460,10 @@ class _TripDetailPageState extends State<TripDetailPage> {
                 });
                 Navigator.of(context).pop();
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                foregroundColor: Colors.white,
+              ),
             ),
           ],
         );
@@ -429,6 +483,7 @@ class _TripDetailPageState extends State<TripDetailPage> {
             controller: editController,
             decoration: InputDecoration(
               labelText: 'Place Name',
+              border: OutlineInputBorder(),
             ),
           ),
           actions: <Widget>[
@@ -438,7 +493,7 @@ class _TripDetailPageState extends State<TripDetailPage> {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(
+            ElevatedButton(
               child: Text('Save'),
               onPressed: () {
                 setState(() {
@@ -446,6 +501,10 @@ class _TripDetailPageState extends State<TripDetailPage> {
                 });
                 Navigator.of(context).pop();
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                foregroundColor: Colors.white,
+              ),
             ),
           ],
         );
@@ -465,6 +524,7 @@ class _TripDetailPageState extends State<TripDetailPage> {
             controller: editController,
             decoration: InputDecoration(
               labelText: 'Event Name',
+              border: OutlineInputBorder(),
             ),
           ),
           actions: <Widget>[
@@ -474,7 +534,7 @@ class _TripDetailPageState extends State<TripDetailPage> {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(
+            ElevatedButton(
               child: Text('Save'),
               onPressed: () {
                 setState(() {
@@ -482,6 +542,10 @@ class _TripDetailPageState extends State<TripDetailPage> {
                 });
                 Navigator.of(context).pop();
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                foregroundColor: Colors.white,
+              ),
             ),
           ],
         );

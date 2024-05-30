@@ -19,102 +19,132 @@ class DiscoverEase extends StatelessWidget {
   }
 }
 
-class EntryPage extends StatelessWidget {
+class EntryPage extends StatefulWidget {
   const EntryPage({Key? key}) : super(key: key);
 
   @override
+  _EntryPageState createState() => _EntryPageState();
+}
+
+class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/city/city15.jpg"),
-                  fit: BoxFit.cover,
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/city/entry_page.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Center(
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Colors.black.withOpacity(0.1),
                 ),
               ),
             ),
-            Center(
-              child: ClipRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                  child: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    color: Colors.black.withOpacity(0.3),
-                  ),
+          ),
+          Center(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 8.0),
+              width: 380,
+              child: Card(
+                color: Colors.white,
+                elevation: 8.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
-              ),
-            ),
-            Center(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Card(
-                  color: Colors.white,
-                  elevation: 8.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 300,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.grey[200],
+                        ),
+                        child: TabBar(
+                          controller: _tabController,
+                          labelColor: Colors.white,
+                          unselectedLabelColor: Colors.black54,
+                          indicator: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.grey[200],
+                            color: Color.fromARGB(255, 42, 140, 122),
                           ),
-                          child: TabBar(
-                            labelColor: Colors.white,
-                            unselectedLabelColor: Colors.black54,
-                            indicator: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.teal,
+                          tabs: [
+                            Tab(
+                              child: Container(
+                                width: 150,
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: const Text('Login', textAlign: TextAlign.center,),
+                              ),
                             ),
-                            tabs: [
-                              Tab(
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: const Text('Login'),
-                                ),
+                            Tab(
+                              child: Container(
+                                width: 150,
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: const Text('Register',textAlign: TextAlign.center),
                               ),
-                              Tab(
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: const Text('Register'),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 350,
-                          child: TabBarView(
-                            children: [
-                              LoginCard(),
-                              SignupCard(),
-                            ].map((Widget widget) {
-                              return SingleChildScrollView(
-                                child: Container(
-                                  padding: const EdgeInsets.all(20),
-                                  child: widget,
+                      ),
+                      AnimatedBuilder(
+                        animation: _tabController,
+                        builder: (context, child) {
+                          return SizedBox(
+                            height: _tabController.index == 0 ? 350 : 400, // Login sayfası 300, Register sayfası 400
+                            child: TabBarView(
+                              controller: _tabController,
+                              children: [
+                                SingleChildScrollView(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(20),
+                                    child: LoginCard(),
+                                  ),
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ],
-                    ),
+                                SingleChildScrollView(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(20),
+                                    child: SignupCard(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -158,85 +188,97 @@ class LoginCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextField(
-            controller: emailController,
-            decoration: InputDecoration(
-              labelText: 'Email',
-              prefixIcon: const Icon(Icons.email),
-              filled: true,
-              fillColor: Colors.grey[100],
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide.none,
-              ),
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        TextField(
+          controller: emailController,
+          decoration: InputDecoration(
+            labelText: 'Email',
+            prefixIcon: const Icon(Icons.email),
+            filled: true,
+            fillColor: Colors.grey[100],
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none,
             ),
           ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: passwordController,
-            decoration: InputDecoration(
-              labelText: 'Password',
-              prefixIcon: const Icon(Icons.lock),
-              filled: true,
-              fillColor: Colors.grey[100],
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide.none,
-              ),
-              suffixIcon: const Icon(Icons.visibility_off),
+        ),
+        const SizedBox(height: 10),
+        TextField(
+          controller: passwordController,
+          decoration: InputDecoration(
+            labelText: 'Password',
+            prefixIcon: const Icon(Icons.lock),
+            filled: true,
+            fillColor: Colors.grey[100],
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none,
             ),
-            obscureText: true,
+            suffixIcon: const Icon(Icons.visibility_off),
           ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Switch(value: true, onChanged: (bool? value) {}),
-                  const Text('Remember Me'),
-                ],
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text('Forgot Password?'),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Center(
-            child: ElevatedButton(
-              onPressed: () => handleLogin(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+          obscureText: true,
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Switch(
+                  value: true,
+                  onChanged: (bool? value) {},
+                  activeColor: Color.fromARGB(255, 42, 140, 122),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
-              ),
-              child: const Text(
-                'Login',
-                style: TextStyle(color: Colors.white),
+                const Text('Remember Me'),
+              ],
+            ),
+            TextButton(
+              onPressed: () {},
+              child: const Text('Forgot Password?'),
+              style: TextButton.styleFrom(
+                foregroundColor: Color.fromARGB(255, 42, 140, 122),
               ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("Don't have an account?"),
-              TextButton(
-                onPressed: () {
-                  DefaultTabController.of(context)?.animateTo(1);
-                },
-                child: const Text('Register now'),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Center(
+          child: ElevatedButton(
+            onPressed: () => handleLogin(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor:const Color.fromARGB(255, 42, 140, 122),
+              shadowColor: Colors.black.withOpacity(0.3), 
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
-            ],
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+            ),
+            child: const Text(
+              'Login',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
-        ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Don't have an account?"),
+            TextButton(
+              onPressed: () {
+                DefaultTabController.of(context)?.animateTo(1);
+              },
+              child: const Text('Register now'),
+              style: TextButton.styleFrom(
+                foregroundColor: Color.fromARGB(255, 42, 140, 122),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -266,16 +308,14 @@ class SignupCard extends StatelessWidget {
           password: password,
         );
 
-        // Kayıt işlemi başarılı olduğunda kullanıcı bilgilerini sakla
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('full_name', name); // Tam adı kaydet
-        prefs.setString('email', email); // E-posta adresini kaydet
+        prefs.setString('full_name', name); 
+        prefs.setString('email', email);
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Signup Successful!')),
         );
 
-        // Kayıt işlemi tamamlandıktan sonra profile sayfasına git
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const Profile()),
@@ -360,7 +400,9 @@ class SignupCard extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () => handleSignup(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
+                backgroundColor: Color.fromARGB(255, 42, 140, 122),
+                shadowColor: Colors.black.withOpacity(0.2), 
+                elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
