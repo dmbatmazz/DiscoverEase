@@ -1,7 +1,7 @@
 name: discover_ease
 description: "A new Flutter project."
 
-publish_to: 'none' 
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -11,13 +11,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  google_maps_flutter: ^2.1.0
   cupertino_icons: ^1.0.6
   firebase_core: ^2.27.2
   firebase_auth: ^4.18.0
   cloud_firestore: ^4.15.10
   firebase_analytics: ^10.9.0
-  google_maps_flutter: ^2.6.0
   permission_handler: ^11.3.1
   get: ^4.6.6
   geolocator: ^11.0.0
@@ -27,6 +26,7 @@ dependencies:
   google_nav_bar: ^5.0.6
   font_awesome_flutter: ^10.7.0
   http: ^1.2.1
+  shared_preferences: ^2.0.13 
   line_icons: ^2.0.3
   google_fonts: ^6.2.1
   curved_labeled_navigation_bar: ^2.0.2
@@ -36,12 +36,30 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^4.0.0
 
-flutter:
 
+
+flutter:
   uses-material-design: true
   assets:
     - assets/
     - assets/city/
+    - assets/logo.png
+    - assets/onboarding_1.png
+    - assets/onboarding_2.png
+    - assets/city/entry_page.png
+    - assets/city/profile.png
+    - assets/city/city15.jpg
+    - assets/profile_images/im1.png  
+    - assets/profile_images/im2.png  
+    - assets/profile_images/im3.png  
+    - assets/profile_images/im4.png  
+    - assets/profile_images/im5.png  
+    - assets/profile_images/im6.png  
+    - assets/profile_images/im7.png  
+    - assets/profile_images/im8.png  
+    - assets/profile_images/im9.png  
+    - assets/profile_images/im10.png  
+    - assets/profile_images/im11.png
+    
