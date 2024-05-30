@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:discover_ease/screens/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:discover_ease/functionality/firebase_options.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // DEFINING routes: {[PAGE NAME]} ON MaterialApp => routes: {'/homepage': (context) => const PAGENAME()}
 
@@ -22,22 +23,24 @@ Color bot = const Color(0xFFe1bfb3);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MaterialApp(
-    title: "DiscoverEase",
-    debugShowCheckedModeBanner: false,
-    theme: ThemeData(
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFFfebd97),
-        brightness: Brightness.light,
-        //Override
-        primary: Colors.red[200],
-        secondary: Colors.green[200],
+  runApp(ProviderScope(
+    child: MaterialApp(
+      title: "DiscoverEase",
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFfebd97),
+          brightness: Brightness.light,
+          //Override
+          primary: Colors.red[200],
+          secondary: Colors.green[200],
+        ),
+        scaffoldBackgroundColor: Color.fromARGB(255, 224, 226, 209),
+        useMaterial3: true,
       ),
-      scaffoldBackgroundColor: Color.fromARGB(255, 224, 226, 209),
-      useMaterial3: true,
-    ),
-    home: const Scaffold(
-      body: Home(),
+      home: const Scaffold(
+        body: Home(),
+      ),
     ),
   ));
 }
@@ -85,7 +88,7 @@ class Home extends StatelessWidget {
               child: const Text("Google Maps"),
               onPressed: () {
                 Navigator.push(context, 
-                  MaterialPageRoute(builder: (context) => const MapWidget())
+                  MaterialPageRoute(builder: (context) => const GoogleMaps())
                 );
               },
             ),
