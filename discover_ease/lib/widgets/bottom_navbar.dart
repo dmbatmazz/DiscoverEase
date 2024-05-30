@@ -47,7 +47,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         break;
       case 2:
       default:
-        // İşlevsiz dünya sembolü, hiçbir işlem yapmaz.
+        // İşlevsiz dünya sembolü
         break;
     }
   }
