@@ -33,7 +33,7 @@ void main() async {
         primary: Colors.red[200],
         secondary: Colors.green[200],
       ),
-      scaffoldBackgroundColor: Color.fromARGB(255, 151, 155, 156),
+      scaffoldBackgroundColor: Color.fromARGB(255, 224, 226, 209),
       useMaterial3: true,
     ),
     home: const Scaffold(

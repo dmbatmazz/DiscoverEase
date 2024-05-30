@@ -113,7 +113,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 const SizedBox(height: 20),
                 const Text(
                   'Choose Your Profile Picture',
-                  style: TextStyle(fontSize: 20, color: Colors.black87),
+                  style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 const SizedBox(height: 10),
                 Padding(
@@ -154,32 +154,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 TextFormField(
                   initialValue: widget.fullName,
                   enabled: false, // Make it uneditable
-                  style: const TextStyle(color: Colors.black87),
+                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
                     labelText: 'Username',
-                    labelStyle: TextStyle(color: Colors.black87),
+                    labelStyle: TextStyle(color: Colors.white),
                   ),
                 ),
                 TextFormField(
                   initialValue: widget.email,
                   enabled: false, 
-                  style: const TextStyle(color: Colors.black87),
+                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
                     labelText: 'Email',
-                    labelStyle: TextStyle(color: Colors.black87),
+                    labelStyle: TextStyle(color: Colors.white),
                   ),
                 ),
                 TextFormField(
                   initialValue: _birthYear,
-                  style: const TextStyle(color: Colors.black87),
+                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
                     labelText: 'Birth Year (DD.MM.YYYY)',
-                    labelStyle: TextStyle(color: Colors.black87),
+                    labelStyle: TextStyle(color: Colors.white),
                     enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black87), 
+                    borderSide: BorderSide(color: Colors.white), 
                     ),
                    focusedBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.black87), 
+                   borderSide: BorderSide(color: Colors.white), 
                    ),
                   ),
                   onChanged: (value) {
@@ -194,12 +194,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 TextButton(
                   onPressed: _saveProfileData,
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                    overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                  ),
+                  backgroundColor: WidgetStateProperty.all<Color>(Color.fromARGB(43, 192, 192, 192)), // Arka plan rengi
+                  overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
+                  padding: WidgetStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(15)), // Düğme içeriğinin kenar boşluğu
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30), // Düğme köşelerinin yuvarlaklığı
+                  side: BorderSide(color: Colors.transparent), // Kenar rengi
+      ),
+    ),
+  ),
                   child: const Text(
                     'Save',
-                    style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
+                    style: TextStyle(color:Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
               ],

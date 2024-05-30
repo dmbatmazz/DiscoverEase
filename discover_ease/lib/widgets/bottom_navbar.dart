@@ -7,7 +7,7 @@ import 'package:discover_ease/screens/trip_plan_screen.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key});
+  const BottomNavBar({Key? key}) : super(key: key);
 
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
@@ -55,15 +55,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
-      color: Color.fromARGB(255, 68, 70, 68),
-      backgroundColor: Colors.transparent,
+      color: Color.fromARGB(255, 90, 161, 121),
+      backgroundColor: const Color.fromARGB(255, 224, 226, 209),
       buttonBackgroundColor: Colors.transparent,
       index: 0,
       onTap: _onItemTapped,
       items: [
         _buildNavItem(Icons.home_outlined, 0),
         _buildNavItem(Icons.card_travel, 1),
-        _buildNavItem(Icons.public, 2, isLarge: true),
+        _buildNavItem(Icons.public, 2, isLarge: true), // Dünya simgesini büyük yapmak için isLarge parametresini true olarak ayarlayalım
         _buildNavItem(Icons.post_add, 3),
         _buildNavItem(Icons.person, 4),
       ],
@@ -77,7 +77,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           Icon(
             icon,
             color: const Color.fromARGB(255, 249, 249, 249),
-            size: isLarge ? 40.0 : 30.0,
+            size: isLarge ? 40.0 : 30.0, // İkon boyutunu isLarge parametresine göre ayarlayalım
           ),
           if (_selectedIndex == index)
             Container(
@@ -86,7 +86,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               width: 6.0,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white,
+                color: Color.fromARGB(255, 52, 106, 94),
               ),
             ),
         ],
