@@ -100,19 +100,24 @@ class _ProfileState extends State<Profile> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    _fullName, // Tam adı göster
+                    _fullName, // Display full name
                     style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 245, 243, 243)),
                   ),
-                  
                   Text(
-                    _email, // E-posta adresini göster
+                    _email, // Display email
                     style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Color.fromARGB(213, 240, 238, 238)),
                   ),
                   const SizedBox(height: 20),
                   const SizedBox(height: 30),
                   const Divider(height: 0, thickness: 1, color: Color.fromARGB(255, 171, 170, 170)),
                   const SizedBox(height: 10),
-                  ProfileMenu(editProfileScreen: EditProfileScreen(onUpdateProfileImage: _updateProfileImage)),
+                  ProfileMenu(
+                    editProfileScreen: EditProfileScreen(
+                      onUpdateProfileImage: _updateProfileImage,
+                      fullName: _fullName,
+                      email: _email,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -182,19 +187,19 @@ class ProfileMenu extends StatelessWidget {
                     size: 20,
                     color: Colors.white60,
                   ),
-                   SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     "Profile Settings",
-                    style:  TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white60),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white60),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,color: Colors.white70,),
+              Icon(Icons.arrow_forward_ios, color: Colors.white70),
             ],
           ),
         ),
         const SizedBox(height: 8),
-        const Divider(height: 0, thickness: 1, color:  Color.fromARGB(255, 103, 102, 102)),
+        const Divider(height: 0, thickness: 1, color: Color.fromARGB(255, 103, 102, 102)),
         const SizedBox(height: 8),
         TextButton(
           onPressed: () {},
@@ -219,19 +224,61 @@ class ProfileMenu extends StatelessWidget {
                     size: 20,
                     color: Colors.white60,
                   ),
-                   SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     "Favorites",
-                    style:  TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white60),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white60),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,color: Colors.white70),
+              Icon(Icons.arrow_forward_ios, color: Colors.white70),
             ],
           ),
         ),
         const SizedBox(height: 8),
-        const Divider(height: 0, thickness: 1, color:  Color.fromARGB(255, 103, 102, 102)),
+        const Divider(height: 0, thickness: 1, color: Color.fromARGB(255, 103, 102, 102)),
+        const SizedBox(height: 8),
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AboutPage()),
+            );
+          },
+          style: ButtonStyle(
+            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+            mouseCursor: MaterialStateProperty.all<MouseCursor>(SystemMouseCursors.click),
+            foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+              if (states.contains(MaterialState.hovered)) {
+                return Colors.blue;
+              }
+              return Colors.black;
+            }),
+          ),
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.info,
+                    size: 20,
+                    color: Colors.white60,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    "About",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white60),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios, color: Colors.white70),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        const Divider(height: 0, thickness: 1, color: Color.fromARGB(255, 103, 102, 102)),
         const SizedBox(height: 8),
         TextButton(
           onPressed: () => _logout(context),
@@ -256,22 +303,86 @@ class ProfileMenu extends StatelessWidget {
                     size: 20,
                     color: Colors.white60,
                   ),
-                   SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     "Log Out",
-                    style:  TextStyle(fontSize: 18, fontWeight: FontWeight.w600,color: Colors.white60),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white60),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,color: Colors.white70,),
+              Icon(Icons.arrow_forward_ios, color: Colors.white70),
             ],
           ),
         ),
         const SizedBox(height: 8),
-        const Divider(height: 0, thickness: 1, color:  Color.fromARGB(255, 103, 102, 102)),
+        const Divider(height: 0, thickness: 1, color: Color.fromARGB(255, 103, 102, 102)),
         const SizedBox(height: 8),
       ],
     );
   }
 }
 
+class AboutPage extends StatelessWidget {
+  const AboutPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          "About",
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400),
+        ),
+      ),
+      body: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/city/city16.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Center(
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  color: Colors.black.withOpacity(0.3),
+                ),
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  SizedBox(height: 20),
+                  Text(
+                    "DiscoverEase",
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: Colors.white),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "DiscoverEase is an advanced mobile application designed to expand exploration of cities' hidden treasures. This fascinating application brings together and offers users comprehensive information about its historical and cultural riches, transportation alternatives, unique performances, friendly cafes and various events on a single platform. DiscoverEase provides personalized recommendations and enables efficient route planning to give users a unique and amazing travel experience.",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white70),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: const BottomNavBar(),
+    );
+  }
+}

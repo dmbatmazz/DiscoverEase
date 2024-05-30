@@ -1,34 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:discover_ease/widgets/bottom_navbar.dart';
+import 'dart:ui'; // ImageFilter sınıfı için gerekli
 
 class EditProfileScreen extends StatefulWidget {
   final Function(String) onUpdateProfileImage; // Profil resminin güncellendiğinde kullanılacak fonksiyon
+  final String fullName;
+  final String email;
 
-  const EditProfileScreen({Key? key, required this.onUpdateProfileImage}) : super(key: key);
+  const EditProfileScreen({
+    Key? key,
+    required this.onUpdateProfileImage,
+    required this.fullName,
+    required this.email,
+  }) : super(key: key);
 
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  String _selectedImage = "assets/profile_images/im1.png"; // Default profile image
-  String _username = "@username";
-  String _fullName = "username@gmail.com";
+  String _selectedImage = "assets/profile_images/im1.png";
   String _birthYear = "08.08.1998"; // Default birth year
 
   final List<String> _imageList = [
     "assets/profile_images/im1.png",
     "assets/profile_images/im2.png",
-    //"assets/profile_images/im3.png",
-    //"assets/profile_images/im4.png",
     "assets/profile_images/im5.png",
     "assets/profile_images/im6.png",
     "assets/profile_images/im7.png",
     "assets/profile_images/im8.png",
     "assets/profile_images/im9.png",
     "assets/profile_images/im10.png",
-    
   ];
 
   @override
@@ -41,22 +44,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _selectedImage = prefs.getString('profile_image') ?? "assets/profile_images/im1.png";
-      _username = prefs.getString('username') ?? "";
-      _fullName = prefs.getString('full_name') ?? "";
       _birthYear = prefs.getString('birth_year') ?? "08.08.1998";
     });
   }
 
   Future<void> _saveProfileData() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('profile_image', _selectedImage);
-    prefs.setString('username', _username);
-    prefs.setString('full_name', _fullName);
-    prefs.setString('birth_year', _birthYear);
+    await prefs.setString('profile_image', _selectedImage);
+    await prefs.setString('birth_year', _birthYear);
 
-    widget.onUpdateProfileImage(_selectedImage); // Yeni profil resmini güncelle
-    _showSnackBar(context); // Snackbar göster
-    Navigator.of(context).pop(); // Kaydet düğmesine basıldıktan sonra sayfadan çık
+    widget.onUpdateProfileImage(_selectedImage);
+    _showSnackBar(context);
+    Navigator.of(context).pop();
   }
 
   void _showSnackBar(BuildContext context) {
@@ -71,7 +70,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        title: const Text('Profile Settings'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -79,94 +78,130 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           },
         ),
       ),
-      backgroundColor: const Color.fromARGB(255, 203, 224, 234),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            CircleAvatar(
-              radius: 60,
-              backgroundImage: AssetImage(_selectedImage),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Choose Your Profile Picture',
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 10,
-                runSpacing: 10,
-                children: _imageList.map((image) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedImage = image;
-                      });
-                    },
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundImage: AssetImage(image),
-                      child: _selectedImage == image
-                          ? Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.black.withOpacity(0.5),
-                              ),
-                              child: const Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                            )
-                          : null,
-                    ),
-                  );
-                }).toList(),
+      body: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/city/city16.jpg"),
+                fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 20),
-            TextFormField(
-              initialValue: _username,
-              decoration: InputDecoration(labelText: 'Username'),
-              onChanged: (value) {
-                setState(() {
-                  _username = value;
-                });
-              },
+          ),
+          Center(
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  color: Colors.black.withOpacity(0.3),
+                ),
+              ),
             ),
-            TextFormField(
-              initialValue: _fullName,
-              decoration: InputDecoration(labelText: 'Email'),
-              onChanged: (value) {
-                setState(() {
-                  _fullName = value;
-                });
-              },
+          ),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                CircleAvatar(
+                  radius: 60,
+                  backgroundImage: AssetImage(_selectedImage),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Choose Your Profile Picture',
+                  style: TextStyle(fontSize: 20, color: Colors.white70),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: _imageList.map((image) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedImage = image;
+                          });
+                        },
+                        child: CircleAvatar(
+                          radius: 40,
+                          backgroundImage: AssetImage(image),
+                          child: _selectedImage == image
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.black.withOpacity(0.5),
+                                  ),
+                                  child: const Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                )
+                              : null,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  initialValue: widget.fullName,
+                  enabled: false, // Make it uneditable
+                  style: const TextStyle(color: Color.fromARGB(208, 255, 255, 255)),
+                  decoration: const InputDecoration(
+                    labelText: 'Username',
+                    labelStyle: TextStyle(color: Colors.white60),
+                  ),
+                ),
+                TextFormField(
+                  initialValue: widget.email,
+                  enabled: false, // Make it uneditable
+                  style: const TextStyle(color: Color.fromARGB(208, 255, 255, 255)),
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    labelStyle: TextStyle(color: Colors.white60),
+                  ),
+                ),
+                TextFormField(
+                  initialValue: _birthYear,
+                  style: const TextStyle(color: Color.fromARGB(208, 255, 255, 255)),
+                  decoration: const InputDecoration(
+                    labelText: 'Birth Year (DD.MM.YYYY)',
+                    labelStyle: TextStyle(color: Colors.white60),
+                  ),
+                  onChanged: (value) {
+                    if (value.length == 10) {
+                      setState(() {
+                        _birthYear = value;
+                      });
+                    }
+                  },
+                ),
+                const SizedBox(height: 20),
+                TextButton(
+                  onPressed: _saveProfileData,
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                    overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                  ),
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                ),
+              ],
             ),
-            TextFormField(
-              initialValue: _birthYear,
-              decoration: InputDecoration(labelText: 'Birth Year (DD.MM.YYYY)'),
-              onChanged: (value) {
-                if (value.length == 10) { // Check if the input length is exactly 10 characters
-                  setState(() {
-                    _birthYear = value;
-                  });
-                }
-              },
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _saveProfileData,
-              child: const Text('Save'),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
-      bottomNavigationBar: const BottomNavBar(), // Tab menüsü ekle
+      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

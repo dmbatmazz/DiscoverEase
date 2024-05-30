@@ -21,7 +21,7 @@ class BottomNavBar extends StatelessWidget {
          Navigator.push(context,
               switch(value) {
                 0=> MaterialPageRoute(builder: (context)=>const HomePage()),
-                1=> MaterialPageRoute(builder: (context)=>const TripPlanner()),
+                1=> MaterialPageRoute(builder: (context)=> TripPlanPage()),
                 2=> MaterialPageRoute(builder: (context)=>const SearchScreen()),
                 3=> MaterialPageRoute(builder: (context)=>const PostScreen()),
                 4=> MaterialPageRoute(builder: (context)=>const Profile()),
