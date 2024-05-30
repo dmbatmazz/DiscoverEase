@@ -33,7 +33,7 @@ void main() async {
         primary: Colors.red[200],
         secondary: Colors.green[200],
       ),
-      scaffoldBackgroundColor: Color.fromARGB(255, 224, 226, 209),
+      scaffoldBackgroundColor: const Color.fromARGB(255, 224, 226, 209),
       useMaterial3: true,
     ),
     home: const Scaffold(
@@ -105,7 +105,7 @@ class Home extends StatelessWidget {
               child: const Text("New Home page"),
               onPressed: () {
                 Navigator.push(context, 
-                  MaterialPageRoute(builder: (context) => const HomePage())
+                  MaterialPageRoute(builder: (context) => HomePage())
                 );
               },
             ),

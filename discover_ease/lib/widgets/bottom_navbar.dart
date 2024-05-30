@@ -5,6 +5,7 @@ import 'package:discover_ease/screens/post_screen.dart';
 import 'package:discover_ease/screens/profile_screen.dart';
 import 'package:discover_ease/screens/trip_plan_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:discover_ease/pages/google_mapspage.dart'; // Google Maps sayfasını içe aktarın
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
+          MaterialPageRoute(builder: (context) =>  HomePage()),
         );
         break;
       case 1:
@@ -36,7 +37,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       case 3:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const PostScreen()),
+          MaterialPageRoute(builder: (context) => const MapWidget()), // Google Map sayfasına yönlendirin
         );
         break;
       case 4:
