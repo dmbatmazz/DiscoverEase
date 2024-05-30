@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:discover_ease/widgets/bottom_navbar.dart';
-import 'dart:ui'; // ImageFilter sınıfı için gerekli
+import 'dart:ui'; 
 
 class EditProfileScreen extends StatefulWidget {
-  final Function(String) onUpdateProfileImage; // Profil resminin güncellendiğinde kullanılacak fonksiyon
+  final Function(String) onUpdateProfileImage; 
   final String fullName;
   final String email;
 
@@ -21,7 +21,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   String _selectedImage = "assets/profile_images/im1.png";
-  String _birthYear = "08.08.1998"; // Default birth year
+  String _birthYear = "08.08.1998"; 
 
   final List<String> _imageList = [
     "assets/profile_images/im1.png",
@@ -70,9 +70,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile Settings'),
+        title: const Text('Profile Settings', style: TextStyle(color: Colors.black87)),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back, color: Colors.black87),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -85,7 +85,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             height: MediaQuery.of(context).size.height,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/city/city16.jpg"),
+                image: AssetImage("assets/city/profile.png"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -113,7 +113,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 const SizedBox(height: 20),
                 const Text(
                   'Choose Your Profile Picture',
-                  style: TextStyle(fontSize: 20, color: Colors.white70),
+                  style: TextStyle(fontSize: 20, color: Colors.black87),
                 ),
                 const SizedBox(height: 10),
                 Padding(
@@ -154,27 +154,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 TextFormField(
                   initialValue: widget.fullName,
                   enabled: false, // Make it uneditable
-                  style: const TextStyle(color: Color.fromARGB(208, 255, 255, 255)),
+                  style: const TextStyle(color: Colors.black87),
                   decoration: const InputDecoration(
                     labelText: 'Username',
-                    labelStyle: TextStyle(color: Colors.white60),
+                    labelStyle: TextStyle(color: Colors.black87),
                   ),
                 ),
                 TextFormField(
                   initialValue: widget.email,
-                  enabled: false, // Make it uneditable
-                  style: const TextStyle(color: Color.fromARGB(208, 255, 255, 255)),
+                  enabled: false, 
+                  style: const TextStyle(color: Colors.black87),
                   decoration: const InputDecoration(
                     labelText: 'Email',
-                    labelStyle: TextStyle(color: Colors.white60),
+                    labelStyle: TextStyle(color: Colors.black87),
                   ),
                 ),
                 TextFormField(
                   initialValue: _birthYear,
-                  style: const TextStyle(color: Color.fromARGB(208, 255, 255, 255)),
+                  style: const TextStyle(color: Colors.black87),
                   decoration: const InputDecoration(
                     labelText: 'Birth Year (DD.MM.YYYY)',
-                    labelStyle: TextStyle(color: Colors.white60),
+                    labelStyle: TextStyle(color: Colors.black87),
+                    enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black87), 
+                    ),
+                   focusedBorder: UnderlineInputBorder(
+                   borderSide: BorderSide(color: Colors.black87), 
+                   ),
                   ),
                   onChanged: (value) {
                     if (value.length == 10) {
@@ -193,7 +199,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   child: const Text(
                     'Save',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                    style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
               ],
