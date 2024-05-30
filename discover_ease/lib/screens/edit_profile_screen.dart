@@ -194,10 +194,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 TextButton(
                   onPressed: _saveProfileData,
                   style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(Color.fromARGB(43, 192, 192, 192)), // Arka plan rengi
-                  overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
-                  padding: WidgetStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(15)), // Düğme içeriğinin kenar boşluğu
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(43, 192, 192, 192)), // Arka plan rengi
+                  overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(15)), // Düğme içeriğinin kenar boşluğu
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30), // Düğme köşelerinin yuvarlaklığı
                   side: BorderSide(color: Colors.transparent), // Kenar rengi

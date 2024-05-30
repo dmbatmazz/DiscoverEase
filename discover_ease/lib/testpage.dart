@@ -130,7 +130,6 @@ void getnearplaces(userlocation, type) async{
       "https://maps.googleapis.com/maps/api/place/textsearch/json?query=123%20main%20street&key=AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE"
         //"https://maps.googleapis.com/maps/api/place/textsearch/json?query=hospital%20in%20Ankara&place_id&key=AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE"
       ) 
-      asd
       ));
 http.StreamedResponse response = await request.send();
 

@@ -246,10 +246,10 @@ class ProfileMenu extends StatelessWidget {
             );
           },
           style: ButtonStyle(
-            overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
-            mouseCursor: WidgetStateProperty.all<MouseCursor>(SystemMouseCursors.click),
-            foregroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
-              if (states.contains(WidgetState.hovered)) {
+            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+            mouseCursor: MaterialStateProperty.all<MouseCursor>(SystemMouseCursors.click),
+            foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+              if (states.contains(MaterialState.hovered)) {
                 return Colors.blue;
               }
               return Colors.white;
@@ -283,10 +283,10 @@ class ProfileMenu extends StatelessWidget {
         TextButton(
           onPressed: () => _logout(context),
           style: ButtonStyle(
-            overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
-            mouseCursor: WidgetStateProperty.all<MouseCursor>(SystemMouseCursors.click),
-            foregroundColor: WidgetStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-              if (states.contains(WidgetState.hovered)) {
+            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+            mouseCursor: MaterialStateProperty.all<MouseCursor>(SystemMouseCursors.click),
+            foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+              if (states.contains(MaterialState.hovered)) {
                 return const Color.fromARGB(255, 116, 9, 9);
               }
               return Colors.white;
