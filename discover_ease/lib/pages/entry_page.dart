@@ -9,7 +9,7 @@ void main() {
 }
 
 class DiscoverEase extends StatelessWidget {
-  const DiscoverEase({Key? key}) : super(key: key);
+const DiscoverEase({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
 
   @override
   void initState() {
-    super.initState();
+  super.initState();
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -45,69 +45,69 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/city/entry_page.png"),
-                fit: BoxFit.cover,
+      children: [
+        Container(
+        decoration: const BoxDecoration(
+        image: DecorationImage(
+        image: AssetImage("assets/city/entry_page.png"),
+        fit: BoxFit.cover,
               ),
             ),
           ),
           Center(
             child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  color: Colors.black.withOpacity(0.1),
+            child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Colors.black.withOpacity(0.1),
                 ),
               ),
             ),
           ),
           Center(
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8.0),
-              width: 380,
-              child: Card(
-                color: Colors.white,
-                elevation: 8.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            width: 380,
+            child: Card(
+            color: Colors.white,
+            elevation: 8.0,
+            shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
                       Container(
                         width: 300,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.grey[200],
                         ),
                         child: TabBar(
                           controller: _tabController,
                           labelColor: Colors.white,
                           unselectedLabelColor: Colors.black54,
                           indicator: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Color.fromARGB(255, 42, 140, 122),
+                          borderRadius: BorderRadius.circular(20),
+                          color: Color.fromARGB(255, 42, 140, 122),
                           ),
                           tabs: [
                             Tab(
                               child: Container(
-                                width: 150,
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                child: const Text('Login', textAlign: TextAlign.center,),
+                              width: 150,
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: const Text('Login', textAlign: TextAlign.center,),
                               ),
                             ),
                             Tab(
                               child: Container(
-                                width: 150,
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                child: const Text('Register',textAlign: TextAlign.center),
+                              width: 150,
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: const Text('Register',textAlign: TextAlign.center),
                               ),
                             ),
                           ],
@@ -117,20 +117,20 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
                         animation: _tabController,
                         builder: (context, child) {
                           return SizedBox(
-                            height: _tabController.index == 0 ? 350 : 400, // Login sayfası 350, Register sayfası 400
+                           height: _tabController.index == 0 ? 350 : 400, // Login sayfası 350, Register sayfası 400
                             child: TabBarView(
-                              controller: _tabController,
-                              children: [
+                            controller: _tabController,
+                            children: [
                                 SingleChildScrollView(
                                   child: Container(
-                                    padding: const EdgeInsets.all(20),
-                                    child: LoginCard(tabController: _tabController),
+                                  padding: const EdgeInsets.all(20),
+                                  child: LoginCard(tabController: _tabController),
                                   ),
                                 ),
                                 SingleChildScrollView(
                                   child: Container(
-                                    padding: const EdgeInsets.all(20),
-                                    child: SignupCard(),
+                                  padding: const EdgeInsets.all(20),
+                                  child: SignupCard(),
                                   ),
                                 ),
                               ],
@@ -150,7 +150,7 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
   }
 }
 
-class LoginCard extends StatelessWidget {
+  class LoginCard extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TabController tabController;
@@ -195,20 +195,20 @@ class LoginCard extends StatelessWidget {
         TextField(
           controller: emailController,
           decoration: InputDecoration(
-            labelText: 'Email',
-            prefixIcon: const Icon(Icons.email),
-            filled: true,
-            fillColor: Colors.grey[100],
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none,
+          labelText: 'Email',
+          prefixIcon: const Icon(Icons.email),
+          filled: true,
+          fillColor: Colors.grey[100],
+          border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
             ),
           ),
         ),
         const SizedBox(height: 10),
         TextField(
-          controller: passwordController,
-          decoration: InputDecoration(
+            controller: passwordController,
+            decoration: InputDecoration(
             labelText: 'Password',
             prefixIcon: const Icon(Icons.lock),
             filled: true,
