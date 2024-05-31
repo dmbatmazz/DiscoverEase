@@ -6,18 +6,25 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.location_on),
-                  SizedBox(width: 8),
-                  Text(
-                    'Ankara',
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Icon(
+              Icons.location_on,
+              color: Color.fromARGB(255, 42, 140, 122),
+              size: 20,
+            ),
+            SizedBox(width: 8),
+            Text(
+              'Ankara',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey[800], // Koyu gri renk
+                fontSize: 16, // Daha küçük boyut
+              ),
+            ),
+          ],
         ),
-        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -69,7 +76,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 8),
-                Expanded(
+                                Expanded(
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
@@ -144,3 +151,5 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+                 

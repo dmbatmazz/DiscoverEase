@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:discover_ease/widgets/bottom_navbar.dart';
-import 'dart:ui'; 
+import 'dart:ui';
 
 class EditProfileScreen extends StatefulWidget {
-  final Function(String) onUpdateProfileImage; 
+  final Function(String) onUpdateProfileImage;
   final String fullName;
   final String email;
 
@@ -21,7 +21,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   String _selectedImage = "assets/profile_images/im1.png";
-  String _birthYear = "08.08.1998"; 
+  String _birthYear = "08.08.1998";
 
   final List<String> _imageList = [
     "assets/profile_images/im1.png",
@@ -110,14 +110,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: Colors.white, 
-                      width: 4, 
+                      color: Colors.white,
+                      width: 4,
                     ),
                   ),
                   child: CircleAvatar(
                     radius: 60,
                     backgroundImage: AssetImage(_selectedImage),
-                    backgroundColor: Colors.transparent, // Transparent background for the avatar
+                    backgroundColor: Colors.transparent,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -143,14 +143,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: Colors.white, // White color for the border
-                              width: _selectedImage == image ? 4 : 0, // Border width based on selection
+                              color: Colors.white,
+                              width: _selectedImage == image ? 4 : 0,
                             ),
                           ),
                           child: CircleAvatar(
                             radius: 40,
                             backgroundImage: AssetImage(image),
-                            backgroundColor: Colors.transparent, // Transparent background for the avatar
+                            backgroundColor: Colors.transparent,
                             child: _selectedImage == image
                                 ? const Icon(
                                     Icons.check,
@@ -171,13 +171,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 TextButton(
                   onPressed: _saveProfileData,
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(82, 192, 192, 192)), // Arka plan rengi
+                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(82, 192, 192, 192)),
                     overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(15)), // Düğme içeriğinin kenar boşluğu
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(15)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30), // Düğme köşelerinin yuvarlaklığı
-                        side: BorderSide(color: Colors.transparent), // Kenar rengi
+                        borderRadius: BorderRadius.circular(30),
+                        side: BorderSide(color: Colors.transparent),
                       ),
                     ),
                   ),
@@ -199,7 +199,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.8, // %80 of screen width
+        width: MediaQuery.of(context).size.width * 0.8,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
@@ -209,14 +209,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              flex: 2, // Use 2/5 of the available space
+              flex: 2,
               child: Text(
                 label,
                 style: const TextStyle(color: Colors.grey),
               ),
             ),
             Expanded(
-              flex: 3, // Use 3/5 of the available space
+              flex: 3,
               child: Text(
                 value,
                 style: const TextStyle(color: Colors.black),
