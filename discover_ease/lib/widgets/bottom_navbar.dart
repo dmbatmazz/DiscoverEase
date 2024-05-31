@@ -56,7 +56,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
-      color: Color.fromARGB(255, 90, 161, 121),
+      color: Color.fromARGB(255, 42, 140, 122),
       backgroundColor: const Color.fromARGB(255, 224, 226, 209),
       buttonBackgroundColor: Colors.transparent,
       index: 0,

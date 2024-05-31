@@ -6,13 +6,16 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.location_on),
-            SizedBox(width: 8),
-            Text('Your Location'),
-          ],
+        title:  Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.location_on),
+                  SizedBox(width: 8),
+                  Text(
+                    'Ankara',
+                    textAlign: TextAlign.center,
+                  ),
+                ],
         ),
         centerTitle: true,
       ),
@@ -38,46 +41,46 @@ class HomePage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 90, 161, 121),
+                      backgroundColor: Color.fromARGB(255, 42, 140, 122),
                     ),
                     child: Text(
                       'Most Visited',
                       style: TextStyle(
                         color: Colors.white,
                       ),
-                      textAlign: TextAlign.center, // Yazıyı ortala
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
-                SizedBox(width: 8), // Araya boşluk ekledik
+                SizedBox(width: 8),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 90, 161, 121),
+                      backgroundColor: Color.fromARGB(255, 42, 140, 122),
                     ),
                     child: Text(
                       'Things to Do',
                       style: TextStyle(
                         color: Colors.white,
                       ),
-                      textAlign: TextAlign.center, // Yazıyı ortala
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
-                SizedBox(width: 8), // Araya boşluk ekledik
+                SizedBox(width: 8),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 90, 161, 121),
+                      backgroundColor: Color.fromARGB(255, 42, 140, 122),
                     ),
                     child: Text(
                       'Food & Drink',
                       style: TextStyle(
                         color: Colors.white,
                       ),
-                      textAlign: TextAlign.center, // Yazıyı ortala
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),

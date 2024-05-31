@@ -27,8 +27,6 @@ class _ProfileState extends State<Profile> {
 
   Future<void> _loadProfileData() async {
     final prefs = await SharedPreferences.getInstance();
-    print("Full Name: ${prefs.getString('full_name')}");
-    print("Email: ${prefs.getString('email')}");
     setState(() {
       _fullName = prefs.getString('full_name') ?? "";
       _email = prefs.getString('email') ?? "";
@@ -43,18 +41,17 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
           "Profile",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400, color: Colors.black87),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black87),
         ),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(isDark ? Icons.sunny : Icons.dark_mode_outlined, color: Colors.black87),
+            icon: const Icon(Icons.dark_mode_outlined, color: Colors.black87),
           ),
         ],
       ),
@@ -77,7 +74,7 @@ class _ProfileState extends State<Profile> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  color: Colors.black.withOpacity(0.3),
+                  color: Colors.black.withOpacity(0.1),
                 ),
               ),
             ),
@@ -88,29 +85,36 @@ class _ProfileState extends State<Profile> {
               child: Column(
                 children: [
                   SizedBox(
-                    width: 180,
-                    height: 180,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image(
-                        image: AssetImage(_profileImage),
-                        fit: BoxFit.cover,
+                    width: 160,
+                    height: 160,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(80),
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 4,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(80),
+                        child: Image(
+                          image: AssetImage(_profileImage),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
                   Text(
                     _fullName, // Display full name
-                    style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w400, color: Colors.white),
+                    style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w400, color: Colors.white),
                   ),
                   Text(
                     _email, // Display email
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
                   ),
                   const SizedBox(height: 20),
                   const SizedBox(height: 30),
-                  const Divider(height: 0, thickness: 1, color:Colors.white),
-                  const SizedBox(height: 10),
                   ProfileMenu(
                     editProfileScreen: EditProfileScreen(
                       onUpdateProfileImage: _updateProfileImage,
@@ -155,169 +159,94 @@ class ProfileMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => editProfileScreen,
-              ),
-            );
-          },
-          style: ButtonStyle(
-            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-            mouseCursor: MaterialStateProperty.all<MouseCursor>(SystemMouseCursors.click),
-            foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-              if (states.contains(MaterialState.hovered)) {
-                return Colors.green;
-              }
-              return Colors.black;
-            }),
-          ),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      margin: const EdgeInsets.only(top: 0, left: 8.0, right: 8.0), 
+      width: double.infinity,
+      child: Card(
+        color: Colors.white,
+        elevation: 8.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.settings,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    "Profile Settings",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color:Colors.white),
-                  ),
-                ],
+              _buildProfileButton(
+                context,
+                icon: Icons.settings,
+                label: "Profile Settings",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => editProfileScreen,
+                    ),
+                  );
+                },
               ),
-              Icon(Icons.arrow_forward_ios, color: Colors.white),
+              const SizedBox(height: 10),
+              _buildProfileButton(
+                context,
+                icon: Icons.star,
+                label: "Favorites",
+                onTap: () {},
+              ),
+              const SizedBox(height: 10),
+              _buildProfileButton(
+                context,
+                icon: Icons.info,
+                label: "About",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AboutPage()),
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+              _buildProfileButton(
+                context,
+                icon: Icons.logout,
+                label: "Log Out",
+                onTap: () => _logout(context),
+              ),
             ],
           ),
         ),
-        const SizedBox(height: 8),
-        const Divider(height: 0, thickness: 1, color: Colors.white),
-        const SizedBox(height: 8),
-        TextButton(
-          onPressed: () {},
-          style: ButtonStyle(
-            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-            mouseCursor: MaterialStateProperty.all<MouseCursor>(SystemMouseCursors.click),
-            foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-              if (states.contains(MaterialState.hovered)) {
-                return Colors.green;
-              }
-              return Colors.white;
-            }),
-          ),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.star,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    "Favorites",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white),
-                  ),
-                ],
-              ),
-              Icon(Icons.arrow_forward_ios, color: Colors.white),
-            ],
+      ),
+    );
+  }
+
+  Widget _buildProfileButton(BuildContext context, {required IconData icon, required String label, required VoidCallback onTap}) {
+    return TextButton(
+      onPressed: onTap,
+      style: ButtonStyle(
+        padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(16.0)),
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey.shade200),
+        overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
           ),
         ),
-        const SizedBox(height: 8),
-        const Divider(height: 0, thickness: 1, color: Colors.white),
-        const SizedBox(height: 8),
-        TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AboutPage()),
-            );
-          },
-          style: ButtonStyle(
-            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-            mouseCursor: MaterialStateProperty.all<MouseCursor>(SystemMouseCursors.click),
-            foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-              if (states.contains(MaterialState.hovered)) {
-                return Colors.blue;
-              }
-              return Colors.white;
-            }),
-          ),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.info,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    "About",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white),
-                  ),
-                ],
+              Icon(icon, size: 20, color: Colors.black87),
+              const SizedBox(width: 8),
+              Text(
+                label,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
               ),
-              Icon(Icons.arrow_forward_ios, color: Colors.white),
             ],
           ),
-        ),
-        const SizedBox(height: 8),
-        const Divider(height: 0, thickness: 1, color: Colors.white),
-        const SizedBox(height: 8),
-        TextButton(
-          onPressed: () => _logout(context),
-          style: ButtonStyle(
-            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-            mouseCursor: MaterialStateProperty.all<MouseCursor>(SystemMouseCursors.click),
-            foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-              if (states.contains(MaterialState.hovered)) {
-                return const Color.fromARGB(255, 116, 9, 9);
-              }
-              return Colors.white;
-            }),
-          ),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.logout,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    "Log Out",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white),
-                  ),
-                ],
-              ),
-              Icon(Icons.arrow_forward_ios, color: Colors.white),
-            ],
-          ),
-        ),
-        const SizedBox(height: 8),
-        const Divider(height: 0, thickness: 1, color:Colors.white),
-        const SizedBox(height: 8),
-      ],
+          Icon(Icons.arrow_forward_ios, color: Colors.black87),
+        ],
+      ),
     );
   }
 }
@@ -332,7 +261,7 @@ class AboutPage extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           "About",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400, color: Colors.black),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
         ),
       ),
       body: Stack(
@@ -354,7 +283,7 @@ class AboutPage extends StatelessWidget {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  color: Colors.black.withOpacity(0.3),
+                  color: Colors.black.withOpacity(0.1),
                 ),
               ),
             ),
@@ -377,12 +306,25 @@ class AboutPage extends StatelessWidget {
                       children: const [
                         Text(
                           "DiscoverEase",
-                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: Colors.white),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
+                          textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 10),
                         Text(
-                          "DiscoverEase is an advanced mobile application designed to expand exploration of cities' hidden treasures. This fascinating application brings together and offers users comprehensive information about its historical and cultural riches, transportation alternatives, unique performances, friendly cafes and various events on a single platform. DiscoverEase provides personalized recommendations and enables efficient route planning to give users a unique and amazing travel experience.",
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white),
+                          "DiscoverEase, your ultimate travel companion, provides you with personalized recommendations and seamless travel planning tools to ensure an unforgettable journey.",
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Our app utilizes advanced AI technology to curate the best travel experiences based on your preferences, making travel planning more efficient and enjoyable.",
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "From discovering hidden gems to finding the best local restaurants, DiscoverEase has got you covered. Join us in exploring the world with ease and excitement!",
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
                       ],
