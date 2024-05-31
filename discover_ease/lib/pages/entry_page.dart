@@ -117,14 +117,14 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
                         animation: _tabController,
                         builder: (context, child) {
                           return SizedBox(
-                            height: _tabController.index == 0 ? 350 : 400, // Login sayfası 300, Register sayfası 400
+                            height: _tabController.index == 0 ? 350 : 400, // Login sayfası 350, Register sayfası 400
                             child: TabBarView(
                               controller: _tabController,
                               children: [
                                 SingleChildScrollView(
                                   child: Container(
                                     padding: const EdgeInsets.all(20),
-                                    child: LoginCard(),
+                                    child: LoginCard(tabController: _tabController),
                                   ),
                                 ),
                                 SingleChildScrollView(
@@ -153,8 +153,9 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
 class LoginCard extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TabController tabController;
 
-  LoginCard({Key? key});
+  LoginCard({Key? key, required this.tabController});
 
   void handleLogin(BuildContext context) async {
     final email = emailController.text;
@@ -269,7 +270,7 @@ class LoginCard extends StatelessWidget {
             const Text("Don't have an account?"),
             TextButton(
               onPressed: () {
-                DefaultTabController.of(context)?.animateTo(1);
+                tabController.animateTo(1);
               },
               child: const Text('Register now'),
               style: TextButton.styleFrom(
@@ -321,7 +322,7 @@ class SignupCard extends StatelessWidget {
           MaterialPageRoute(builder: (context) => const Profile()),
         );
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to sign up: $e')),
         );
       }
@@ -401,7 +402,7 @@ class SignupCard extends StatelessWidget {
               onPressed: () => handleSignup(context),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromARGB(255, 42, 140, 122),
-                shadowColor: Colors.black.withOpacity(0.2), 
+                shadowColor: Colors.black.withOpacity(0.2),
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -419,3 +420,4 @@ class SignupCard extends StatelessWidget {
     );
   }
 }
+

@@ -107,7 +107,7 @@ class _ProfileState extends State<Profile> {
                   const SizedBox(height: 10),
                   Text(
                     _fullName, // Display full name
-                    style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w400, color: Colors.white),
+                    style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w400, color: Colors.white),
                   ),
                   Text(
                     _email, // Display email
@@ -223,7 +223,6 @@ class ProfileMenu extends StatelessWidget {
       onPressed: onTap,
       style: ButtonStyle(
         padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(16.0)),
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey.shade200),
         overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(

@@ -85,8 +85,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             height: MediaQuery.of(context).size.height,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/city/profile.png"),
-                fit: BoxFit.cover,
+              image: AssetImage("assets/city/profile.png"),               
+               fit: BoxFit.cover,
               ),
             ),
           ),
