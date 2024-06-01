@@ -3,6 +3,7 @@ import 'package:discover_ease/functionality/auto_complete_result.dart';
 import 'package:discover_ease/functionality/map_services.dart';
 import 'package:discover_ease/widgets/searchplaces.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -29,6 +30,8 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
   bool getDirections = false;
 
   TextEditingController searchController = TextEditingController();
+  TextEditingController _originController = TextEditingController();
+  TextEditingController _destinationController = TextEditingController();
 
 
 
@@ -165,7 +168,68 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
                         ),
                       ),
                     )
-                    ): Container()
+                    ): Container(),
+                    getDirections? 
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 40, 15, 5),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white
+                            ),
+                            child: TextFormField(
+                              controller: _originController,
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                                border: InputBorder.none,
+                                hintText: "Origin"
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 3,),
+                          
+                          Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white
+                            ),
+                            child: TextFormField(
+                              controller: _destinationController,
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                                border: InputBorder.none,
+                                hintText: "Destination",
+                                suffixIcon: SizedBox(
+                                  width: 96,
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () async{
+                                          var directions = await MapServices.get
+                                        }, 
+                                        icon: const Icon(Icons.search)
+                                        ),
+                                        IconButton(
+                                        onPressed: () async{
+                                          getDirections = false;
+                                          _originController.text = '';
+                                          _destinationController.text = '';
+                                        }, 
+                                        icon: const Icon(Icons.close)
+                                        ),
+                                    ],
+                                  ),
+                                )
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ):Container(),
               ],
             )
           ],
@@ -195,7 +259,11 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
             IconButton(
             onPressed: (){
               setState(() {
-                
+                searchToggle = false;
+                radiusSlider = false;
+                pressedNear = false;
+                cardTapped = false;
+                getDirections = true;
               });
             }, 
             icon: const Icon(Icons.navigation)
