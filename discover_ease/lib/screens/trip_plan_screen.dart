@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'package:chat_bubbles/chat_bubbles.dart';
+import 'package:discover_ease/widgets/bottom_navbar.dart';
 
 void main() {
   runApp(DiscoverEaseApp());
@@ -29,92 +33,173 @@ class _TripPlanPageState extends State<TripPlanPage> {
   TextEditingController tripNameController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _loadTrips();
+  }
+
+  Future<void> _loadTrips() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? tripsData = prefs.getString('trips');
+    if (tripsData != null) {
+      List<dynamic> decodedData = jsonDecode(tripsData);
+      setState(() {
+        trips = decodedData.map((item) => Trip.fromJson(item)).toList();
+      });
+    }
+  }
+
+  Future<void> _saveTrips() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> encodedData = trips.map((trip) => trip.toJson()).toList();
+    await prefs.setString('trips', jsonEncode(encodedData));
+  }
+
+  void _addTrip(String name) {
+    setState(() {
+      trips.add(Trip(name: name, date: DateTime.now()));
+    });
+    _saveTrips();
+  }
+
+  void _editTrip(Trip trip, String newName) {
+    setState(() {
+      trip.name = newName;
+    });
+    _saveTrips();
+  }
+
+  void _deleteTrip(int index) {
+    setState(() {
+      trips.removeAt(index);
+    });
+    _saveTrips();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Trip Planner',
-          style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: tripNameController,
-              decoration: InputDecoration(
-                labelText: 'Trip Name',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                if (tripNameController.text.isNotEmpty) {
-                  setState(() {
-                    trips.add(Trip(name: tripNameController.text, date: DateTime.now()));
-                    tripNameController.clear();
-                  });
-                }
-              },
-              child: Text('Add Trip'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/city/profile.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 20), // Balonu biraz aşağı kaydır
+                child: const BubbleSpecialOne(
+                  isSender: false,
+                  color: Color.fromRGBO(237, 246, 229, 1),
+                  text: 'What kind of trip would you like to take? Share the details with us!',
+                  textStyle: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black, // Metin rengi siyah olarak ayarlandı
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: trips.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    elevation: 4,
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: ListTile(
-                      title: Text(trips[index].name, style: TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text(DateFormat('yMMMd').format(trips[index].date)),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.edit, color: Colors.blueAccent),
-                            onPressed: () {
-                              _editTripName(context, trips[index]);
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete, color: Colors.redAccent),
-                            onPressed: () {
-                              setState(() {
-                                trips.removeAt(index);
-                              });
-                            },
-                          ),
-                        ],
+              SizedBox(height: 36),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(237, 246, 229, 1),
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 50),
+                      child: TextField(
+                        controller: tripNameController,
+                        decoration: InputDecoration(
+                          labelText: 'Trip Name',
+                          border: OutlineInputBorder(),
+                        ),
                       ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TripDetailPage(trip: trips[index]),
-                          ),
-                        );
-                      },
                     ),
-                  );
-                },
+                    Container(
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (tripNameController.text.isNotEmpty) {
+                            _addTrip(tripNameController.text);
+                            tripNameController.clear();
+                          }
+                        },
+                        child: Container(
+                          child: Center(
+                            child: Text('Add Trip'),
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 42, 140, 122),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: trips.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      elevation: 4,
+                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: ListTile(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        tileColor: Color.fromRGBO(237, 246, 229, 1),
+                        title: Text(trips[index].name, style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(DateFormat('yMMMd').format(trips[index].date)),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.delete, color: Color.fromARGB(255, 255, 82, 108)),
+                              onPressed: () {
+                                _deleteTrip(index);
+                              },
+                            ),
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TripDetailPage(trip: trips[index]),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+      bottomNavigationBar: BottomNavBar(), // Bottom navigation bar eklendi
     );
   }
 
@@ -143,13 +228,11 @@ class _TripPlanPageState extends State<TripPlanPage> {
             ElevatedButton(
               child: Text('Save'),
               onPressed: () {
-                setState(() {
-                  trip.name = editController.text;
-                });
+                _editTrip(trip, editController.text);
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: Color.fromARGB(255, 42, 140, 122),
                 foregroundColor: Colors.white,
               ),
             ),
@@ -168,6 +251,26 @@ class Trip {
   List<String> events = [];
 
   Trip({required this.name, required this.date});
+
+  factory Trip.fromJson(Map<String, dynamic> json) {
+    return Trip(
+      name: json['name'],
+      date: DateTime.parse(json['date']),
+    )
+      ..participants = List<String>.from(json['participants'])
+      ..places = List<String>.from(json['places'])
+      ..events = List<String>.from(json['events']);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'date': date.toIso8601String(),
+      'participants': participants,
+      'places': places,
+      'events': events,
+    };
+  }
 
   void addParticipant(String user) {
     participants.add(user);
@@ -236,335 +339,213 @@ class _TripDetailPageState extends State<TripDetailPage> {
     selectedDate = widget.trip.date;
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null && pickedDate != selectedDate) {
+      setState(() {
+        selectedDate = pickedDate;
+        widget.trip.date = pickedDate;
+      });
+    }
+  }
+
+  Widget _buildDetailSection(String title, List<String> items, TextEditingController controller, Function(String) addItem, Function(String) removeItem, Function(String, String) editItem) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 16), // Kutular arası boşluk
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(237, 246, 229, 1),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: Column(
+        children: [
+          TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              labelText: title,
+              border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(height: 8),
+          Container(
+            width: 150,
+            child: ElevatedButton(
+              onPressed: () {
+                if (controller.text.isNotEmpty) {
+                  addItem(controller.text);
+                  controller.clear();
+                  setState(() {});
+                }
+              },
+              child: Text('Add'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 42, 140, 122),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 5),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              return Card(
+                elevation: 4,
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: ListTile(
+                  tileColor: Color.fromRGBO(237, 246, 229, 1),
+                  title: Text(items[index], style: TextStyle(fontWeight: FontWeight.bold)),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Color.fromARGB(255, 255, 82, 108)),
+                        onPressed: () {
+                          removeItem(items[index]);
+                          setState(() {});
+                        },
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    TextEditingController editController = TextEditingController(text: items[index]);
+                    showDialog<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Edit $title'),
+                          content: TextField(
+                            controller: editController,
+                            decoration: InputDecoration(
+                              labelText: title,
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            ElevatedButton(
+                              child: Text('Save'),
+                              onPressed: () {
+                                editItem(items[index], editController.text);
+                                Navigator.of(context).pop();
+                                setState(() {});
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color.fromARGB(255, 42, 140, 122),
+                                foregroundColor: Colors.white,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.trip.name} Details'),
+        title: Text('Trip Details'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => _selectDate(context),
-                child: Text(selectedDate == null
-                    ? 'Select Date'
-                    : DateFormat('yMMMd').format(selectedDate!)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+      body: Stack(
+        children: [
+          // Arka plan resmi
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/city/profile.png"), // Arka plan resmi dosya yolu
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text(
+                      'Trip Date',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      DateFormat('yMMMd').format(selectedDate ?? DateTime.now()),
+                    ),
+                    trailing: Icon(Icons.calendar_today),
+                    onTap: () => _selectDate(context),
                   ),
-                ),
-              ),
-              SizedBox(height: 16),
-              _buildSectionTitle('Participants'),
-              TextField(
-                controller: participantController,
-                decoration: InputDecoration(
-                  labelText: 'Add Participant',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: () {
-                  if (participantController.text.isNotEmpty) {
+                  SizedBox(height: 16),
+                  _buildDetailSection('Add Your Participants', widget.trip.participants, participantController, (String participant) {
                     setState(() {
-                      widget.trip.addParticipant(participantController.text);
-                      participantController.clear();
+                      widget.trip.addParticipant(participant);
                     });
-                  }
-                },
-                child: Text('Add Participant'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-              ),
-              _buildList(widget.trip.participants, (participant) {
-                return _buildListItem(
-                  participant,
-                  onEdit: () => _editParticipant(context, participant),
-                  onDelete: () => setState(() {
-                    widget.trip.removeParticipant(participant);
-                  }),
-                );
-              }),
-              SizedBox(height: 16),
-              _buildSectionTitle('Places'),
-              TextField(
-                controller: placeController,
-                decoration: InputDecoration(
-                  labelText: 'Add Place',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: () {
-                  if (placeController.text.isNotEmpty) {
+                  }, (String participant) {
                     setState(() {
-                      widget.trip.addPlace(placeController.text);
-                      placeController.clear();
+                      widget.trip.removeParticipant(participant);
                     });
-                  }
-                },
-                child: Text('Add Place'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-              ),
-              _buildList(widget.trip.places, (place) {
-                return _buildListItem(
-                  place,
-                  onEdit: () => _editPlace(context, place),
-                  onDelete: () => setState(() {
-                    widget.trip.removePlace(place);
-                  }),
-                );
-              }),
-              SizedBox(height: 16),
-              _buildSectionTitle('Events'),
-              TextField(
-                controller: eventController,
-                decoration: InputDecoration(
-                  labelText: 'Add Event',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: () {
-                  if (eventController.text.isNotEmpty) {
+                  }, (String oldParticipant, String newParticipant) {
                     setState(() {
-                      widget.trip.addEvent(eventController.text);
-                      eventController.clear();
+                      widget.trip.editParticipant(oldParticipant, newParticipant);
                     });
-                  }
-                },
-                child: Text('Add Event'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-              ),
-              _buildList(widget.trip.events, (event) {
-                return _buildListItem(
-                  event,
-                  onEdit: () => _editEvent(context, event),
-                  onDelete: () => setState(() {
-                    widget.trip.removeEvent(event);
                   }),
-                );
-              }),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.blueAccent,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildList(List<String> items, Widget Function(String) itemBuilder) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        return itemBuilder(items[index]);
-      },
-    );
-  }
-
-  Widget _buildListItem(String item, {required VoidCallback onEdit, required VoidCallback onDelete}) {
-    return Card(
-      elevation: 4,
-      margin: EdgeInsets.symmetric(vertical: 8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: ListTile(
-        title: Text(item, style: TextStyle(fontWeight: FontWeight.normal)),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: Icon(Icons.edit, color: Colors.blueAccent),
-              onPressed: onEdit,
-            ),
-            IconButton(
-              icon: Icon(Icons.delete, color: Colors.redAccent),
-              onPressed: onDelete,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _editParticipant(BuildContext context, String participant) async {
-    final TextEditingController editController = TextEditingController(text: participant);
-
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Edit Participant'),
-          content: TextField(
-            controller: editController,
-            decoration: InputDecoration(
-              labelText: 'Participant Name',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ElevatedButton(
-              child: Text('Save'),
-              onPressed: () {
-                setState(() {
-                  widget.trip.editParticipant(participant, editController.text);
-                });
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
-                foregroundColor: Colors.white,
+                  SizedBox(height: 16),
+                  _buildDetailSection('Add The Places', widget.trip.places, placeController, (String place) {
+                    setState(() {
+                      widget.trip.addPlace(place);
+                    });
+                  }, (String place) {
+                    setState(() {
+                      widget.trip.removePlace(place);
+                    });
+                  }, (String oldPlace, String newPlace) {
+                    setState(() {
+                      widget.trip.editPlace(oldPlace, newPlace);
+                    });
+                  }),
+                  SizedBox(height: 16),
+                  _buildDetailSection('Add The Events', widget.trip.events, eventController, (String event) {
+                    setState(() {
+                      widget.trip.addEvent(event);
+                    });
+                  }, (String event) {
+                    setState(() {
+                      widget.trip.removeEvent(event);
+                    });
+                  }, (String oldEvent, String newEvent) {
+                    setState(() {
+                      widget.trip.editEvent(oldEvent, newEvent);
+                    });
+                  }),
+                ],
               ),
             ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _editPlace(BuildContext context, String place) async {
-    final TextEditingController editController = TextEditingController(text: place);
-
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Edit Place'),
-          content: TextField(
-            controller: editController,
-            decoration: InputDecoration(
-              labelText: 'Place Name',
-              border: OutlineInputBorder(),
-            ),
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ElevatedButton(
-              child: Text('Save'),
-              onPressed: () {
-                setState(() {
-                  widget.trip.editPlace(place, editController.text);
-                });
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
-                foregroundColor: Colors.white,
-              ),
-            ),
-          ],
-        );
-      },
+        ],
+      ),
     );
-  }
-
-  Future<void> _editEvent(BuildContext context, String event) async {
-    final TextEditingController editController = TextEditingController(text: event);
-
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Edit Event'),
-          content: TextField(
-            controller: editController,
-            decoration: InputDecoration(
-              labelText: 'Event Name',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ElevatedButton(
-              child: Text('Save'),
-              onPressed: () {
-                setState(() {
-                  widget.trip.editEvent(event, editController.text);
-                });
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
-                foregroundColor: Colors.white,
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: widget.trip.date,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        widget.trip.date = picked; // Trip nesnesinin tarihini güncelle
-      });
-    }
   }
 }

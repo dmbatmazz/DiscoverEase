@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:discover_ease/widgets/bottom_navbar.dart';
-import 'dart:ui'; 
+import 'dart:ui';
 
 class EditProfileScreen extends StatefulWidget {
-  final Function(String) onUpdateProfileImage; 
+  final Function(String) onUpdateProfileImage;
   final String fullName;
   final String email;
 
@@ -21,7 +21,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   String _selectedImage = "assets/profile_images/im1.png";
-  String _birthYear = "08.08.1998"; 
+  String _birthYear = "08.08.1998";
 
   final List<String> _imageList = [
     "assets/profile_images/im1.png",
@@ -85,8 +85,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             height: MediaQuery.of(context).size.height,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/city/profile.png"),
-                fit: BoxFit.cover,
+              image: AssetImage("assets/city/profile.png"),               
+               fit: BoxFit.cover,
               ),
             ),
           ),
@@ -97,7 +97,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  color: Colors.black.withOpacity(0.3),
+                  color: Colors.black.withOpacity(0.1),
                 ),
               ),
             ),
@@ -106,9 +106,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                CircleAvatar(
-                  radius: 60,
-                  backgroundImage: AssetImage(_selectedImage),
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 4,
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 60,
+                    backgroundImage: AssetImage(_selectedImage),
+                    backgroundColor: Colors.transparent,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -129,84 +139,51 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             _selectedImage = image;
                           });
                         },
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundImage: AssetImage(image),
-                          child: _selectedImage == image
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.black.withOpacity(0.5),
-                                  ),
-                                  child: const Icon(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.white,
+                              width: _selectedImage == image ? 4 : 0,
+                            ),
+                          ),
+                          child: CircleAvatar(
+                            radius: 40,
+                            backgroundImage: AssetImage(image),
+                            backgroundColor: Colors.transparent,
+                            child: _selectedImage == image
+                                ? const Icon(
                                     Icons.check,
                                     color: Colors.white,
                                     size: 30,
-                                  ),
-                                )
-                              : null,
+                                  )
+                                : null,
+                          ),
                         ),
                       );
                     }).toList(),
                   ),
                 ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  initialValue: widget.fullName,
-                  enabled: false, // Make it uneditable
-                  style: const TextStyle(color: Colors.white),
-                  decoration: const InputDecoration(
-                    labelText: 'Username',
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
-                ),
-                TextFormField(
-                  initialValue: widget.email,
-                  enabled: false, 
-                  style: const TextStyle(color: Colors.white),
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
-                ),
-                TextFormField(
-                  initialValue: _birthYear,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: const InputDecoration(
-                    labelText: 'Birth Year (DD.MM.YYYY)',
-                    labelStyle: TextStyle(color: Colors.white),
-                    enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white), 
-                    ),
-                   focusedBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.white), 
-                   ),
-                  ),
-                  onChanged: (value) {
-                    if (value.length == 10) {
-                      setState(() {
-                        _birthYear = value;
-                      });
-                    }
-                  },
-                ),
+                const SizedBox(height: 30),
+                _buildProfileField('Name: ', widget.fullName),
+                _buildProfileField('Email: ', widget.email),
                 const SizedBox(height: 20),
                 TextButton(
                   onPressed: _saveProfileData,
                   style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(43, 192, 192, 192)), // Arka plan rengi
-                  overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(15)), // Düğme içeriğinin kenar boşluğu
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30), // Düğme köşelerinin yuvarlaklığı
-                  side: BorderSide(color: Colors.transparent), // Kenar rengi
-      ),
-    ),
-  ),
+                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(82, 192, 192, 192)),
+                    overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(15)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        side: BorderSide(color: Colors.transparent),
+                      ),
+                    ),
+                  ),
                   child: const Text(
                     'Save',
-                    style: TextStyle(color:Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
               ],
@@ -215,6 +192,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ],
       ),
       bottomNavigationBar: const BottomNavBar(),
+    );
+  }
+
+  Widget _buildProfileField(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.8,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        padding: const EdgeInsets.all(15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              flex: 2,
+              child: Text(
+                label,
+                style: const TextStyle(color: Colors.grey),
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: Text(
+                value,
+                style: const TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
