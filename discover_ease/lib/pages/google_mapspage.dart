@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:discover_ease/functionality/auto_complete_result.dart';
 import 'package:discover_ease/functionality/map_services.dart';
 import 'package:discover_ease/widgets/searchplaces.dart';
@@ -21,10 +22,14 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
   final Completer<GoogleMapController> _controller = Completer();
 
   Timer? _debounce;
+  var radiusValue = 3000.0;
+  var tappedPoint;
   int polylineIdCounter = 1;
   int markerIdCounter = 1;
   Set<Marker> _markers = <Marker>{};
   Set<Polyline> _polylines = <Polyline>{};
+  Set<Circle> _circles = <Circle>{};
+
 
   bool searchToggle = false;
   bool radiusSlider = false;
@@ -47,6 +52,24 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
       ));
   }
 
+void _setCircle(LatLng point)async{
+  final GoogleMapController controller = await _controller.future;
+
+  controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: point, zoom: 12)));
+  setState(() {
+    _circles.add(Circle(circleId: CircleId("raj"),
+    center: point,
+    fillColor: Colors.blue.withOpacity(0.1),
+    radius: radiusValue,
+    strokeColor: Colors.blue,
+    strokeWidth: 1
+    ));
+    getDirections = false;
+    searchToggle = false;
+    radiusSlider = true;
+  });
+}
+
   static const CameraPosition _kGooglePlex = CameraPosition(target: LatLng(37.42796133580664, -122.085749655962), zoom: 14.4746);
   @override
   Widget build(BuildContext context) {
@@ -67,10 +90,15 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
                   width: screenWidth,
                   child: GoogleMap(
                     mapType: MapType.normal,
+                    circles: _circles,
                     markers: _markers,
                     initialCameraPosition: _kGooglePlex,
                     onMapCreated: (GoogleMapController controller){
                       _controller.complete(controller);
+                    },
+                    onTap: (point){
+                      tappedPoint = point;
+                      _setCircle(point);
                     },
                   ),
                 ),
@@ -255,6 +283,27 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
                         ],
                       ),
                     ):Container(),
+                    radiusSlider?
+                    Padding(padding: EdgeInsets.fromLTRB(15, 30, 15, 0),
+                    child: Container(
+                      height: 50,
+                      color: Colors.black.withOpacity(0.3),
+                      child: Row(children: [
+                        Expanded(child: 
+                        Slider(
+                          max: 7000.0,
+                          min: 1000.0,
+                          value: radiusValue, 
+                          onChanged: (newVal){
+                            radiusValue = newVal;
+                            pressedNear =false;
+                            _setCircle(tappedPoint);
+                          }
+                          )
+                        )
+                      ],),
+                    ),
+                    ): Container()
               ],
             )
           ],
