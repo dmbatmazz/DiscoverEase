@@ -305,6 +305,9 @@ gotoPlace(double lat, double lng, double endLat, double endLng, Map<String, dyna
         southwest: LatLng(boundsSw['lat'], boundsSw['lng']), 
         northeast: LatLng(boundsNe['lat'], boundsNe['lng'])), 
         25));
+  
+  _setMarker(LatLng(lat, lng));
+  _setMarker(LatLng(endLat, endLng));
 }
 
 Future<void> gotoSearchedPlace(double lat, double lng) async{
