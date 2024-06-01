@@ -7,7 +7,6 @@ import 'package:discover_ease/screens/onboarding_screen.dart';
 import 'package:discover_ease/testpage.dart';
 import 'package:flutter/services.dart';
 import 'package:discover_ease/screens/profile_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:discover_ease/functionality/firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,7 +34,7 @@ void main() async {
           primary: Colors.red[200],
           secondary: Colors.green[200],
         ),
-        scaffoldBackgroundColor: Color.fromARGB(255, 224, 226, 209),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 224, 226, 209),
         useMaterial3: true,
       ),
       home: const Scaffold(

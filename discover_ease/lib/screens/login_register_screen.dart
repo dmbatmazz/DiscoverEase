@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -5,7 +7,7 @@ void main() {
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({Key? key}) : super(key: key);
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class MainApp extends StatelessWidget {
           body: Stack(
             children: [
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/city15.jpg"), // Arka plan resmi 1
                     fit: BoxFit.cover,
@@ -26,14 +28,14 @@ class MainApp extends StatelessWidget {
               ),
               Center(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Card(
                     elevation: 8.0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -54,14 +56,14 @@ class MainApp extends StatelessWidget {
                                   child: Container(
                                     height: 40,
                                     alignment: Alignment.center,
-                                    child: Text('Login'),
+                                    child: const Text('Login'),
                                   ),
                                 ),
                                 Tab(
                                   child: Container(
                                     height: 40,
                                     alignment: Alignment.center,
-                                    child: Text('Register'),
+                                    child: const Text('Register'),
                                   ),
                                 ),
                               ],
@@ -94,6 +96,8 @@ class LoginCard extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  LoginCard({super.key});
+
   void handleLogin(BuildContext context) {
     String email = emailController.text;
     String password = passwordController.text;
@@ -102,12 +106,12 @@ class LoginCard extends StatelessWidget {
     if (email == "user@example.com" && password == "password") {
       // Successful login
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login Successful!')),
+        const SnackBar(content: Text('Login Successful!')),
       );
     } else {
       // Failed login
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Invalid Email or Password')),
+        const SnackBar(content: Text('Invalid Email or Password')),
       );
     }
   }
@@ -116,7 +120,7 @@ class LoginCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -124,50 +128,50 @@ class LoginCard extends StatelessWidget {
               controller: emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
-                prefixIcon: Icon(Icons.email),
+                prefixIcon: const Icon(Icons.email),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
               controller: passwordController,
               decoration: InputDecoration(
                 labelText: 'Password',
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
               obscureText: true,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
                     Checkbox(value: true, onChanged: (bool? value) {}),
-                    Text('Remember Me'),
+                    const Text('Remember Me'),
                   ],
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: Text('Forgot Password?'),
+                  child: const Text('Forgot Password?'),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => handleLogin(context),
-              child: Text('Login'),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
               ),
+              child: const Text('Login'),
             ),
           ],
         ),
@@ -183,6 +187,8 @@ class SignupCard extends StatelessWidget {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
+  SignupCard({super.key});
+
   void handleSignup(BuildContext context) {
     String name = nameController.text;
     String email = emailController.text;
@@ -192,11 +198,11 @@ class SignupCard extends StatelessWidget {
     // Signup action
     if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Passwords do not match')),
+        const SnackBar(content: Text('Passwords do not match')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Signup Successful!')),
+        const SnackBar(content: Text('Signup Successful!')),
       );
     }
   }
@@ -205,7 +211,7 @@ class SignupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -213,57 +219,57 @@ class SignupCard extends StatelessWidget {
               controller: nameController,
               decoration: InputDecoration(
                 labelText: 'Full Name',
-                prefixIcon: Icon(Icons.person),
+                prefixIcon: const Icon(Icons.person),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
               controller: emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
-                prefixIcon: Icon(Icons.email),
+                prefixIcon: const Icon(Icons.email),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
               controller: passwordController,
               decoration: InputDecoration(
                 labelText: 'Password',
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
               obscureText: true,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
               controller: confirmPasswordController,
               decoration: InputDecoration(
                 labelText: 'Confirm Password',
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => handleSignup(context),
-              child: Text('Register'),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
               ),
+              child: const Text('Register'),
             ),
           ],
         ),

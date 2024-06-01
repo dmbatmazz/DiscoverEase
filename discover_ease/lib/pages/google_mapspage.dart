@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
-
 import 'package:discover_ease/functionality/auto_complete_result.dart';
 import 'package:discover_ease/functionality/map_services.dart';
 import 'package:discover_ease/widgets/searchplaces.dart';
@@ -13,15 +11,16 @@ class GoogleMaps extends ConsumerStatefulWidget {
   const GoogleMaps({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _GoogleMapsState createState() => _GoogleMapsState();
 }
 
 class _GoogleMapsState extends ConsumerState<GoogleMaps> {
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
 
   Timer? _debounce;
   int markerIdCounter = 1;
-  Set<Marker> _markers = Set<Marker>();
+  Set<Marker> _markers = <Marker>{};
 
   bool searchToggle = false;
   bool radiusSlider = false;
@@ -33,7 +32,7 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
 
 
 
-  static final CameraPosition _kGooglePlex = CameraPosition(target: LatLng(37.42796133580664, -122.085749655962), zoom: 14.4746);
+  static const CameraPosition _kGooglePlex = CameraPosition(target: LatLng(37.42796133580664, -122.085749655962), zoom: 14.4746);
   @override
   Widget build(BuildContext context) {
   final screenHeight = MediaQuery.of(context).size.height;
@@ -48,7 +47,7 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
           children: [
             Stack(
               children: [
-                Container(
+                SizedBox(
                   height: screenHeight,
                   width: screenWidth,
                   child: GoogleMap(
@@ -91,10 +90,11 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
                               ),
                           ),
                           onChanged: (value) {
-                            if(_debounce?.isActive ?? false)
-                            _debounce?.cancel();
+                            if(_debounce?.isActive ?? false) {
+                              _debounce?.cancel();
+                            }
                             _debounce = Timer(
-                              Duration(milliseconds: 700), ()async {
+                              const Duration(milliseconds: 700), ()async {
                                 if(value.length > 2){
                                   if(!searchFlag.searhToggle){
                                     searchFlag.toggleSearch();
@@ -116,7 +116,7 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
                   ),
                   ): Container(),
                   searchFlag.searhToggle ?
-                  allSearchResults.allReturnedResults.length !=0 ?
+                  allSearchResults.allReturnedResults.isNotEmpty ?
                   Positioned(
                     top: 100,
                     left: 15,
@@ -149,13 +149,13 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
                           children: [
                             const Text("No results to show", style: TextStyle(fontFamily: 'WorkSans', fontWeight: FontWeight.w200),),
                             const SizedBox(height: 5,),
-                            Container(
+                            SizedBox(
                               width: 125,
                               child: ElevatedButton(
                                 onPressed: (){
                                   searchFlag.toggleSearch();
                                 },
-                                child: Center(
+                                child: const Center(
                                   child: Text("Close this", style: TextStyle(color: Colors.white,fontFamily: 'WorkSans', fontWeight: FontWeight.w300),
                                   ),
                                 )
@@ -210,6 +210,7 @@ Future<void> gotoSearchedPlace(double lat, double lng) async{
 
   controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, lng), zoom: 12)));
 }
+// ignore: unused_element
 void _setMarker(point){
   var counter  = markerIdCounter++;
   

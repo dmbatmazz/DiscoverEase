@@ -9,7 +9,7 @@ void main() {
 }
 
 class DiscoverEase extends StatelessWidget {
-const DiscoverEase({Key? key}) : super(key: key);
+const DiscoverEase({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +20,10 @@ const DiscoverEase({Key? key}) : super(key: key);
 }
 
 class EntryPage extends StatefulWidget {
-  const EntryPage({Key? key}) : super(key: key);
+  const EntryPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EntryPageState createState() => _EntryPageState();
 }
 
@@ -93,7 +94,7 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
                           unselectedLabelColor: Colors.black54,
                           indicator: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Color.fromARGB(255, 42, 140, 122),
+                          color: const Color.fromARGB(255, 42, 140, 122),
                           ),
                           tabs: [
                             Tab(
@@ -155,6 +156,7 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
   final TextEditingController passwordController = TextEditingController();
   final TabController tabController;
 
+  // ignore: use_key_in_widget_constructors
   LoginCard({Key? key, required this.tabController});
 
   void handleLogin(BuildContext context) async {
@@ -176,10 +178,12 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
       prefs.setString('full_name', fullName);
 
       Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(builder: (context) => const Profile()),
       );
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to sign in: $e')),
       );
@@ -230,17 +234,17 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
                 Switch(
                   value: true,
                   onChanged: (bool? value) {},
-                  activeColor: Color.fromARGB(255, 42, 140, 122),
+                  activeColor: const Color.fromARGB(255, 42, 140, 122),
                 ),
                 const Text('Remember Me'),
               ],
             ),
             TextButton(
               onPressed: () {},
-              child: const Text('Forgot Password?'),
               style: TextButton.styleFrom(
-                foregroundColor: Color.fromARGB(255, 42, 140, 122),
+                foregroundColor: const Color.fromARGB(255, 42, 140, 122),
               ),
+              child: const Text('Forgot Password?'),
             ),
           ],
         ),
@@ -272,10 +276,10 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
               onPressed: () {
                 tabController.animateTo(1);
               },
-              child: const Text('Register now'),
               style: TextButton.styleFrom(
-                foregroundColor: Color.fromARGB(255, 42, 140, 122),
+                foregroundColor: const Color.fromARGB(255, 42, 140, 122),
               ),
+              child: const Text('Register now'),
             ),
           ],
         ),
@@ -290,6 +294,7 @@ class SignupCard extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
+  // ignore: use_key_in_widget_constructors
   SignupCard({Key? key});
 
   void handleSignup(BuildContext context) async {
@@ -304,6 +309,7 @@ class SignupCard extends StatelessWidget {
       );
     } else {
       try {
+        // ignore: unused_local_variable
         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email,
           password: password,
@@ -313,15 +319,18 @@ class SignupCard extends StatelessWidget {
         prefs.setString('full_name', name); 
         prefs.setString('email', email);
 
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Signup Successful!')),
         );
 
         Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(builder: (context) => const Profile()),
         );
       } catch (e) {
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to sign up: $e')),
         );
@@ -401,7 +410,7 @@ class SignupCard extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () => handleSignup(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 42, 140, 122),
+                backgroundColor: const Color.fromARGB(255, 42, 140, 122),
                 shadowColor: Colors.black.withOpacity(0.2),
                 elevation: 5,
                 shape: RoundedRectangleBorder(

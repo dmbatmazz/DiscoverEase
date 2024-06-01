@@ -121,6 +121,7 @@ Checkbox(
 
 void getnearplaces(userlocation, type) async{
     userlocation = _userlocation;
+    // ignore: unused_local_variable
     String tempLocation = "39.920688,32.854044";
     type = _type;
     radius = "1500";
