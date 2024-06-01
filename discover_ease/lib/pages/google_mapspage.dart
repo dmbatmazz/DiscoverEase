@@ -241,6 +241,8 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
                                           getDirections = false;
                                           _originController.text = '';
                                           _destinationController.text = '';
+                                          _markers = {};
+                                          _polylines = {};
                                         }, 
                                         icon: const Icon(Icons.close)
                                         ),
