@@ -1,3 +1,4 @@
+import 'package:discover_ease/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:discover_ease/pages/entry_page.dart';
 
@@ -25,7 +26,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: InkWell(
               onTap: () {
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const EntryPage()));
+                    context, MaterialPageRoute(builder: (_) =>  HomePage()));
               },
               child: const Text(
                 'Skip',
@@ -93,7 +94,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           curve: Curves.easeIn);
                     } else {
                       Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (_) => const EntryPage()));
+                          MaterialPageRoute(builder: (_) => HomePage()));
                     }
                   });
                 },

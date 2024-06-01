@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
             ),
             SizedBox(width: 8),
             Text(
-              'Ankara',
+              'Turkiye , Ankara ',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.grey[800], // Koyu gri renk

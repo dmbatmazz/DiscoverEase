@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:discover_ease/screens/onboarding_screen.dart';
 import 'package:discover_ease/screens/profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,7 +10,7 @@ void main() {
 }
 
 class DiscoverEase extends StatelessWidget {
-const DiscoverEase({super.key});
+const DiscoverEase({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +21,9 @@ const DiscoverEase({super.key});
 }
 
 class EntryPage extends StatefulWidget {
-  const EntryPage({super.key});
+  const EntryPage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _EntryPageState createState() => _EntryPageState();
 }
 
@@ -94,7 +94,7 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
                           unselectedLabelColor: Colors.black54,
                           indicator: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: const Color.fromARGB(255, 42, 140, 122),
+                          color: Color.fromARGB(255, 42, 140, 122),
                           ),
                           tabs: [
                             Tab(
@@ -118,7 +118,7 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
                         animation: _tabController,
                         builder: (context, child) {
                           return SizedBox(
-                           height: _tabController.index == 0 ? 350 : 400, // Login sayfası 350, Register sayfası 400
+                           height: _tabController.index == 0 ? 300 : 400, // Login sayfası 350, Register sayfası 400
                             child: TabBarView(
                             controller: _tabController,
                             children: [
@@ -156,7 +156,6 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
   final TextEditingController passwordController = TextEditingController();
   final TabController tabController;
 
-  // ignore: use_key_in_widget_constructors
   LoginCard({Key? key, required this.tabController});
 
   void handleLogin(BuildContext context) async {
@@ -178,12 +177,10 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
       prefs.setString('full_name', fullName);
 
       Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(builder: (context) => const Profile()),
       );
     } catch (e) {
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to sign in: $e')),
       );
@@ -229,26 +226,10 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Switch(
-                  value: true,
-                  onChanged: (bool? value) {},
-                  activeColor: const Color.fromARGB(255, 42, 140, 122),
-                ),
-                const Text('Remember Me'),
-              ],
-            ),
-            TextButton(
-              onPressed: () {},
-              style: TextButton.styleFrom(
-                foregroundColor: const Color.fromARGB(255, 42, 140, 122),
-              ),
-              child: const Text('Forgot Password?'),
-            ),
+            
           ],
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 25),
         Center(
           child: ElevatedButton(
             onPressed: () => handleLogin(context),
@@ -259,7 +240,7 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
             ),
             child: const Text(
               'Login',
@@ -276,10 +257,10 @@ class _EntryPageState extends State<EntryPage> with SingleTickerProviderStateMix
               onPressed: () {
                 tabController.animateTo(1);
               },
+              child: const Text('Register now!'),
               style: TextButton.styleFrom(
-                foregroundColor: const Color.fromARGB(255, 42, 140, 122),
+                foregroundColor: Color.fromARGB(255, 42, 140, 122),
               ),
-              child: const Text('Register now'),
             ),
           ],
         ),
@@ -294,49 +275,44 @@ class SignupCard extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
-  // ignore: use_key_in_widget_constructors
   SignupCard({Key? key});
 
-  void handleSignup(BuildContext context) async {
-    final name = nameController.text;
-    final email = emailController.text;
-    final password = passwordController.text;
-    final confirmPassword = confirmPasswordController.text;
+ void handleSignup(BuildContext context) async {
+  final name = nameController.text;
+  final email = emailController.text;
+  final password = passwordController.text;
+  final confirmPassword = confirmPasswordController.text;
 
-    if (password != confirmPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Passwords do not match')),
+  if (password != confirmPassword) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Passwords do not match')),
+    );
+  } else {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
       );
-    } else {
-      try {
-        // ignore: unused_local_variable
-        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
 
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('full_name', name); 
-        prefs.setString('email', email);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('full_name', name); 
+      prefs.setString('email', email);
 
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Signup Successful!')),
-        );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Signup Successful!')),
+      );
 
-        Navigator.pushReplacement(
-          // ignore: use_build_context_synchronously
-          context,
-          MaterialPageRoute(builder: (context) => const Profile()),
-        );
-      } catch (e) {
-                // ignore: use_build_context_synchronously
-                ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to sign up: $e')),
-        );
-      }
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const OnboardingScreen()), // Burada yönlendirme OnboardingScreen'e yapılıyor
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to sign up: $e')),
+      );
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -410,7 +386,7 @@ class SignupCard extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () => handleSignup(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 42, 140, 122),
+                backgroundColor: Color.fromARGB(255, 42, 140, 122),
                 shadowColor: Colors.black.withOpacity(0.2),
                 elevation: 5,
                 shape: RoundedRectangleBorder(

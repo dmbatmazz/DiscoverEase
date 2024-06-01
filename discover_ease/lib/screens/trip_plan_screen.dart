@@ -4,25 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:discover_ease/widgets/bottom_navbar.dart';
-
-void main() {
-  runApp(DiscoverEaseApp());
-}
-
-class DiscoverEaseApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'DiscoverEase',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: TripPlanPage(),
-    );
-  }
-}
-
 class TripPlanPage extends StatefulWidget {
   @override
   _TripPlanPageState createState() => _TripPlanPageState();

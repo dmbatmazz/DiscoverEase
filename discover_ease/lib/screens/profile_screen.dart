@@ -28,8 +28,8 @@ class _ProfileState extends State<Profile> {
   Future<void> _loadProfileData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _fullName = prefs.getString('full_name') ?? "";
       _email = prefs.getString('email') ?? "";
+      _fullName = _email.split('@')[0]; // E-posta adresinden '@' işaretine kadar olan kısmı alıyoruz
     });
   }
 
@@ -188,13 +188,6 @@ class ProfileMenu extends StatelessWidget {
               const SizedBox(height: 10),
               _buildProfileButton(
                 context,
-                icon: Icons.star,
-                label: "Favorites",
-                onTap: () {},
-              ),
-              const SizedBox(height: 10),
-              _buildProfileButton(
-                context,
                 icon: Icons.info,
                 label: "About",
                 onTap: () {
@@ -239,11 +232,11 @@ class ProfileMenu extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 label,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
               ),
             ],
           ),
-          Icon(Icons.arrow_forward_ios, color: Colors.black87),
+          const Icon(Icons.arrow_forward_ios, color: Colors.black87),
         ],
       ),
     );
