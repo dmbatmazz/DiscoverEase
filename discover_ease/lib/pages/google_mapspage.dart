@@ -5,6 +5,7 @@ import 'package:discover_ease/widgets/searchplaces.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -20,8 +21,10 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
   final Completer<GoogleMapController> _controller = Completer();
 
   Timer? _debounce;
+  int polylineIdCounter = 1;
   int markerIdCounter = 1;
   Set<Marker> _markers = <Marker>{};
+  Set<Polyline> _polylines = <Polyline>{};
 
   bool searchToggle = false;
   bool radiusSlider = false;
@@ -33,7 +36,16 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
   TextEditingController _originController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
 
-
+  void _setPolyLine(List<PointLatLng> points){
+    final String polyLineIdVal = 'polyline_$polylineIdCounter';
+    polylineIdCounter++;
+    _polylines.add(Polyline(
+      polylineId: PolylineId(polyLineIdVal),
+      width: 2,
+      color: Colors.blue,
+      points: points.map((e)=> LatLng(e.latitude,e.longitude)).toList()
+      ));
+  }
 
   static const CameraPosition _kGooglePlex = CameraPosition(target: LatLng(37.42796133580664, -122.085749655962), zoom: 14.4746);
   @override
@@ -209,7 +221,18 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
                                     children: [
                                       IconButton(
                                         onPressed: () async{
-                                          var directions = await MapServices.get
+                                          var directions = await MapServices().getDirections(_originController.text, _destinationController.text);
+                                          _markers = {};
+                                          _polylines = {};
+                                          gotoPlace(
+                                            directions['start_location']['lat'], 
+                                            directions['start_location']['lng'], 
+                                            directions['end_location']['lat'], 
+                                            directions['end_location']['lng'],
+                                            directions["bounds_ne"],
+                                            directions["bounds_sw"]
+                                            );
+                                          _setPolyLine(directions['polyline_decoded']);
                                         }, 
                                         icon: const Icon(Icons.search)
                                         ),
@@ -272,6 +295,17 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
         ),
     );
   }
+
+gotoPlace(double lat, double lng, double endLat, double endLng, Map<String, dynamic> boundsNe, Map<String, dynamic> boundsSw,) async{
+  final GoogleMapController controller = await _controller.future;
+
+  controller.animateCamera(
+    CameraUpdate.newLatLngBounds(
+      LatLngBounds(
+        southwest: LatLng(boundsSw['lat'], boundsSw['lng']), 
+        northeast: LatLng(boundsNe['lat'], boundsNe['lng'])), 
+        25));
+}
 
 Future<void> gotoSearchedPlace(double lat, double lng) async{
   final GoogleMapController controller = await _controller.future;
