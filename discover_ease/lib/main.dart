@@ -41,20 +41,13 @@ void main() async {
       home: const Scaffold(
         body: Home(),
       ),
-<<<<<<< HEAD
-=======
-      scaffoldBackgroundColor: Color.fromARGB(255, 237, 238, 232),
-      useMaterial3: true,
-    ),
-    home: const Scaffold(
-      body: Home(),
->>>>>>> b6b6084923a04b1f39607acbcd53fb2ea509516b
+      
     ),
   ));
 }
 
 class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {

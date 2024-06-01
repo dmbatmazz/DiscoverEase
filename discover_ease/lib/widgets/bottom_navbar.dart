@@ -37,7 +37,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       case 3:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const MapWidget()), // Google Map sayfasına yönlendirin
+          MaterialPageRoute(builder: (context) => const GoogleMaps()), // Google Map sayfasına yönlendirin
         );
         break;
       case 4:
