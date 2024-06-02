@@ -363,24 +363,6 @@ class AboutPage extends StatelessWidget {
                               color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 10),
-                        Text(
-                          "Our app utilizes advanced AI technology to curate the best travel experiences based on your preferences, making travel planning more efficient and enjoyable.",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "From discovering hidden gems to finding the best local restaurants, DiscoverEase has got you covered. Join us in exploring the world with ease and excitement!",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
                       ],
                     ),
                   ),
