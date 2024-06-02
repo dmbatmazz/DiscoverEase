@@ -135,7 +135,7 @@ void _setCircle(LatLng point)async{
 
   final allSearchResults = ref.watch(placeResultsProvider);
   final searchFlag = ref.watch(searchToggleProvider);
-
+  
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -367,12 +367,12 @@ void _setCircle(LatLng point)async{
                                           var placesResult = await MapServices()
                                               .getPlaceDetails(tappedPoint,
                                                   radiusValue.toInt());
-
+      
                                           List<dynamic> placesWithin =
                                               placesResult['results'] as List;
-
+      
                                           allFavoritePlaces = placesWithin;
-
+      
                                           tokenKey =
                                               placesResult['next_page_token'] ??
                                                   'none';

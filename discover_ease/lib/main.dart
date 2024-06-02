@@ -6,10 +6,12 @@ import 'package:discover_ease/screens/home_screen.dart';
 import 'package:discover_ease/screens/profile_screen.dart';
 import 'package:discover_ease/screens/trip_plan_screen.dart';
 import 'package:discover_ease/functionality/firebase_options.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(ProviderScope(child: const MyApp()));
 }
@@ -57,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
+      
     );
   }
 }
