@@ -32,17 +32,17 @@ class BottomNavBar extends StatelessWidget {
         ),
       ],
       currentIndex: currentIndex,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.grey,
+      selectedItemColor:Color.fromARGB(255, 205, 251, 242),
+      unselectedItemColor: Colors.white,
       backgroundColor: Color.fromARGB(255, 42, 140, 122),
       onTap: onTap,
       showSelectedLabels: true,
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed,
-      selectedLabelStyle: const TextStyle(color: Colors.white),
-      unselectedLabelStyle: const TextStyle(color: Colors.grey),
-      selectedIconTheme: const IconThemeData(color: Colors.white),
-      unselectedIconTheme: const IconThemeData(color: Colors.grey),
+      selectedLabelStyle: const TextStyle(color: Color.fromARGB(255, 205, 251, 242)),
+      unselectedLabelStyle: const TextStyle(color: Colors.white),
+      selectedIconTheme: const IconThemeData(color:Color.fromARGB(255, 205, 251, 242)),
+      unselectedIconTheme: const IconThemeData(color: Colors.white),
     );
   }
 }

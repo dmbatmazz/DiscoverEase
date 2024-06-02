@@ -1,6 +1,5 @@
 import 'package:discover_ease/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:discover_ease/pages/entry_page.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -26,7 +25,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: InkWell(
               onTap: () {
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) =>  HomePage()));
+                    context, MaterialPageRoute(builder: (_) => HomePage()));
               },
               child: const Text(
                 'Skip',
@@ -64,7 +63,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               OnboardingPage(
                 image: 'assets/onboarding_2.png',
                 title: "Discover, Explore, Enjoy",
-                description: "Start your journey and have fun discovering new places.",
+                description:
+                    "Start your journey and have fun discovering new places.",
               ),
             ],
           ),
@@ -160,7 +160,7 @@ class OnboardingPage extends StatelessWidget {
             title,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color:  Color.fromARGB(255, 90, 161, 121),
+              color: Color.fromARGB(255, 90, 161, 121),
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),

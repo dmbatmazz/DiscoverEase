@@ -1,19 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:discover_ease/widgets/bottom_navbar.dart';
+import 'package:discover_ease/screens/home_screen.dart';
+import 'package:discover_ease/screens/profile_screen.dart';
+import 'package:discover_ease/screens/trip_plan_screen.dart';
+import 'package:discover_ease/pages/google_mapspage.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    HomeScreen(),
+    TripPlanPage(),
+    const GoogleMaps(),
+    const Profile()
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          "Home",
+        title: Text(
+          'Home',
           style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-            color: Colors.black87,
+            color: Colors.black,
           ),
         ),
+        centerTitle: true,
         actions: [
           Row(
             children: [
@@ -22,9 +60,10 @@ class HomePage extends StatelessWidget {
                 color: Color.fromARGB(255, 42, 140, 122),
                 size: 20,
               ),
-              SizedBox(width: 5),
+              SizedBox(width: 8),
               Text(
                 'Ankara',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.grey[800],
                   fontSize: 16,
@@ -115,7 +154,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
- Widget placeCard(int index) {
+  Widget placeCard(int index) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10),
       shape: RoundedRectangleBorder(
@@ -138,7 +177,6 @@ class HomePage extends StatelessWidget {
               height: 150,
               child: Stack(
                 children: [
-                  // Ortadan çapraz şekilde siyah saydam alan
                   Positioned(
                     left: 160,
                     top: 0,

@@ -5,12 +5,47 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:discover_ease/screens/edit_profile_screen.dart';
 import 'package:discover_ease/pages/entry_page.dart';
+import 'package:discover_ease/widgets/bottom_navbar.dart';
+import 'package:discover_ease/screens/home_screen.dart';
+import 'package:discover_ease/screens/trip_plan_screen.dart';
+import 'package:discover_ease/pages/google_mapspage.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
+}
+
+class _ProfileScreenState extends State<Profile> {
+  int _selectedIndex = 3;
+
+  final List<Widget> _pages = [
+    HomeScreen(),
+    TripPlanPage(),
+    const GoogleMaps(),
+    const Profile()
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Profile"),
+      ),
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
 }
 
 class _ProfileState extends State<Profile> {
@@ -27,15 +62,18 @@ class _ProfileState extends State<Profile> {
   Future<void> _loadProfileData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
+      _profileImage = prefs.getString('profile_image') ?? "assets/profile_images/im1.png";
       _email = prefs.getString('email') ?? "";
       _fullName = _email.split('@')[0]; // E-posta adresinden '@' işaretine kadar olan kısmı alıyoruz
     });
   }
 
-  void _updateProfileImage(String newImage) {
+  void _updateProfileImage(String newImage) async {
+    final prefs = await SharedPreferences.getInstance();
     setState(() {
       _profileImage = newImage;
     });
+    await prefs.setString('profile_image', newImage);
   }
 
   @override
@@ -46,19 +84,8 @@ class _ProfileState extends State<Profile> {
         title: const Text(
           "Profile",
           style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-            color: Colors.black87,
-          ),
+              fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black87),
         ),
-        actions: [
-          Row(
-            children: [
-              SizedBox(width: 8),
-              SizedBox(width: 16),
-            ],
-          ),
-        ],
       ),
       body: Stack(
         children: [
@@ -89,10 +116,9 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  SizedBox(height: 40), 
                   SizedBox(
                     width: 160,
-                    height: 160, 
+                    height: 160,
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(80),
@@ -110,24 +136,23 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20), 
+                  const SizedBox(height: 10),
                   Text(
-                    _fullName, 
+                    _fullName, // Display full name
                     style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
-                    ),
+                        fontSize: 30,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
                   ),
                   Text(
-                    _email, 
+                    _email, // Display email
                     style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
                   ),
-                  const SizedBox(height: 10), // Reduced space between text and profile menu
+                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
                   ProfileMenu(
                     editProfileScreen: EditProfileScreen(
                       onUpdateProfileImage: _updateProfileImage,
@@ -148,7 +173,8 @@ class _ProfileState extends State<Profile> {
 class ProfileMenu extends StatelessWidget {
   final Widget editProfileScreen;
 
-  const ProfileMenu({Key? key, required this.editProfileScreen}) : super(key: key);
+  const ProfileMenu({Key? key, required this.editProfileScreen})
+      : super(key: key);
 
   void _logout(BuildContext context) async {
     try {
@@ -156,11 +182,8 @@ class ProfileMenu extends StatelessWidget {
       await FirebaseAuth.instance.signOut();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            'Logout Successful!',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
+            content: Text('Logout Successful!',
+                style: TextStyle(color: Colors.white))),
       );
       Navigator.pushAndRemoveUntil(
         context,
@@ -170,11 +193,8 @@ class ProfileMenu extends StatelessWidget {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            'Failed to log out: $e',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
+            content: Text('Failed to log out: $e',
+                style: TextStyle(color: Colors.white))),
       );
     }
   }
@@ -207,7 +227,7 @@ class ProfileMenu extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 5), // Reduced space between buttons
+              const SizedBox(height: 10),
               _buildProfileButton(
                 context,
                 icon: Icons.info,
@@ -219,7 +239,7 @@ class ProfileMenu extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 5), // Reduced space between buttons
+              const SizedBox(height: 10),
               _buildProfileButton(
                 context,
                 icon: Icons.logout,
@@ -233,11 +253,15 @@ class ProfileMenu extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileButton(BuildContext context, {required IconData icon, required String label, required VoidCallback onTap}) {
+  Widget _buildProfileButton(BuildContext context,
+      {required IconData icon,
+      required String label,
+      required VoidCallback onTap}) {
     return TextButton(
       onPressed: onTap,
       style: ButtonStyle(
-        padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(16.0)),
+        padding:
+            MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(16.0)),
         overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -255,10 +279,9 @@ class ProfileMenu extends StatelessWidget {
               Text(
                 label,
                 style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87),
               ),
             ],
           ),
@@ -279,7 +302,8 @@ class AboutPage extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           "About",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
         ),
       ),
       body: Stack(
@@ -325,20 +349,36 @@ class AboutPage extends StatelessWidget {
                         Text(
                           "DiscoverEase",
                           style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 10),
                         Text(
-                          "DiscoverEase is your ultimate travel companion! Get personalized recommendations for attractions, dining, and events, all tailored to your preferences. Easily plan routes and uncover hidden gems, making your journey enjoyable and stress-free. DiscoverEase also shows nearby places and venues based on your location, allowing you to easily plan your trip and add travel details. Dive into local culture and let us guide you every step of the way. Your adventure starts here!",
+                          "DiscoverEase, your ultimate travel companion, provides you with personalized recommendations and seamless travel planning tools to ensure an unforgettable journey.",
                           style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white,
-                          ),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Our app utilizes advanced AI technology to curate the best travel experiences based on your preferences, making travel planning more efficient and enjoyable.",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "From discovering hidden gems to finding the best local restaurants, DiscoverEase has got you covered. Join us in exploring the world with ease and excitement!",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
                       ],
