@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:chat_bubbles/chat_bubbles.dart';
-import 'package:discover_ease/widgets/bottom_navbar.dart';
 class TripPlanPage extends StatefulWidget {
   @override
   _TripPlanPageState createState() => _TripPlanPageState();
@@ -180,7 +179,6 @@ class _TripPlanPageState extends State<TripPlanPage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavBar(), // Bottom navigation bar eklendi
     );
   }
 

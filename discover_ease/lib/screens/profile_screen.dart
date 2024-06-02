@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:discover_ease/widgets/bottom_navbar.dart';
 import 'package:discover_ease/screens/edit_profile_screen.dart';
 import 'package:discover_ease/pages/entry_page.dart';
 
@@ -128,7 +127,6 @@ class _ProfileState extends State<Profile> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }
@@ -328,7 +326,6 @@ class AboutPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:discover_ease/widgets/bottom_navbar.dart';
 import 'dart:ui';
 
 class EditProfileScreen extends StatefulWidget {
@@ -191,7 +190,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(),
     );
   }
 

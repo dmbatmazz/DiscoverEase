@@ -1,30 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:discover_ease/widgets/bottom_navbar.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Icon(
-              Icons.location_on,
-              color: Color.fromARGB(255, 42, 140, 122),
-              size: 20,
-            ),
-            SizedBox(width: 8),
-            Text(
-              'Turkiye , Ankara ',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey[800], // Koyu gri renk
-                fontSize: 16, // Daha küçük boyut
-              ),
-            ),
-          ],
+        centerTitle: true,
+        title: const Text(
+          "Home",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+            color: Colors.black87,
+          ),
         ),
+        actions: [
+          Row(
+            children: [
+              Icon(
+                Icons.location_on,
+                color: Color.fromARGB(255, 42, 140, 122),
+                size: 20,
+              ),
+              SizedBox(width: 5),
+              Text(
+                'Ankara',
+                style: TextStyle(
+                  color: Colors.grey[800],
+                  fontSize: 16,
+                ),
+              ),
+              SizedBox(width: 16),
+            ],
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -76,7 +85,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 8),
-                                Expanded(
+                Expanded(
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
@@ -103,7 +112,6 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBar(),
     );
   }
 
@@ -151,5 +159,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-                 
