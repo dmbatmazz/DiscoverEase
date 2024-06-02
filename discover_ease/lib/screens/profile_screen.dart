@@ -45,12 +45,18 @@ class _ProfileState extends State<Profile> {
         centerTitle: true,
         title: const Text(
           "Profile",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black87),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+            color: Colors.black87,
+          ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.dark_mode_outlined, color: Colors.black87),
+          Row(
+            children: [
+              SizedBox(width: 8),
+              SizedBox(width: 16),
+            ],
           ),
         ],
       ),
@@ -83,9 +89,10 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
+                  SizedBox(height: 40), 
                   SizedBox(
                     width: 160,
-                    height: 160,
+                    height: 160, 
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(80),
@@ -103,17 +110,24 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20), 
                   Text(
-                    _fullName, // Display full name
-                    style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w400, color: Colors.white),
+                    _fullName, 
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                    ),
                   ),
                   Text(
-                    _email, // Display email
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+                    _email, 
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
                   ),
-                  const SizedBox(height: 20),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 10), // Reduced space between text and profile menu
                   ProfileMenu(
                     editProfileScreen: EditProfileScreen(
                       onUpdateProfileImage: _updateProfileImage,
@@ -141,7 +155,12 @@ class ProfileMenu extends StatelessWidget {
       await Firebase.initializeApp();
       await FirebaseAuth.instance.signOut();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Logout Successful!', style: TextStyle(color: Colors.white))),
+        const SnackBar(
+          content: Text(
+            'Logout Successful!',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
       );
       Navigator.pushAndRemoveUntil(
         context,
@@ -150,7 +169,12 @@ class ProfileMenu extends StatelessWidget {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to log out: $e', style: TextStyle(color: Colors.white))),
+        SnackBar(
+          content: Text(
+            'Failed to log out: $e',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
       );
     }
   }
@@ -158,7 +182,7 @@ class ProfileMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 0, left: 8.0, right: 8.0), 
+      margin: const EdgeInsets.only(top: 0, left: 8.0, right: 8.0),
       width: double.infinity,
       child: Card(
         color: Colors.white,
@@ -183,7 +207,7 @@ class ProfileMenu extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5), // Reduced space between buttons
               _buildProfileButton(
                 context,
                 icon: Icons.info,
@@ -195,7 +219,7 @@ class ProfileMenu extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5), // Reduced space between buttons
               _buildProfileButton(
                 context,
                 icon: Icons.logout,
@@ -230,7 +254,11 @@ class ProfileMenu extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 label,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
               ),
             ],
           ),
@@ -296,25 +324,21 @@ class AboutPage extends StatelessWidget {
                       children: const [
                         Text(
                           "DiscoverEase",
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 10),
                         Text(
-                          "DiscoverEase, your ultimate travel companion, provides you with personalized recommendations and seamless travel planning tools to ensure an unforgettable journey.",
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "Our app utilizes advanced AI technology to curate the best travel experiences based on your preferences, making travel planning more efficient and enjoyable.",
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "From discovering hidden gems to finding the best local restaurants, DiscoverEase has got you covered. Join us in exploring the world with ease and excitement!",
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white),
+                          "DiscoverEase is your ultimate travel companion! Get personalized recommendations for attractions, dining, and events, all tailored to your preferences. Easily plan routes and uncover hidden gems, making your journey enjoyable and stress-free. DiscoverEase also shows nearby places and venues based on your location, allowing you to easily plan your trip and add travel details. Dive into local culture and let us guide you every step of the way. Your adventure starts here!",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ],
