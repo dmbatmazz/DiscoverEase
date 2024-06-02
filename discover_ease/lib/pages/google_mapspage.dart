@@ -1,14 +1,18 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:discover_ease/functionality/auto_complete_result.dart';
 import 'package:discover_ease/functionality/map_services.dart';
 import 'package:discover_ease/widgets/searchplaces.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:ui' as ui;
+
 
 class GoogleMaps extends ConsumerStatefulWidget {
   const GoogleMaps({super.key});
@@ -24,6 +28,8 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
   Timer? _debounce;
   var radiusValue = 3000.0;
   var tappedPoint;
+  List allFavoritePlaces = [];
+  String tokenKey = '';
   int polylineIdCounter = 1;
   int markerIdCounter = 1;
   Set<Marker> _markers = <Marker>{};
@@ -69,7 +75,57 @@ void _setCircle(LatLng point)async{
     radiusSlider = true;
   });
 }
+  _setNearMarker(LatLng point, String label, List types, String status) async {
+    var counter = markerIdCounter++;
 
+    final Uint8List markerIcon;
+
+    if (types.contains('restaurants')){
+      markerIcon = await getBytesFromAsset('assets/mapicons/restaurants.png', 75);
+    }
+    else if (types.contains('food')){
+      markerIcon = await getBytesFromAsset('assets/mapicons/food.png', 75);
+    }
+    else if (types.contains('school')){
+      markerIcon = await getBytesFromAsset('assets/mapicons/schools.png', 75);
+    }
+    else if (types.contains('bar')){
+      markerIcon = await getBytesFromAsset('assets/mapicons/bars.png', 75);
+    }
+    else if (types.contains('lodging')){
+      markerIcon = await getBytesFromAsset('assets/mapicons/hotels.png', 75);
+    }
+    else if (types.contains('store')){
+      markerIcon = await getBytesFromAsset('assets/mapicons/retail-stores.png', 75);
+    }
+    else if (types.contains('locality')){
+      markerIcon = await getBytesFromAsset('assets/mapicons/local-services.png', 75);
+    }
+    else{
+      markerIcon = await getBytesFromAsset('assets/mapicons/places.png', 75);
+    }
+
+    final Marker marker = Marker(
+        markerId: MarkerId('marker_$counter'),
+        position: point,
+        onTap: () {},
+        icon: BitmapDescriptor.bytes(markerIcon));
+
+    setState(() {
+      _markers.add(marker);
+    });
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
+  }
   static const CameraPosition _kGooglePlex = CameraPosition(target: LatLng(37.42796133580664, -122.085749655962), zoom: 14.4746);
   @override
   Widget build(BuildContext context) {
@@ -300,8 +356,34 @@ void _setCircle(LatLng point)async{
                             _setCircle(tappedPoint);
                           }
                           )
-                        )
-                      ],),
+                        ),
+                        IconButton(
+                          onPressed: (){
+                            if(_debounce?.isActive ?? false){
+                              _debounce?.cancel();
+                              }
+                              _debounce = Timer(Duration(seconds: 2), () async {
+                              var placeResult = MapServices().getPlaceDetails(tappedPoint, radiusValue.toInt());
+                              List<dynamic> placesWithin = placeResult = placeResult['results'] as List;
+                              allFavoritePlaces = placesWithin;
+                              tokenKey = placeResult['next_page_token'] ?? 'none';
+                              _markers ={};
+                              placesWithin.forEach((element){
+                                _setNearMarker(
+                                  LatLng(element['geometry']['location']['lat'], element['geometry']['location']['lng']),
+                                  element['name'],
+                                  element['types'],
+                                  element['business_status'] ?? 'not available',
+                                );
+                              });
+                              });
+                            
+                          }, 
+                          icon: Icon(Icons.near_me)
+                          )
+                      ],
+                      
+                      ),
                     ),
                     ): Container()
               ],

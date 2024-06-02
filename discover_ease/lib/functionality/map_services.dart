@@ -1,5 +1,6 @@
 import 'package:discover_ease/functionality/auto_complete_result.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -55,5 +56,17 @@ class MapServices{
     return results;
   }
 
+  getPlaceDetails(LatLng coords, int radius) async{
+    var lat = coords.latitude;
+    var lng = coords.longitude;
+
+    final String url = 
+    'https://maps.googleapis.com/maps/api/place/nearbysearch/json?&location=$lat,$lng&radius=$radius&key=$key';
+
+    var response = await http.get(Uri.parse(url));
+    var json = convert.jsonDecode(response.body);
+    return json;
+
+  }
 
 }
