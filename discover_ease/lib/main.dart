@@ -118,3 +118,61 @@ class Home extends StatelessWidget {
     );
   }
 }
+
+/* !!!NAVBAR ÇALIŞAN HALİ HOME PAGE İLE BAŞLIYOR!!!
+import 'package:discover_ease/pages/google_mapspage.dart';
+import 'package:discover_ease/screens/home_screen.dart';
+import 'package:discover_ease/screens/profile_screen.dart';
+import 'package:discover_ease/screens/trip_plan_screen.dart';
+import 'package:discover_ease/widgets/bottom_navbar.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    HomePage(),
+    TripPlanPage(),
+    GoogleMaps(),
+    Profile()
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('DiscoverEase'),
+      ),
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+*/
