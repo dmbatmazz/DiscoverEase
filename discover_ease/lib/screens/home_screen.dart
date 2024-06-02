@@ -115,46 +115,96 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget placeCard(int index) {
+ Widget placeCard(int index) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/city/city${index + 1}.jpg"),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.dstATop),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/city/city${index + 1}.jpg"),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                      Colors.black.withOpacity(0.8), BlendMode.dstATop),
+                ),
               ),
-            ),
-            width: double.infinity,
-            height: 150,
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              width: double.infinity,
+              height: 150,
+              child: Stack(
                 children: [
-                  Text(
-                    'Place Name',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  // Ortadan çapraz şekilde siyah saydam alan
+                  Positioned(
+                    left: 160,
+                    top: 0,
+                    bottom: 0,
+                    child: Transform.rotate(
+                      angle: -0.785398, // -45 derece döndürme
+                      child: Container(
+                        width: 400,
+                        color:
+                            Colors.black.withOpacity(0.5), // Saydam siyah renk
+                      ),
                     ),
                   ),
-                  SizedBox(height: 5),
-                  Row(
-                    children: [
-                      Icon(Icons.star, color: Colors.yellow, size: 20),
-                      SizedBox(width: 5),
-                      Text('4.5'),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Stack(
+                          children: [
+                            // Kenar yazısı (siyah stroke)
+                            Text(
+                              'Place Name',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 2
+                                  ..color = Colors.black,
+                              ),
+                            ),
+                            // Ana yazı (beyaz)
+                            Text(
+                              'Place Name',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 255, 248, 248),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Icon(Icons.star, color: Colors.yellow, size: 20),
+                            SizedBox(width: 5),
+                            Text(
+                              '4.5',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
