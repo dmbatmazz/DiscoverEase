@@ -35,6 +35,7 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
   Set<Marker> _markers = <Marker>{};
   Set<Polyline> _polylines = <Polyline>{};
   Set<Circle> _circles = <Circle>{};
+  Set<Marker> _markersDupe = Set<Marker>();
 
 
   bool searchToggle = false;
@@ -358,27 +359,41 @@ void _setCircle(LatLng point)async{
                           )
                         ),
                         IconButton(
-                          onPressed: (){
-                            if(_debounce?.isActive ?? false){
-                              _debounce?.cancel();
-                              }
-                              _debounce = Timer(Duration(seconds: 2), () async {
-                              var placeResult = MapServices().getPlaceDetails(tappedPoint, radiusValue.toInt());
-                              List<dynamic> placesWithin = placeResult = placeResult['results'] as List;
-                              allFavoritePlaces = placesWithin;
-                              tokenKey = placeResult['next_page_token'] ?? 'none';
-                              _markers ={};
-                              placesWithin.forEach((element){
-                                _setNearMarker(
-                                  LatLng(element['geometry']['location']['lat'], element['geometry']['location']['lng']),
-                                  element['name'],
-                                  element['types'],
-                                  element['business_status'] ?? 'not available',
-                                );
-                              });
-                              });
-                            
-                          }, 
+                          onPressed: () {
+                                        if (_debounce?.isActive ?? false)
+                                          _debounce?.cancel();
+                                        _debounce = Timer(Duration(seconds: 2),
+                                            () async {
+                                          var placesResult = await MapServices()
+                                              .getPlaceDetails(tappedPoint,
+                                                  radiusValue.toInt());
+
+                                          List<dynamic> placesWithin =
+                                              placesResult['results'] as List;
+
+                                          allFavoritePlaces = placesWithin;
+
+                                          tokenKey =
+                                              placesResult['next_page_token'] ??
+                                                  'none';
+                                          _markers = {};
+                                          placesWithin.forEach((element) {
+                                            _setNearMarker(
+                                              LatLng(
+                                                  element['geometry']
+                                                      ['location']['lat'],
+                                                  element['geometry']
+                                                      ['location']['lng']),
+                                              element['name'],
+                                              element['types'],
+                                              element['business_status'] ??
+                                                  'not available',
+                                            );
+                                          });
+                                          _markersDupe = _markers;
+                                          pressedNear = true;
+                                        });
+                                      },
                           icon: Icon(Icons.near_me)
                           )
                       ],
