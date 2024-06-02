@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-class MapServices{
+class MapServices {
   final String key = 'AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE';
   final String types = 'geocode';
 
@@ -21,7 +21,7 @@ class MapServices{
     return results.map((e) => AutoCompleteResult.fromJson(e)).toList();
   }
 
- Future<Map<String, dynamic>> getPlace(String? input) async {
+  Future<Map<String, dynamic>> getPlace(String? input) async {
     final String url =
         'https://maps.googleapis.com/maps/api/place/details/json?place_id=$input&key=$key';
 
@@ -34,7 +34,7 @@ class MapServices{
     return results;
   }
 
- Future<Map<String, dynamic>> getDirections(
+  Future<Map<String, dynamic>> getDirections(
       String origin, String destination) async {
     final String url =
         'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=$key';
@@ -56,17 +56,28 @@ class MapServices{
     return results;
   }
 
-  getPlaceDetails(LatLng coords, int radius) async{
+  Future<dynamic> getPlaceDetails(LatLng coords, int radius) async {
     var lat = coords.latitude;
     var lng = coords.longitude;
 
-    final String url = 
-    'https://maps.googleapis.com/maps/api/place/nearbysearch/json?&location=$lat,$lng&radius=$radius&key=$key';
+    final String url =
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?&location=$lat,$lng&radius=$radius&key=$key';
 
     var response = await http.get(Uri.parse(url));
-    var json = convert.jsonDecode(response.body);
-    return json;
 
+    var json = convert.jsonDecode(response.body);
+
+    return json;
   }
 
+  Future<dynamic> getMorePlaceDetails(String token) async {
+    final String url =
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?&pagetoken=$token&key=$key';
+
+    var response = await http.get(Uri.parse(url));
+
+    var json = convert.jsonDecode(response.body);
+
+    return json;
+  }
 }
