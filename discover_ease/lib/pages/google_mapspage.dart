@@ -240,6 +240,7 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
                     },
                   ),
                 ),
+                
                 searchToggle
                     ? Padding(
                         padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 5.0),
