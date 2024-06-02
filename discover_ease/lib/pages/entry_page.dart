@@ -329,10 +329,6 @@ class _SignupCardState extends State<SignupCard> {
         prefs.setString('full_name', name);
         prefs.setString('email', email);
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Signup Successful!')),
-        );
-
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
