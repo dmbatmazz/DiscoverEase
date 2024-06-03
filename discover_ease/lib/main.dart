@@ -1,4 +1,3 @@
-import 'package:discover_ease/pages/google_mapspage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +9,7 @@ import 'package:discover_ease/screens/home_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -18,9 +17,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false, // Debug banner'ı kapatır
-      home: const InitialScreen(),
+      home: InitialScreen(),
     );
   }
 }
@@ -45,10 +44,9 @@ class InitialScreen extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasData && snapshot.data!) {
-          return  HomePage(); // Kullanıcı giriş yaptıktan sonra HomePage'e yönlendir
+          return  const HomePage(); // Kullanıcı giriş yaptıktan sonra HomePage'e yönlendir
         } else {
-            return GoogleMaps();
-          //return const DiscoverEase(); // Login/register screen
+          return const DiscoverEase(); // Login/register screen
         }
       },
     );

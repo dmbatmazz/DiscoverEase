@@ -219,7 +219,7 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
     final searchFlag = ref.watch(searchToggleProvider);
 
     return Scaffold(
-      // appBar: AppBar(title: Text("test"),),
+      //appBar: AppBar(title: Text("test"),),
       body: SingleChildScrollView(
         child: Column(
           children: [

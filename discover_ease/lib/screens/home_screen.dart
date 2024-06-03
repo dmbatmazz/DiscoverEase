@@ -28,23 +28,31 @@ class _HomePageState extends State<HomePage> {
   ];
 
   // ignore: unused_element
-  void _onItemTapped(int index) {
+void _onItemTapped(int index) {
+  if (index == 2) {
+    print("Test");
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const GoogleMaps(), barrierDismissible: true),
+    );
+  } else {
     setState(() {
       _selectedIndex = index;
     });
   }
+}
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: _selectedIndex == 2 
-        ? null 
-        : BottomNavBar(
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-          ),
-    );
+  return Scaffold(
+    body: _selectedIndex == 2 ? const GoogleMaps() : _pages[_selectedIndex],
+    bottomNavigationBar: _selectedIndex == 2 
+      ? null 
+      : BottomNavBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+        ),
+  );
   }
 }
 
