@@ -38,7 +38,7 @@ dependencies:
   flip_card: ^0.6.0
   flutter_rating_stars: ^1.1.0
   flutter_riverpod: ^2.3.4
-  url_launcher: ^6.0.20
+  url_launcher: ^6.0.9
 
 dev_dependencies:
   flutter_test:

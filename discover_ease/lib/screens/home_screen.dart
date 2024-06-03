@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:discover_ease/widgets/bottom_navbar.dart';
 import 'package:discover_ease/screens/home_screen.dart';
 import 'package:discover_ease/screens/profile_screen.dart';
@@ -123,7 +124,7 @@ class HomeScreen extends StatelessWidget {
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => _showConfirmationDialog(context, 'https://www.enuygun.com/bilgi/ankara-da-gezilecek-yerler-mutlaka-gorulmesi-gereken-80-yer/'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromARGB(255, 42, 140, 122),
                         ),
@@ -139,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => _showConfirmationDialog(context, 'https://www.tripadvisor.com.tr/Restaurants-g298656-Ankara.html'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromARGB(255, 42, 140, 122),
                         ),
@@ -155,7 +156,7 @@ class HomeScreen extends StatelessWidget {
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => _showConfirmationDialog(context, 'https://www.biletix.com/search/TURKIYE/tr?category_sb=-1&date_sb=-1&city_sb=Ankara#!city_sb:Ankara'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromARGB(255, 42, 140, 122),
                         ),
@@ -216,5 +217,40 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _showConfirmationDialog(BuildContext context, String url) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('You are about to exit the application'),
+          content: Text('Are you sure?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _launchURL(url);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
