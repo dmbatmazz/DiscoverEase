@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
@@ -20,12 +21,13 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    HomeScreen(),
+    const HomeScreen(),
     TripPlanPage(),
     const GoogleMaps(),
     const Profile()
   ];
 
+  // ignore: unused_element
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -36,20 +38,22 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavBar(
+      /*bottomNavigationBar: BottomNavBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-      ),
+      ),*/
     );
   }
 }
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Home',
           style: TextStyle(
             color: Colors.black,
@@ -59,12 +63,12 @@ class HomeScreen extends StatelessWidget {
         actions: [
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.location_on,
                 color: Color.fromARGB(255, 42, 140, 122),
                 size: 20,
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(
                 'Ankara',
                 textAlign: TextAlign.center,
@@ -73,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                   fontSize: 16,
                 ),
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
             ],
           ),
         ],
@@ -102,7 +106,7 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Align(
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Welcome!',
@@ -113,10 +117,10 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   travelBox(
                     'Packing Tips For Travel',
-                    Color.fromARGB(255, 42, 140, 122).withOpacity(0.8),
+                    const Color.fromARGB(255, 42, 140, 122).withOpacity(0.8),
                     [
                       'Make a packing list',
                       'Roll your clothes',
@@ -126,10 +130,10 @@ class HomeScreen extends StatelessWidget {
                       'Use travel-sized toiletries'
                     ],
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   travelBox(
                     'Things to Consider When Traveling Abroad',
-                    Color.fromARGB(255, 42, 140, 122).withOpacity(0.8),
+                    const Color.fromARGB(255, 42, 140, 122).withOpacity(0.8),
                     [
                       'Check passport validity',
                       'Research visa requirements',
@@ -138,7 +142,7 @@ class HomeScreen extends StatelessWidget {
                       'Keep copies of important documents'
                     ],
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -152,7 +156,7 @@ class HomeScreen extends StatelessWidget {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 2,
                                 blurRadius: 5,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                             borderRadius: BorderRadius.circular(20),
@@ -166,13 +170,13 @@ class HomeScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
-                            child: Text(
+                            child: const Text(
                               'Most Visited',
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           width: 200,
                           height: 40,
@@ -182,7 +186,7 @@ class HomeScreen extends StatelessWidget {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 2,
                                 blurRadius: 5,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                             borderRadius: BorderRadius.circular(20),
@@ -196,13 +200,13 @@ class HomeScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
-                            child: Text(
+                            child: const Text(
                               'Foods & Drinks',
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           width: 200,
                           height: 40,
@@ -212,7 +216,7 @@ class HomeScreen extends StatelessWidget {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 2,
                                 blurRadius: 5,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                             borderRadius: BorderRadius.circular(20),
@@ -226,7 +230,7 @@ class HomeScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
-                            child: Text(
+                            child: const Text(
                               'Things To Do',
                               style: TextStyle(color: Colors.white),
                             ),
@@ -247,7 +251,7 @@ class HomeScreen extends StatelessWidget {
   Widget travelBox(String title, Color color, List<String> content) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.8), // Arka plan renginde opacity
         borderRadius: BorderRadius.circular(8),
@@ -256,7 +260,7 @@ class HomeScreen extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -271,13 +275,13 @@ class HomeScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           for (var item in content)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: Text(
                 '- $item',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 14,
                 ),
@@ -293,17 +297,17 @@ class HomeScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('You are about to leave the app'),
-          content: Text('Are you sure?'),
+          title: const Text('You are about to leave the app'),
+          content: const Text('Are you sure?'),
           actions: <Widget>[
             TextButton(
-              child: Text('No'),
+              child: const Text('No'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Yes'),
+              child: const Text('Yes'),
               onPressed: () {
                 Navigator.of(context).pop();
                 _launchURL(url);

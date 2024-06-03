@@ -1,9 +1,8 @@
 import 'dart:ui';
-import 'package:discover_ease/screens/home_screen.dart';
+import 'package:discover_ease/pages/google_mapspage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:discover_ease/screens/onboarding_screen.dart';
-import 'package:discover_ease/screens/profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -11,7 +10,7 @@ void main() {
 }
 
 class DiscoverEase extends StatelessWidget {
-  const DiscoverEase({Key? key}) : super(key: key);
+  const DiscoverEase({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +22,10 @@ class DiscoverEase extends StatelessWidget {
 }
 
 class EntryPage extends StatefulWidget {
-  const EntryPage({Key? key}) : super(key: key);
+  const EntryPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EntryPageState createState() => _EntryPageState();
 }
 
@@ -97,7 +97,7 @@ class _EntryPageState extends State<EntryPage>
                           unselectedLabelColor: Colors.black54,
                           indicator: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Color.fromARGB(255, 42, 140, 122),
+                            color: const Color.fromARGB(255, 42, 140, 122),
                           ),
                           tabs: [
                             Tab(
@@ -143,7 +143,7 @@ class _EntryPageState extends State<EntryPage>
                                 SingleChildScrollView(
                                   child: Container(
                                     padding: const EdgeInsets.all(20),
-                                    child: SignupCard(),
+                                    child: const SignupCard(),
                                   ),
                                 ),
                               ],
@@ -166,9 +166,10 @@ class _EntryPageState extends State<EntryPage>
 class LoginCard extends StatefulWidget {
   final TabController tabController;
 
-  const LoginCard({Key? key, required this.tabController}) : super(key: key);
+  const LoginCard({super.key, required this.tabController});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginCardState createState() => _LoginCardState();
 }
 
@@ -197,10 +198,12 @@ class _LoginCardState extends State<LoginCard> {
       prefs.setString('full_name', fullName);
 
       Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
         context,
-        MaterialPageRoute(builder: (context) =>  HomePage()),
+        MaterialPageRoute(builder: (context) =>  const GoogleMaps()),
       );
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to sign in: $e')),
       );
@@ -280,10 +283,10 @@ class _LoginCardState extends State<LoginCard> {
               onPressed: () {
                 widget.tabController.animateTo(1);
               },
-              child: const Text('Register now!'),
               style: TextButton.styleFrom(
-                foregroundColor: Color.fromARGB(255, 42, 140, 122),
+                foregroundColor: const Color.fromARGB(255, 42, 140, 122),
               ),
+              child: const Text('Register now!'),
             ),
           ],
         ),
@@ -293,9 +296,10 @@ class _LoginCardState extends State<LoginCard> {
 }
 
 class SignupCard extends StatefulWidget {
-  const SignupCard({Key? key}) : super(key: key);
+  const SignupCard({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SignupCardState createState() => _SignupCardState();
 }
 
@@ -320,6 +324,7 @@ class _SignupCardState extends State<SignupCard> {
       );
     } else {
       try {
+        // ignore: unused_local_variable
         UserCredential userCredential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email,
@@ -331,12 +336,14 @@ class _SignupCardState extends State<SignupCard> {
         prefs.setString('email', email);
 
         Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
               builder: (context) =>
                   const OnboardingScreen()), // Burada yönlendirme OnboardingScreen'e yapılıyor
         );
       } catch (e) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to sign up: $e')),
         );
@@ -436,7 +443,7 @@ class _SignupCardState extends State<SignupCard> {
             child: ElevatedButton(
               onPressed: () => handleSignup(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 42, 140, 122),
+                backgroundColor: const Color.fromARGB(255, 42, 140, 122),
                 shadowColor: Colors.black.withOpacity(0.2),
                 elevation: 5,
                 shape: RoundedRectangleBorder(
