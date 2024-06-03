@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
-// help
+
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
@@ -79,73 +79,94 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Search...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Welcome!',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
             ),
             SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 42, 140, 122),
-                    ),
-                    child: Text(
-                      'Most Visited',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 8),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 42, 140, 122),
-                    ),
-                    child: Text(
-                      'Things to Do',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 8),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 42, 140, 122),
-                    ),
-                    child: Text(
-                      'Food & Drink',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
+            travelBox(
+              'Packing Tips For Travel',
+              Color.fromARGB(255, 42, 140, 122),
+              [
+                'Make a packing list',
+                'Roll your clothes',
+                'Use packing cubes',
+                'Keep important items in carry-on',
+                'Limit shoes to three pairs',
+                'Use travel-sized toiletries'
+              ],
+            ),
+            SizedBox(height: 20),
+            travelBox(
+              'Things to Consider When Traveling Abroad',
+              Color.fromARGB(255, 42, 140, 122),
+              [
+                'Check passport validity',
+                'Research visa requirements',
+                'Get travel insurance',
+                'Learn basic phrases of local language',
+                'Keep copies of important documents'
               ],
             ),
             SizedBox(height: 20),
             Expanded(
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) => placeCard(index),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 42, 140, 122),
+                        ),
+                        child: Text(
+                          'Most Visited',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 42, 140, 122),
+                        ),
+                        child: Text(
+                          'Foods & Drinks',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 42, 140, 122),
+                        ),
+                        child: Text(
+                          'Things To Do',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -154,95 +175,45 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget placeCard(int index) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+  Widget travelBox(String title, Color color, List<String> content) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/city/city${index + 1}.jpg"),
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.8), BlendMode.dstATop),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              color: color,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 10),
+          for (var item in content)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              child: Text(
+                '- $item',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
                 ),
               ),
-              width: double.infinity,
-              height: 150,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 160,
-                    top: 0,
-                    bottom: 0,
-                    child: Transform.rotate(
-                      angle: -0.785398, // -45 derece döndürme
-                      child: Container(
-                        width: 400,
-                        color:
-                            Colors.black.withOpacity(0.5), // Saydam siyah renk
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Stack(
-                          children: [
-                            // Kenar yazısı (siyah stroke)
-                            Text(
-                              'Place Name',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                foreground: Paint()
-                                  ..style = PaintingStyle.stroke
-                                  ..strokeWidth = 2
-                                  ..color = Colors.black,
-                              ),
-                            ),
-                            // Ana yazı (beyaz)
-                            Text(
-                              'Place Name',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 255, 248, 248),
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(Icons.star, color: Colors.yellow, size: 20),
-                            SizedBox(width: 5),
-                            Text(
-                              '4.5',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }
