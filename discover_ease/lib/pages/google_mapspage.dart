@@ -64,7 +64,7 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
   bool isReviews = true;
   bool isPhotos = false;
 
-  final key = 'AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE';
+  final key = 'API-KEY-HERE';
 
   // ignore: prefer_typing_uninitialized_variables
   var selectedPlaceDetails;

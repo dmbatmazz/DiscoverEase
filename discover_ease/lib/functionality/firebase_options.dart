@@ -37,40 +37,5 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE',
-    appId: '1:967166826493:web:430cb2ef8ab37d645b6b94',
-    messagingSenderId: '967166826493',
-    projectId: 'discoverease-418713',
-    authDomain: 'discoverease-418713.firebaseapp.com',
-    storageBucket: 'discoverease-418713.appspot.com',
-    measurementId: 'G-366ZZ66LT8',
-  );
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAHYgyuMcegjQ3NlmhIF-N0lhjof4y4JCk',
-    appId: '1:967166826493:android:ba41991034f67ec15b6b94',
-    messagingSenderId: '967166826493',
-    projectId: 'discoverease-418713',
-    storageBucket: 'discoverease-418713.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB5J_WM4xsP6g9wtaymvPGXF0iuz305Whc',
-    appId: '1:967166826493:ios:f6625f90a9a44bf95b6b94',
-    messagingSenderId: '967166826493',
-    projectId: 'discoverease-418713',
-    storageBucket: 'discoverease-418713.appspot.com',
-    iosBundleId: 'com.example.discoverEase',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyB5J_WM4xsP6g9wtaymvPGXF0iuz305Whc',
-    appId: '1:967166826493:ios:25cd01004afddc0f5b6b94',
-    messagingSenderId: '967166826493',
-    projectId: 'discoverease-418713',
-    storageBucket: 'discoverease-418713.appspot.com',
-    iosBundleId: 'com.example.discoverEase.RunnerTests',
-  );
   
 }

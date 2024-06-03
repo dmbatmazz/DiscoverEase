@@ -15,7 +15,6 @@ class NearByPlaces extends StatefulWidget {
 
 class _NearByPlacesState extends State<NearByPlaces> {
 
-  String apikey = "AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE";
   late String _latitude;
   late String _longitude;
   late String? _userlocation;
@@ -127,7 +126,7 @@ void getnearplaces(userlocation, type) async{
     radius = "1500";
     var request = http.Request('GET', Uri.parse(
       ( 
-      //'https://maps.googasdleapis.com/maps/api/place/nearbysearch/json?location=$tempLocation&radius=$radius&type=$type&key=$apikey'
+      //'https://maps.googasdleapis.com/maps/api/place/nearbysearch/json?location=$tempLocation&radius=$radius&type=$type&key=$'
       "https://maps.googleapis.com/maps/api/place/textsearch/json?query=123%20main%20street&key=AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE"
         //"https://maps.googleapis.com/maps/api/place/textsearch/json?query=hospital%20in%20Ankara&place_id&key=AIzaSyB1eAs0QhSrXAOUfiLQFmwSSzxW1AvPfiE"
       ) 
