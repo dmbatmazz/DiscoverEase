@@ -356,7 +356,7 @@ class AboutPage extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          "DiscoverEase, your ultimate travel companion, provides you with personalized recommendations and seamless travel planning tools to ensure an unforgettable journey.",
+                          "DiscoverEase is your ultimate travel companion! Get personalized recommendations for attractions, dining, and events, all tailored to your preferences. Easily plan routes and uncover hidden gems, making your journey enjoyable and stress-free. DiscoverEase also shows nearby places and venues based on your location, allowing you to easily plan your trip and add travel details. Dive into local culture and let us guide you every step of the way. Your adventure starts here!",
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,

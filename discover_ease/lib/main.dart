@@ -44,7 +44,7 @@ class InitialScreen extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasData && snapshot.data!) {
-          return const HomePage(); // Kullanıcı giriş yaptıktan sonra HomePage'e yönlendir
+          return  HomePage(); // Kullanıcı giriş yaptıktan sonra HomePage'e yönlendir
         } else {
           return const DiscoverEase(); // Login/register screen
         }

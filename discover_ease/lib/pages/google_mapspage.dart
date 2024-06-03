@@ -223,7 +223,7 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back), // Geri gitme ikonu
           onPressed: () {
-            // Kullanıcıyı ana sayfaya yönlendir
+            
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => HomePage()));
           },
