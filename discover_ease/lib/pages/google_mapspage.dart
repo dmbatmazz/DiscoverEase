@@ -11,7 +11,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:discover_ease/screens/home_screen.dart';
+import 'package:discover_ease/screens/home_screen.dart' as hsd;
 
 
 import 'dart:ui' as ui;
@@ -219,6 +219,7 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
     final searchFlag = ref.watch(searchToggleProvider);
 
     return Scaffold(
+      // appBar: AppBar(title: Text("test"),),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -783,6 +784,11 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
                   });
                 },
                 icon: const Icon(Icons.search)),
+                IconButton(
+                onPressed: () {
+                  
+                },
+                icon: const Icon(Icons.home)),
             IconButton(
                 onPressed: () {
                   setState(() {

@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:discover_ease/pages/google_mapspage.dart';
+import 'package:discover_ease/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:discover_ease/screens/onboarding_screen.dart';
@@ -200,7 +201,7 @@ class _LoginCardState extends State<LoginCard> {
       Navigator.pushReplacement(
         // ignore: use_build_context_synchronously
         context,
-        MaterialPageRoute(builder: (context) =>  const GoogleMaps()),
+        MaterialPageRoute(builder: (context) =>  const HomePage()),
       );
     } catch (e) {
       // ignore: use_build_context_synchronously
