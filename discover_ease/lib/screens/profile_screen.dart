@@ -18,31 +18,13 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<Profile> {
-  int _selectedIndex = 3;
 
-  final List<Widget> _pages = [
-    HomeScreen(),
-    TripPlanPage(),
-    const GoogleMaps(),
-    const Profile()
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile"),
-      ),
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
       ),
     );
   }
